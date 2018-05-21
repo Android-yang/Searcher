@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">种子搜索器</string>
+    <string name="title_home">主页</string>
+    <string name="title_dashboard">...</string>
+    <string name="title_notifications">我</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
