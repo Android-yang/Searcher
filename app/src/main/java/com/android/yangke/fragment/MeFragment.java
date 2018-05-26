@@ -44,7 +44,7 @@ public class MeFragment extends BaseLazyFragment {
     TextView mTvTuiJian;
     @BindView(R.id.me_tv_account)
     TextView mTvAccount;
-    @BindView(R.id.me_tv_msg)
+    @BindView(R.id.me_tv_qq_flock)
     TextView mTvMsg;
     @BindView(R.id.me_tv_mianze)
     TextView mTvMianZe;
@@ -64,7 +64,7 @@ public class MeFragment extends BaseLazyFragment {
     }
 
     @OnClick({R.id.me_tv_guanyu, R.id.me_tv_qq, R.id.me_ll_personal_msg, R.id.me_ll_yuer, R.id.me_ll_youhui,
-            R.id.me_tv_tuijian, R.id.me_tv_account, R.id.me_tv_msg, R.id.me_tv_mianze})
+            R.id.me_tv_tuijian, R.id.me_tv_account, R.id.me_tv_qq_flock, R.id.me_tv_mianze})
     public void click(View v) {
         ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         switch (v.getId()) {
@@ -91,8 +91,9 @@ public class MeFragment extends BaseLazyFragment {
             case R.id.me_tv_account:
                 snakeBar(v, HINT_QQ);
                 break;
-            case R.id.me_tv_msg:
-                snakeBar(v, HINT_QQ);
+            case R.id.me_tv_qq_flock:
+                snakeBar(v, HINT_QQ_FLOCK);
+                cm.setText(HomeFragment.QQ_FLOCK);
                 break;
             case R.id.me_tv_mianze:
                 snakeBar(v, HINT_QQ);
