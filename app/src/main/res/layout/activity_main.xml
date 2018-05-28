@@ -14,7 +14,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="41dp"
+        android:layout_height="@dimen/line_shadow_height"
         android:layout_above="@+id/navigation"
         android:background="@drawable/bottom_shadow" />
 

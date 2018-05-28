@@ -1,11 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="none">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
+        android:padding="@dimen/activity_vertical_margin"
         android:layout_height="match_parent"
-        android:background="@drawable/girl" />
+        android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="@string/about_author"
+            android:textSize="@dimen/title_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="世界始终很美好，坏的只是我们的心情。能遇见志趣一样的另一个你不容易，陌生人，很高兴在这里遇见你。"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="还记得你第一次使用种子搜索器的的初衷是什么吗？"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="为了测试网速？\t会员电影？\tXXX，此处略省一万字...为了支持我一下，哎呀老铁！"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="总之，人海茫茫，我们相遇在这里，无论出于什么样的目的，希望这款软件可以带给你良好的使用体验。"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="嘿嘿嘿～开车～～"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="我的名字：杨柯\n职业：Android 研发工程师\n性别：男 \n爱好：女\nQQ：1551121393\nQQ群：692699158"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="如果你也是攻城狮，快来简书关注我，当然你也可以百度 Android_YangKe 找到我。"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="我的技术宣言是：关注 IT 界的那些人和事儿，与您分享最优质的技术干货和编程体会，不管你信不信，反正我是信了。"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="最后告诉你们一个秘密：汽车没油了，是可以往里加的，别像我一样，动不动就买一辆，老费钱了。"
+            android:textSize="@dimen/sp14" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp8"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="Copyright © 2018-永久 AII Rights Reserved \nAndroid_YangKe 责任有限公司"
+            android:textColor="@color/_9"
+            android:textSize="@dimen/sp10" />
+
+    </LinearLayout>
+</ScrollView>

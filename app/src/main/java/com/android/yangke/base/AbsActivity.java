@@ -24,6 +24,7 @@ public class AbsActivity extends AppCompatActivity {
     private Toolbar mToolbar;//整体标题栏容器
     private TextView mTitleRight;//右标题
     private FrameLayout mContentContainerView;//存放内容容器
+    private View mToolbarLine;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class AbsActivity extends AppCompatActivity {
         ImmersionBar.setTitleBar(this, mToolbar);
 
         mTitleRight = findViewById(R.id.title_right);
+        mToolbarLine = findViewById(R.id.base_toolbar_line);
         mTitleRight.setOnClickListener(rightBtnOnClickListener);
     }
 
@@ -74,6 +76,13 @@ public class AbsActivity extends AppCompatActivity {
         if (resId > 0) {
             setTitleRight(getString(resId));
         }
+    }
+
+    /**
+     * ToolBar 下面展示横线
+     */
+    public void setToolbarLineVisible(){
+        mToolbarLine.setVisibility(View.VISIBLE);
     }
 
     public void setTitleRight(CharSequence title) {
@@ -111,7 +120,6 @@ public class AbsActivity extends AppCompatActivity {
 
     public void setTileLeft(String title) {
         mToolbar.setTitle(title);
-
     }
 
     public void showTitleBar() {

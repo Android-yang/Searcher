@@ -7,7 +7,7 @@ import com.android.yangke.base.BaseActivity;
  * author: yangke on 2018/5/20
  * weChat: ACE_5200125
  * email : 211yangke@gmail.com
- * desc  : 关于我们
+ * desc  : 关于作者
  */
 public class AboutWeActivity extends BaseActivity {
 
@@ -17,6 +17,7 @@ public class AboutWeActivity extends BaseActivity {
     @Override
     protected void initView() {
         mImmersionBar.statusBarDarkFont(true).init();
-        setTileLeft("个人中心");
+        setTileLeft(getString(R.string.about_author));
+        setToolbarLineVisible();
     }
 }

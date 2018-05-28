@@ -291,7 +291,7 @@
                     android:orientation="vertical"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:text="关于我们"
+                    android:text="@string/about_author"
                     android:textColor="@color/title_color" />
 
                 <View
