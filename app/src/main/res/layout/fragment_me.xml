@@ -267,7 +267,7 @@
                     android:orientation="vertical"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:text="免责条款"
+                    android:text="@string/me_software_required"
                     android:textColor="@color/title_color" />
             </LinearLayout>
 

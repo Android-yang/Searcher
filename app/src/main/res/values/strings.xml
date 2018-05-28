@@ -3,6 +3,7 @@
     <string name="title_home">主页</string>
     <string name="title_dashboard">...</string>
     <string name="title_notifications">我</string>
-    
+
     <string name="about_author">关于作者</string>
+    <string name="me_software_required">软件必读</string>
 </resources>

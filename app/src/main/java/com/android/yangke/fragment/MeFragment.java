@@ -11,7 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.yangke.R;
-import com.android.yangke.activity.AboutWeActivity;
+import com.android.yangke.activity.AboutAuthorActivity;
+import com.android.yangke.activity.SoftwareRequiredActivity;
 import com.android.yangke.base.BaseLazyFragment;
 import com.gyf.barlibrary.ImmersionBar;
 import com.vondear.rxtools.RxActivityUtils;
@@ -73,7 +74,7 @@ public class MeFragment extends BaseLazyFragment {
                 snakeBar(v, HINT_QQ_FLOCK);
                 break;
             case R.id.me_tv_guanyu:
-                RxActivityUtils.skipActivity(getActivity(), AboutWeActivity.class);
+                RxActivityUtils.skipActivity(getActivity(), AboutAuthorActivity.class);
                 break;
             case R.id.me_tv_qq:
                 cm.setText(HomeFragment.QQ);
@@ -96,7 +97,7 @@ public class MeFragment extends BaseLazyFragment {
                 cm.setText(HomeFragment.QQ_FLOCK);
                 break;
             case R.id.me_tv_mianze:
-                snakeBar(v, HINT_QQ);
+                RxActivityUtils.skipActivity(getActivity(), SoftwareRequiredActivity.class);
                 break;
         }
     }
