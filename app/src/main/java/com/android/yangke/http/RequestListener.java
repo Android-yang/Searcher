@@ -16,7 +16,7 @@ public interface RequestListener {
      * 服务器响应成功
      * @param list 数据
      */
-    void onDataReceivedSuccess(List<? extends BaseResponse> list);
+    void onDataReceivedSuccess(List<?> list);
 
     /**
      * 服务器响应失败

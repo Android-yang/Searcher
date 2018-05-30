@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dp8"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true">
+
+    <TextView
+        android:id="@+id/search_result_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp8"
+        android:paddingRight="@dimen/dp8"
+        android:paddingTop="@dimen/dp8"
+        android:text="@string/default_text" />
+
+
+    <TextView
+        android:id="@+id/search_result_tv_file_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:paddingBottom="@dimen/dp8"
+        android:paddingLeft="@dimen/dp8"
+        android:text="文件大小："
+        android:textSize="@dimen/sp12"
+        app:layout_constraintTop_toBottomOf="@+id/search_result_tv_title" />
+
+    <TextView
+        android:id="@+id/search_result_tv_file_size_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp8"
+        android:text="@string/default_text"
+        android:textSize="@dimen/sp12"
+        app:layout_constraintBottom_toBottomOf="@+id/search_result_tv_file_size"
+        app:layout_constraintStart_toEndOf="@+id/search_result_tv_file_size" />
+
+
+    <TextView
+        android:id="@+id/search_result_tv_create_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp8"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:text="创建时间："
+        android:textSize="@dimen/sp12"
+        app:layout_constraintBottom_toBottomOf="@+id/search_result_tv_file_size_"
+        app:layout_constraintStart_toEndOf="@+id/search_result_tv_file_size_"
+        app:layout_constraintTop_toTopOf="@+id/search_result_tv_file_size_"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/search_result_tv_create_time_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp8"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/dp8"
+        android:text="@string/default_text"
+        android:textSize="@dimen/sp12"
+        app:layout_constraintBottom_toBottomOf="@+id/search_result_tv_create_time"
+        app:layout_constraintStart_toEndOf="@+id/search_result_tv_create_time"
+        app:layout_constraintTop_toTopOf="@+id/search_result_tv_create_time"
+        tools:ignore="MissingConstraints" />
+
+</android.support.constraint.ConstraintLayout>

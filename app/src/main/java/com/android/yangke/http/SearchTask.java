@@ -15,7 +15,7 @@ import java.util.List;
  * email : 211yangke@gmail.com
  * desc  : get/post task
  */
-public class SearchTask extends AsyncTask<String, Void, List<? extends BaseResponse>> {
+public class SearchTask extends AsyncTask<String, Void, List> {
 
     public RequestListener mRequestListener;
     private RxDialogLoading mLoading;
@@ -66,14 +66,14 @@ public class SearchTask extends AsyncTask<String, Void, List<? extends BaseRespo
     /**
      * 网络请求接收函数
      *
-     * @param baseResponses 服务器接收到的数据
+     * @param responses 服务器接收到的数据
      */
     @Override
-    protected void onPostExecute(List<? extends BaseResponse> baseResponses) {
-        super.onPostExecute(baseResponses);
+    protected void onPostExecute(List responses) {
+        super.onPostExecute(responses);
         mLoading.dismiss();
-        if (baseResponses != null) {
-            mRequestListener.onDataReceivedSuccess(baseResponses);
+        if (responses != null) {
+            mRequestListener.onDataReceivedSuccess(responses);
         } else {
             mRequestListener.onDataReceiveFailed();
         }
