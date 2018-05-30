@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="软件说明"
+            android:textSize="@dimen/title_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="警告！此软件可能存在少儿不宜内容，18岁以下自觉卸载软件。"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="1.种子搜索器（本软件）基于 P2P 技术的资源搜索软件，软件本身不存储数据，仅作为搜索引擎使用。"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="2.软件本身不具有内容传播与引导作用，所有的操作均需用户主动操作完成。"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="3.软件本身不记录用户信息。软件使用方可以将此软件理解为一个搜索工具，软件主要提供了从网络中搜索数据，数据过滤，最后呈现的一个作用。"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="4.使用此软件建议您配合迅雷使用，否则可能会出现无法使用此软件问题。"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="软件使用说明："
+            android:textSize="@dimen/title_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="1.搜索框输入自己感兴趣的关键字。"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="2.点击自己感兴趣的词条，软件会自动打开迅雷。"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="3.根据需要从迅雷中勾选自己要下载的文件。"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="4.等待下载完成（如果是视频，网速较好迅雷有边下边播功能）"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="软件意义"
+            android:textSize="@dimen/title_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="随着互联网高速发展，21世纪已经成为了会员时代，知识付费时代。作为土生土长的伪土豪，消费则能省则省。什么腾讯、爱奇艺 VIP 视频;网易、QQ 音乐月包;花钱不存的，这辈子都不存在的。还有综艺视频，优衣库视频，琪琪泥鳅，各种小视频应有尽有..."
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="法律声明"
+            android:textSize="@dimen/title_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="1.种子搜索器说明：此软件中展现的任何内容，软件提供方均不做存储，既不存在内容的传播与引导作用，同时软件不会记录用户信息。软件使用方可以将此软件理解为一个搜索工具。软件主要提供了从网络中搜索数据，数据过滤，最后呈现的一个作用。"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:lineSpacingExtra="@dimen/dp6"
+            android:text="最后，陌生人，很高兴在这里遇见你，希望此软件可以给您带来一个良好的使用感受。如有问题，可到“关于作者”模块将问题反馈给研发人员。最后，最后，如果此软件损害了您的利益，可以速与作者联系，立马删除。"
+            android:textSize="@dimen/sp14" />
+
+    </LinearLayout>
+
+</ScrollView>
