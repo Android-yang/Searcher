@@ -70,10 +70,12 @@ public class MainActivity extends BaseActivity {
 
         viewPager.setOffscreenPageLimit(3);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        HomeFragment mHomeFragment = new HomeFragment();
-        adapter.addFragment(mHomeFragment);
-        adapter.addFragment(new DashboardFragment());
-        adapter.addFragment(new MeFragment());
+        DashboardFragment dashBoardFragment = new DashboardFragment();
+        HomeFragment homeFragment = new HomeFragment();
+        MeFragment meFragment = new MeFragment();
+        adapter.addFragment(homeFragment);
+        adapter.addFragment(dashBoardFragment);
+        adapter.addFragment(meFragment);
         viewPager.setAdapter(adapter);
     }
 
