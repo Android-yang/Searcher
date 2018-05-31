@@ -18,6 +18,7 @@ import com.android.yangke.vo.MagnetVo;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.vondear.rxtools.RxClipboardUtils;
+import com.vondear.rxtools.RxSPUtils;
 import com.vondear.rxtools.view.RxToast;
 
 import java.util.List;
@@ -39,6 +40,11 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
     @BindView(R.id.dashboard_refreshLayout)
     TwinklingRefreshLayout mRefreshLayout;
     private MagnetAdapter mAdapter;
+
+    //使用次数
+    private static final String KEY_USED_COUNT = "used_count";
+    //免费次数
+    private static final int FREE_COUNT = 80;
 
     @Override
     protected int setLayoutId() {
@@ -73,12 +79,32 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
                     MeFragment.snakeBar(mRecyclerView, getString(R.string.hint_thunder_no_installed));
                     return;
                 }
+                if(isPay()) {
+                    RxToast.warning("免费次数已经用完");
+                    //TODO 支付
+//                    RxSPUtils.clearPreference(getApplicationContext(), KEY_USED_COUNT, KEY_USED_COUNT); //付费完成清空已使用次数
+                    return;
+                }
 
                 RxClipboardUtils.copyText(SearchResultActivity.this, vo.mMagnet);
                 action2Thunder();
             }
         });
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    /**
+     * 是否需要支付
+     * @return
+     */
+    private boolean isPay(){
+        int usedCount = RxSPUtils.getInt(getApplicationContext(), KEY_USED_COUNT);
+        usedCount++;
+        if(usedCount >= FREE_COUNT) {
+            return true;
+        }
+        RxSPUtils.putInt(getApplicationContext(), KEY_USED_COUNT, usedCount);
+        return false;
     }
 
     private void action2Thunder() {
