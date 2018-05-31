@@ -17,7 +17,6 @@ import java.util.List;
  */
 public class MagnetAdapter extends BaseQuickAdapter<MagnetVo, BaseViewHolder> {
 
-
     public MagnetAdapter(int layoutResId, @Nullable List<MagnetVo> data) {
         super(layoutResId, data);
     }
@@ -25,7 +24,8 @@ public class MagnetAdapter extends BaseQuickAdapter<MagnetVo, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, MagnetVo item) {
         helper.setText(R.id.search_result_tv_title, item.mTitle);
-//        helper.setText(R.id.search_result_tv_create_time, item.)
-//        helper.setText(R.id.search_result_tv_create_time, item.)
+        helper.setText(R.id.search_result_tv_create_time_, item.mDate);
+        helper.setText(R.id.search_result_tv_file_size_, item.mSize);
     }
+
 }

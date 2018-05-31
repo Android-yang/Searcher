@@ -15,10 +15,16 @@ public class MagnetVo extends BaseResponse{
     public String mMagnet;
     //迅雷
     public String mThunder;
+    //日期
+    public String mDate;
+    //大小
+    public String mSize;
 
-    public MagnetVo(String title, String magnet, String thunder) {
+    public MagnetVo(String title, String magnet, String thunder, String date, String size) {
         this.mTitle = title;
         this.mMagnet = magnet;
         this.mThunder = thunder;
+        this.mDate = date;
+        this.mSize = size;
     }
 }

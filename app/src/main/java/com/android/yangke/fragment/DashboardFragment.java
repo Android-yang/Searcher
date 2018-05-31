@@ -2,9 +2,11 @@ package com.android.yangke.fragment;
 
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -52,17 +54,45 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (isSearch(v, keyCode, event)) {
-            String par = mEtSearch.getText().toString().trim();
+            final String par = mEtSearch.getText().toString().trim();
             if (TextUtils.isEmpty(par)) {
                 RxToast.showToast("小哥哥，关键字不能为空！");
                 return true;
             }
-            RxKeyboardUtils.hideSoftInput(getActivity());
-            action2SearchResultActivity(getActivity(), SearchResultActivity.class, par);
+
+            if(isEroticism(par)){
+                eroticismDialog(par);
+            } else {
+                action2SearchResultActivity(getActivity(), SearchResultActivity.class, par);
+            }
             return true;
         }
 
         return false;
+    }
+
+    /**
+     *
+     * @param par 关键字
+     * @return true 标志可能包含色情内容， false 反之
+     */
+    private boolean isEroticism(String par) {
+        return par.contains("女") || par.contains("美女") || par.contains("加勒比")
+                || par.contains("一本道") || par.contains("波多野结衣") || par.contains("舞")
+                || par.contains("乳") || par.contains("巨") || par.contains("抹") || par.contains("爱");
+    }
+
+    private void eroticismDialog(final String par) {
+        new AlertDialog.Builder(getContext())
+                .setMessage("您搜索的内容可能包含成人内容！")
+                .setCancelable(false)
+                .setNegativeButton("未满18", null)
+                .setPositiveButton("已满18", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        action2SearchResultActivity(getActivity(), SearchResultActivity.class, par);
+                    }
+                }).show();
     }
 
     /**
@@ -77,6 +107,8 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
     }
 
     public static void action2SearchResultActivity(Activity act, Class cla, String pars) {
+        RxKeyboardUtils.hideSoftInput(act);
+
         Bundle bundle = new Bundle();
         bundle.putString(KEY_KEYWORD, pars);
         RxActivityUtils.skipActivity(act, cla, bundle);

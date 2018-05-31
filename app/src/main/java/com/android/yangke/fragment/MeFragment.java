@@ -17,6 +17,7 @@ import com.android.yangke.base.BaseLazyFragment;
 import com.gyf.barlibrary.ImmersionBar;
 import com.vondear.rxtools.RxActivityUtils;
 import com.vondear.rxtools.RxAppUtils;
+import com.vondear.rxtools.RxClipboardUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -67,17 +68,16 @@ public class MeFragment extends BaseLazyFragment {
     @OnClick({R.id.me_tv_guanyu, R.id.me_tv_qq, R.id.me_ll_personal_msg, R.id.me_ll_yuer, R.id.me_ll_youhui,
             R.id.me_tv_tuijian, R.id.me_tv_account, R.id.me_tv_qq_flock, R.id.me_tv_mianze})
     public void click(View v) {
-        ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         switch (v.getId()) {
             case R.id.me_ll_personal_msg:
-                cm.setText(HomeFragment.QQ_FLOCK);
+                RxClipboardUtils.copyText(getContext(), HomeFragment.QQ_FLOCK);
                 snakeBar(v, HINT_QQ_FLOCK);
                 break;
             case R.id.me_tv_guanyu:
                 RxActivityUtils.skipActivity(getActivity(), AboutAuthorActivity.class);
                 break;
             case R.id.me_tv_qq:
-                cm.setText(HomeFragment.QQ);
+                RxClipboardUtils.copyText(getContext(), HomeFragment.QQ);
                 snakeBar(v, HINT_QQ);
                 break;
             case R.id.me_ll_yuer:
@@ -94,7 +94,7 @@ public class MeFragment extends BaseLazyFragment {
                 break;
             case R.id.me_tv_qq_flock:
                 snakeBar(v, HINT_QQ_FLOCK);
-                cm.setText(HomeFragment.QQ_FLOCK);
+                RxClipboardUtils.copyText(getContext(), HomeFragment.QQ_FLOCK);
                 break;
             case R.id.me_tv_mianze:
                 RxActivityUtils.skipActivity(getActivity(), SoftwareRequiredActivity.class);

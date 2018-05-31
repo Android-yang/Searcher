@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.android.yangke.R;
 import com.android.yangke.base.BaseLazyFragment;
+import com.vondear.rxtools.RxClipboardUtils;
 
 import java.util.Random;
 
@@ -159,19 +160,18 @@ public class HomeFragment extends BaseLazyFragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         switch (v.getId()) {
             case R.id.author:
-                showMsg(cm, QQ);
+                showMsg(QQ);
                 break;
             case R.id.red_money:
-                showMsg(cm, QQ_FLOCK);
+                showMsg(QQ_FLOCK);
                 break;
         }
     }
 
-    private void showMsg(ClipboardManager cm, String str) {
-        cm.setText(str);
+    private void showMsg(String str) {
+        RxClipboardUtils.copyText(getContext(), str);
         Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
     }
 }
