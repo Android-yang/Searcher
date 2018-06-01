@@ -22,7 +22,7 @@ import com.vondear.rxtools.RxDeviceUtils;
  */
 public class AbsActivity extends AppCompatActivity {
 
-    private Toolbar mToolbar;//整体标题栏容器
+    protected Toolbar mToolbar;//整体标题栏容器
     private TextView mTitleRight;//右标题
     private FrameLayout mContentContainerView;//存放内容容器
     private View mToolbarLine;
@@ -56,6 +56,17 @@ public class AbsActivity extends AppCompatActivity {
      */
     protected void initStateBar() {
         //在BaseActivity里初始化
+    }
+
+    /**
+     * 重写此方法可解决子类重写 setSupportActionBar 时，先前设置的功能失效问题。
+     * 例：标题左边点击事件失效
+     * @param toolbar
+     */
+    @Override
+    public void setSupportActionBar(@Nullable Toolbar toolbar) {
+        super.setSupportActionBar(toolbar);
+        mToolbar.setNavigationOnClickListener(leftBtnOnClickListener);
     }
 
     /**

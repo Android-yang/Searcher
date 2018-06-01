@@ -4,12 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </WebView>
+    <include android:id="@+id/webView" layout="@layout/include_webview"/>
 
     <Button
         android:id="@+id/red_money"
