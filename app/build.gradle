@@ -1,7 +1,11 @@
 apply plugin: 'com.android.application'
 
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
 android {
     compileSdkVersion 27
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.android.yangke"
         minSdkVersion 15
@@ -19,7 +23,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '27.0.3'
+
+    //自定义 APP 打包时文件名
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "search-${variant.versionName}-${releaseTime()}-${variant.name}.apk"
+        }
+    }
 }
 
 dependencies {
