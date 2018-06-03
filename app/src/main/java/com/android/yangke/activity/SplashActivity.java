@@ -1,12 +1,17 @@
 package com.android.yangke.activity;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.view.KeyEvent;
+import android.widget.TextView;
 
 import com.android.yangke.R;
 import com.android.yangke.base.BaseActivity;
 import com.android.yangke.util.AppTools;
 import com.vondear.rxtools.RxActivityUtils;
+
+import butterknife.BindView;
 
 /**
  * author: yangke on 2018/6/2
@@ -16,6 +21,8 @@ import com.vondear.rxtools.RxActivityUtils;
  */
 public class SplashActivity extends BaseActivity {
 
+    @BindView(R.id.splash_tv_logo)
+    TextView mTvLogo;
 
     @Override
     protected int setLayoutId() {
@@ -31,6 +38,7 @@ public class SplashActivity extends BaseActivity {
     protected void initView() {
         mImmersionBar.statusBarDarkFont(false).init();
         hideTitleBar();
+        textSetTypeface(mTvLogo, this, "方正启体简体.ttf");
     }
 
     /**
@@ -79,5 +87,17 @@ public class SplashActivity extends BaseActivity {
                     }
                 });
     }*/
+
+    /**
+     * TODO 如果项目使用的字体比较多，此函数可以封装在工具类中
+     *
+     * @param textView textView
+     * @param ctx      context
+     * @param fontName 字体名字，字体文件放在 assets 根目录。例：方正字体
+     */
+    private static void textSetTypeface(TextView textView, Context ctx, String fontName) {
+        Typeface typeface = Typeface.createFromAsset(ctx.getAssets(), fontName);
+        textView.setTypeface(typeface);
+    }
 
 }
