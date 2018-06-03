@@ -131,7 +131,6 @@ public class MainActivity extends BaseActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if (RxToast.doubleClickExit()) {
                 finish();
-                System.exit(0);
             }
             return true;
         }
