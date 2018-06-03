@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
+
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'

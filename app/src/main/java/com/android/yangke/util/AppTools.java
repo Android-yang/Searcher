@@ -13,6 +13,8 @@ import java.util.List;
  * desc  :
  */
 public class AppTools {
+    //闪屏市场
+    public static final int SPLASH_SCREEN_DURATION = 2000;
 
     /**
      *
