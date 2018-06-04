@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.android.yangke.R;
@@ -163,6 +164,11 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
             mDataList.clear();
             mDataList.addAll(list);
             mRefreshLayout.finishRefreshing();
+            if(mDataList.size() == 0) {
+                View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view_base, null);
+                mAdapter.setEmptyView(emptyView);
+                return;
+            }
             //当下拉到无更多数据时，DataSetChanged 函数不能清除已有状态，需调用 loadMoreComplete
             mAdapter.loadMoreComplete();
             mAdapter.notifyDataSetChanged();
