@@ -18,27 +18,15 @@ import java.util.List;
 public class SearchTask extends AsyncTask<String, Void, List> {
 
     public RequestListener mRequestListener;
-    private RxDialogLoading mLoading;
-    private Context mContext;
 
     /**
      * 设置网络请求监听器
      *
      * @param listener 监听器
      */
-    public void setRequestListener(RequestListener listener, Context context) {
+    public void setRequestListener(RequestListener listener) {
         this.mRequestListener = listener;
-        this.mContext = context;
     }
-
-    //TODO 此处为硬编码后续考虑优化
-    private void iniLoadingDialog() {
-        mLoading = new RxDialogLoading(mContext);
-        mLoading.setCancelable(false);
-        mLoading.setLoadingText("加载中...");
-        mLoading.show();
-    }
-
 
     /**
      * 此函数在 doInBackground 之前执行，且运行在 UI 线程
@@ -46,7 +34,6 @@ public class SearchTask extends AsyncTask<String, Void, List> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        iniLoadingDialog();
     }
 
     /**
@@ -58,8 +45,10 @@ public class SearchTask extends AsyncTask<String, Void, List> {
     @Override
     protected List<? extends BaseResponse> doInBackground(String... strings) {
         String keyword = strings[0];//搜索关键字
+        String tempNum = strings[1];
+        int page = Integer.parseInt(tempNum);
         TorrentKittySearch search = new TorrentKittySearch();
-        List<MagnetVo> searchResultList = search.getResult(keyword);
+        List<MagnetVo> searchResultList = search.getRequestResult(keyword, page);
         return searchResultList;
     }
 
@@ -71,7 +60,6 @@ public class SearchTask extends AsyncTask<String, Void, List> {
     @Override
     protected void onPostExecute(List responses) {
         super.onPostExecute(responses);
-        mLoading.dismiss();
         if (responses != null) {
             mRequestListener.onDataReceivedSuccess(responses);
         } else {

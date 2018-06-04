@@ -1,8 +1,5 @@
 package com.android.yangke.http;
 
-import com.android.yangke.base.BaseResponse;
-import com.android.yangke.vo.MagnetVo;
-
 import java.util.List;
 
 /**

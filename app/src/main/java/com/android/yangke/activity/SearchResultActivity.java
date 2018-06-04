@@ -16,11 +16,14 @@ import com.android.yangke.http.SearchTask;
 import com.android.yangke.util.AppTools;
 import com.android.yangke.vo.MagnetVo;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.vondear.rxtools.RxClipboardUtils;
+import com.vondear.rxtools.RxLogUtils;
 import com.vondear.rxtools.RxSPUtils;
 import com.vondear.rxtools.view.RxToast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,18 +36,18 @@ import butterknife.BindView;
  */
 public class SearchResultActivity extends BaseActivity implements RequestListener {
 
-    protected SearchTask mSearchTask;
-
     @BindView(R.id.dashboard_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.dashboard_refreshLayout)
     TwinklingRefreshLayout mRefreshLayout;
     private MagnetAdapter mAdapter;
+    private int mPage = 1;//请求页数(例：第一页，第二页)
 
     //使用次数
     private static final String KEY_USED_COUNT = "used_count";
     //免费次数
     private static final int FREE_COUNT = 80;
+    private String mKeyword;
 
     @Override
     protected int setLayoutId() {
@@ -53,23 +56,41 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
 
     @Override
     protected void initData() {
-
         Intent intent = getIntent();
-        String keyword = intent.getStringExtra(DashboardFragment.KEY_KEYWORD);//搜索关键字
+        mKeyword = intent.getStringExtra(DashboardFragment.KEY_KEYWORD);//搜索关键字
+        iniSearchTask();
+        executeTask(iniSearchTask(), mKeyword, mPage);
 
-        mSearchTask = new SearchTask();
-        mSearchTask.setRequestListener(this, this);
-        mSearchTask.execute(keyword);
-//        mSearchTask.execute("成龙");
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new MagnetAdapter(R.layout.item_search_magnet_result, mDataList);
+        mAdapter.openLoadAnimation(BaseQuickAdapter.FOOTER_VIEW);
+        mRecyclerView.setAdapter(mAdapter);
+        //隐藏 refreshLayout 的加载更多
+        mRefreshLayout.setEnableLoadmore(false);
+        //首次加载展示加载条
+        mRefreshLayout.startRefresh();
+    }
+
+    private SearchTask iniSearchTask() {
+        SearchTask searchTask = new SearchTask();
+        searchTask.setRequestListener(this);
+        return searchTask;
     }
 
     @Override
     protected void initView() {
         setTileLeft(getString(R.string.search_result));
+    }
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mAdapter = new MagnetAdapter(R.layout.item_search_magnet_result, null);
-        mAdapter.openLoadAnimation(BaseQuickAdapter.FOOTER_VIEW);
+    @Override
+    protected void setListener() {
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                mPage++;
+                executeTask(iniSearchTask(), mKeyword, mPage);
+            }
+        }, mRecyclerView);
 
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -79,7 +100,7 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
                     MeFragment.snakeBar(mRecyclerView, getString(R.string.hint_thunder_no_installed));
                     return;
                 }
-                if(isPay()) {
+                if (isPay()) {
                     RxToast.warning("免费次数已经用完");
                     //TODO 支付
 //                    RxSPUtils.clearPreference(getApplicationContext(), KEY_USED_COUNT, KEY_USED_COUNT); //付费完成清空已使用次数
@@ -90,17 +111,29 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
                 action2Thunder();
             }
         });
-        mRecyclerView.setAdapter(mAdapter);
+
+        mRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                mPage = 1;
+                executeTask(iniSearchTask(), mKeyword, mPage);
+            }
+        });
+    }
+
+    private void executeTask(SearchTask task, String keyword, int page) {
+        task.execute(keyword, String.valueOf(page));
     }
 
     /**
      * 是否需要支付
+     *
      * @return
      */
-    private boolean isPay(){
+    private boolean isPay() {
         int usedCount = RxSPUtils.getInt(getApplicationContext(), KEY_USED_COUNT);
         usedCount++;
-        if(usedCount >= FREE_COUNT) {
+        if (usedCount >= FREE_COUNT) {
             return true;
         }
         RxSPUtils.putInt(getApplicationContext(), KEY_USED_COUNT, usedCount);
@@ -114,9 +147,26 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
         startActivity(intent);
     }
 
+    private List mDataList = new ArrayList();
     @Override
     public void onDataReceivedSuccess(List list) {
-        mAdapter.setNewData(list);
+        if(mPage > 1) {
+            if(list.size() == 0) {
+                mAdapter.loadMoreEnd();
+            } else {
+                mDataList.addAll(list);
+                mAdapter.loadMoreComplete();
+            }
+            return;
+        }
+        if(mPage == 1) {
+            mDataList.clear();
+            mDataList.addAll(list);
+            mRefreshLayout.finishRefreshing();
+            //当下拉到无更多数据时，DataSetChanged 函数不能清除已有状态，需调用 loadMoreComplete
+            mAdapter.loadMoreComplete();
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

@@ -56,7 +56,7 @@ dependencies {
     //log框架
     implementation 'com.orhanobut:logger:2.1.1'
     //RecyclerView 框架
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
     testImplementation 'junit:junit:4.12'
     implementation files('libs/barlibrary-2.3.0.jar')
     implementation files('libs/jsoup-1.9.2.jar')
