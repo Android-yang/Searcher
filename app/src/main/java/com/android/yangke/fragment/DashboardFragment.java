@@ -66,7 +66,7 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
     private ArrayList<String> mDataList;
     private SearchHistoryBeenDao mSearchHistoryDao;
     //最近搜过
-    private ArrayList<String> mHistoryDataList;
+    private ArrayList<String> mHistoryDataList = new ArrayList<>();;
 
     public static void action2SearchResultActivity(Activity act, Class cla, String pars) {
         RxKeyboardUtils.hideSoftInput(act);
@@ -129,7 +129,7 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
         }
         List<SearchHistoryBeen> searchHistory = querySearchHistoryDataList();
         if (searchHistory.size() > 0) {
-            mHistoryDataList = new ArrayList<>(searchHistory.size());
+            mHistoryDataList.clear();
             for (SearchHistoryBeen s : searchHistory) {
                 mHistoryDataList.add(s.getKeyword());
             }
@@ -221,7 +221,7 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
      * @param keyword 关键子
      */
     private void saveSearchHistory2DB(String keyword) {
-        if (mHistoryDataList != null && mHistoryDataList.size() > 0) {
+        if (mHistoryDataList != null) {
             if (!isSaveHistory(keyword)) {
                 SearchHistoryBeen searchHistoryBeen = new SearchHistoryBeen(null, keyword, System.currentTimeMillis());
                 mSearchHistoryDao.insert(searchHistoryBeen);
@@ -235,6 +235,9 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
      * @return true DB中已经保存过此关键字，false反之
      */
     private boolean isSaveHistory(String keyword) {
+        if(mHistoryDataList.size() == 0) {
+            return false;
+        }
         for (String key : mHistoryDataList) {
             if (keyword.equals(key)) {
                 return true;

@@ -21,18 +21,14 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
         <activity
             android:name=".activity.AboutAuthorActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".activity.SoftwareRequiredActivity"
             android:launchMode="singleTop" />
-        <activity
-            android:name=".activity.SearchResultActivity"
-            android:launchMode="singleTop"></activity>
+        <activity android:name=".activity.SearchResultActivity"></activity>
         <activity android:name=".activity.AuthorActivity" />
     </application>
 
