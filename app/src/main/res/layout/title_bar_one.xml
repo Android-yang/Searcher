@@ -2,7 +2,8 @@
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?actionBarSize">
+    android:layout_height="?actionBarSize"
+    android:background="@color/c_4f2c241f">
 
     <EditText
         android:id="@+id/dashboard_et_title"
@@ -18,9 +19,9 @@
         android:hint="搜一搜"
         android:imeOptions="actionSearch"
         android:padding="10dp"
-        android:textColor="@color/colorBarText"
-        android:textColorHint="@color/colorBarText"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
         android:textCursorDrawable="@null"
-        android:textSize="12sp" />
+        android:textSize="14sp" />
 
 </android.support.v7.widget.Toolbar>

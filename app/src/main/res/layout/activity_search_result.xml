@@ -7,10 +7,9 @@
     gyf:tr_head_height="100dp"
     gyf:tr_wave_height="180dp">
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/dashboard_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
+        android:scrollbars="vertical"/>
 </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>

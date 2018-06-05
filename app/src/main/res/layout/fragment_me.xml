@@ -10,7 +10,7 @@
         android:layout_height="?actionBarSize"
         android:gravity="center"
         android:text="个人中心"
-        android:textColor="@color/title_color"
+        android:textColor="@color/c_2c241f"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -31,7 +31,7 @@
                 android:id="@+id/me_ll_personal_msg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/title_color"
+                android:background="@color/c_2c241f"
                 android:orientation="horizontal"
                 android:padding="@dimen/activity_horizontal_margin">
 
@@ -65,7 +65,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="10dp"
                 android:text="资产管理"
-                android:textColor="@color/title_color" />
+                android:textColor="@color/c_2c241f" />
 
             <include layout="@layout/line_fill_right" />
 
@@ -167,7 +167,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="10dp"
                 android:text="我的福利"
-                android:textColor="@color/title_color" />
+                android:textColor="@color/c_2c241f" />
 
             <include layout="@layout/line_fill_right" />
 
@@ -191,7 +191,7 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:text="推荐有奖"
-                    android:textColor="@color/title_color" />
+                    android:textColor="@color/c_2c241f" />
 
                 <View
                     android:layout_width="0dp"
@@ -212,7 +212,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="10dp"
                 android:text="设置"
-                android:textColor="@color/title_color" />
+                android:textColor="@color/c_2c241f" />
 
             <include layout="@layout/line_fill_right" />
 
@@ -236,7 +236,7 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:text="账户安全"
-                    android:textColor="@color/title_color" />
+                    android:textColor="@color/c_2c241f" />
 
                 <TextView
                     android:id="@+id/me_tv_qq_flock"
@@ -252,7 +252,7 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:text="QQ群"
-                    android:textColor="@color/title_color" />
+                    android:textColor="@color/c_2c241f" />
 
                 <TextView
                     android:id="@+id/me_tv_mianze"
@@ -268,7 +268,7 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:text="@string/me_software_required"
-                    android:textColor="@color/title_color" />
+                    android:textColor="@color/c_2c241f" />
             </LinearLayout>
 
             <LinearLayout
@@ -292,7 +292,7 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:text="@string/about_author"
-                    android:textColor="@color/title_color" />
+                    android:textColor="@color/c_2c241f" />
 
                 <View
                     android:layout_width="0dp"

@@ -2,6 +2,7 @@ package com.android.yangke.activity;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +21,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.vondear.rxtools.RxClipboardUtils;
-import com.vondear.rxtools.RxLogUtils;
 import com.vondear.rxtools.RxSPUtils;
 import com.vondear.rxtools.view.RxToast;
 
@@ -49,6 +49,10 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
     //免费次数
     private static final int FREE_COUNT = 80;
     private String mKeyword;
+    private static final String KEY_TASK = "task";
+    //网络加载比较慢，当用户直接从当前页面点击了返回键后，处理响应函数被回调， 但 View 已经被回收就会
+    // 造成 NullPointerException，使用 mTaskList 存放任务，onDestory函数执行时，取消网络任务
+    private ArrayList<SearchTask> mTaskList = new ArrayList();
 
     @Override
     protected int setLayoutId() {
@@ -59,7 +63,6 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
     protected void initData() {
         Intent intent = getIntent();
         mKeyword = intent.getStringExtra(DashboardFragment.KEY_KEYWORD);//搜索关键字
-        iniSearchTask();
         executeTask(iniSearchTask(), mKeyword, mPage);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -73,8 +76,10 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
     }
 
     private SearchTask iniSearchTask() {
+        mTaskList.clear();
         SearchTask searchTask = new SearchTask();
         searchTask.setRequestListener(this);
+        mTaskList.add(searchTask);
         return searchTask;
     }
 
@@ -149,10 +154,14 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
     }
 
     private List mDataList = new ArrayList();
+
     @Override
     public void onDataReceivedSuccess(List list) {
-        if(mPage > 1) {
-            if(list.size() == 0) {
+        if(mRefreshLayout == null || mAdapter == null) {
+            return;
+        }
+        if (mPage > 1) {
+            if (list.size() == 0) {
                 mAdapter.loadMoreEnd();
             } else {
                 mDataList.addAll(list);
@@ -160,11 +169,11 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
             }
             return;
         }
-        if(mPage == 1) {
+        if (mPage == 1) {
             mDataList.clear();
             mDataList.addAll(list);
             mRefreshLayout.finishRefreshing();
-            if(mDataList.size() == 0) {
+            if (mDataList.size() == 0) {
                 View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view_base, null);
                 mAdapter.setEmptyView(emptyView);
                 return;
@@ -180,4 +189,15 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
         RxToast.warning(getString(R.string.hint_no_data));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mTaskList.size() > 0) {
+            SearchTask delayTask = mTaskList.get(0);
+            if (delayTask != null && delayTask.getStatus() == AsyncTask.Status.RUNNING) {
+                delayTask.cancel(true);
+                delayTask = null;
+            }
+        }
+    }
 }

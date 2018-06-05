@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#2c241f</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#2c241f</color>
     <color name="colorTransparent">#00000000</color>
 
     <color name="colorBarText">#F0F5E5</color>
     <color name="cff0000">#ff0000</color>
-    <color name="title_color">#2c241f</color>
+    <color name="c_2c241f">#2c241f</color>
+    <color name="c_4f2c241f">#4f2c241f</color>
+    <color name="line_color">#0fe0e0e0</color>
+    <color name="c_2f000000">#2f000000</color>
 
 </resources>

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.android.yangke.vo.DaoMaster;
+import com.android.yangke.vo.DaoSession;
 import com.vondear.rxtools.RxUtils;
 
 import java.lang.ref.WeakReference;
@@ -20,15 +22,16 @@ import java.util.ListIterator;
  */
 public class BaseApplication extends Application {
 
-    public static WeakReference<BaseApplication> instance;
-    private static Handler mMainHandler = new Handler(Looper.getMainLooper());
+    public static BaseApplication instance;
+    public static Handler mMainHandler = new Handler(Looper.getMainLooper());
 
     private final LinkedHashMap<Class<? extends BaseActivity>, WeakReference<Context>> contextObjects =
             new LinkedHashMap<Class<? extends BaseActivity>, WeakReference<Context>>();
+    private DaoMaster mDaoMaster;
 
 
-    public static BaseApplication getContext() {
-        return instance.get();
+    public static BaseApplication instance() {
+        return instance;
     }
 
     public static void runUiThread(Runnable r) {
@@ -38,10 +41,27 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        instance = new WeakReference<>(this);
+        instance = this;
 
         // 工具类初始化
         RxUtils.init(this);
+
+        iniDaoMaster();
+    }
+
+    /**
+     * GreenDAO 使用前的初始化
+     */
+    private void iniDaoMaster() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(instance(), "search.db", null);
+        mDaoMaster = new DaoMaster(helper.getWritableDb());
+    }
+
+    /**
+     * @return 操作数据库的对象
+     */
+    public DaoSession getDaoSession() {
+        return mDaoMaster.newSession();
     }
 
     public synchronized Context getActiveContext(Class<? extends BaseActivity> className) {

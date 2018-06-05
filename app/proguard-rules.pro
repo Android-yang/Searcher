@@ -63,6 +63,16 @@
 # keep 使用 webview 的类的所有的内部类
 -keepclassmembers  class  com.veidy.activity.WebViewActivity$*{ *; }
 
+# greenDAO
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+public static java.lang.String TABLENAME;
+}
+-keep class **$Properties
+
+# If you do not use SQLCipher:
+-dontwarn org.greenrobot.greendao.database.**
+# If you do not use Rx:
+-dontwarn rx.**
 
 #####################记录生成的日志数据,gradle build时在本项目根目录输出################
 # apk 包内所有 class 的内部结构

@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+//apply plugin
+apply plugin: 'org.greenrobot.greendao'
 
 def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
@@ -7,6 +9,12 @@ def releaseTime() {
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
+
+    greendao {
+        //数据库版本号
+        schemaVersion 1
+    }
+
     defaultConfig {
         applicationId "com.android.yangke"
         minSdkVersion 15
@@ -60,4 +68,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation files('libs/barlibrary-2.3.0.jar')
     implementation files('libs/jsoup-1.9.2.jar')
+    //数据库框架
+    implementation 'org.greenrobot:greendao:3.2.2'
 }

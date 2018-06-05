@@ -5,26 +5,46 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.android.yangke.R;
 import com.android.yangke.activity.SearchResultActivity;
+import com.android.yangke.base.BaseApplication;
 import com.android.yangke.base.BaseLazyFragment;
+import com.android.yangke.vo.DaoSession;
+import com.android.yangke.vo.SearchHistoryBeen;
+import com.android.yangke.vo.SearchHistoryBeenDao;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
 import com.vondear.rxtools.RxActivityUtils;
+import com.vondear.rxtools.RxAnimationUtils;
 import com.vondear.rxtools.RxKeyboardUtils;
 import com.vondear.rxtools.view.RxToast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
- * A simple {@link Fragment} subclass.
+ * author: yangke on 6/5/18.
+ * weChat: ACE_5200125
+ * email : 211yangke@gmail.com
+ * desc  : 主页
+ * greenDao 使用可参考：https://blog.csdn.net/u012702547/article/details/52226163
  */
 public class DashboardFragment extends BaseLazyFragment implements View.OnKeyListener {
 
@@ -34,6 +54,25 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
     Toolbar mToolbar;
     @BindView(R.id.dashboard_et_title)
     EditText mEtSearch;
+    @BindView(R.id.dashboard_recycler_view)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.dashboard_recycler_view_history)
+    RecyclerView mHistoryRecyclerView;
+    @BindView(R.id.dashboard_ll_history)
+    LinearLayout mLLHistory;
+
+    private HotSearchAdapter mAdapter;
+
+    private ArrayList<String> mDataList;
+    private SearchHistoryBeenDao mSearchHistoryDao;
+
+    public static void action2SearchResultActivity(Activity act, Class cla, String pars) {
+        RxKeyboardUtils.hideSoftInput(act);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_KEYWORD, pars);
+        RxActivityUtils.skipActivity(act, cla, bundle);
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -48,7 +87,121 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
 
     @Override
     protected void initData() {
+        super.initData();
         mEtSearch.setOnKeyListener(this);
+        iniHotSearchDataList();
+        iniBeenDao();
+        iniSearchHistory();
+
+        mAdapter = new HotSearchAdapter(R.layout.item_one, mDataList);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                handleListClick(adapter, position);
+            }
+        });
+    }
+
+    /**
+     * 最近搜过，热门搜索逻辑是通用的，列表点击事件拿出来处理
+     *
+     * @param adapter  adapter
+     * @param position position
+     */
+    private void handleListClick(BaseQuickAdapter adapter, int position) {
+        String currentClickItem = (String) adapter.getData().get(position);
+//        saveSearchHistory(position, currentClickItem);
+        action2SearchResultActivity(getActivity(), SearchResultActivity.class, currentClickItem);
+    }
+
+    private void iniBeenDao() {
+        DaoSession daoSession = BaseApplication.instance().getDaoSession();
+        mSearchHistoryDao = daoSession.getSearchHistoryBeenDao();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        iniSearchHistory();
+    }
+
+    /**
+     * 最近搜过
+     */
+    private void iniSearchHistory() {
+        if (mSearchHistoryDao == null) {
+            return;
+        }
+        List<SearchHistoryBeen> searchHistory = querySearchHistoryDataList();
+        if (searchHistory.size() > 0) {
+            List<String> list = new ArrayList<>(searchHistory.size());
+            for (SearchHistoryBeen s : searchHistory) {
+                list.add(s.getKeyword());
+            }
+            mLLHistory.setVisibility(View.VISIBLE);
+            HistorySearchAdapter searchHistoryAdapter = new HistorySearchAdapter(R.layout.item_dashboard_history, list);
+            mHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            searchHistoryAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+            mHistoryRecyclerView.setAdapter(searchHistoryAdapter);
+
+            searchHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    String currentClickItem = (String) adapter.getData().get(position);
+                    action2SearchResultActivity(getActivity(), SearchResultActivity.class, currentClickItem);
+                }
+            });
+        }
+    }
+
+    private List<SearchHistoryBeen> querySearchHistoryDataList() {
+        return mSearchHistoryDao.queryBuilder()
+                .where(SearchHistoryBeenDao.Properties.Time.notEq(0))
+                .orderDesc(SearchHistoryBeenDao.Properties.Time)
+                .build()
+                .list();
+    }
+
+    @OnClick(R.id.dashboard_tv_clear)
+    public void handleClick() {
+        mSearchHistoryDao.deleteAll();
+        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_right_2_left);
+
+        mLLHistory.startAnimation(animation);
+
+        BaseApplication.instance().mMainHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mLLHistory.setVisibility(View.GONE);
+                RxAnimationUtils.animateHeight(0, mRecyclerView.getHeight(), mRecyclerView);
+            }
+        }, animation.getDuration());
+    }
+
+    /**
+     * 热门搜索数据
+     */
+    private void iniHotSearchDataList() {
+        mDataList = new ArrayList<>();
+        mDataList.add("加勒比海盗");
+        mDataList.add("唐人街探案");
+        mDataList.add("捉妖记");
+        mDataList.add("刘德华");
+        mDataList.add("复仇者联盟");
+        mDataList.add("成龙");
+        mDataList.add("变形金刚");
+        mDataList.add("羞羞的铁拳");
+        mDataList.add("甄子丹");
+        mDataList.add("徐峥");
+        mDataList.add("熊出没");
+        mDataList.add("周星驰");
+        mDataList.add("王宝强");
+        mDataList.add("黄渤");
+        mDataList.add("史泰龙");
+        mDataList.add("李连杰");
     }
 
     @Override
@@ -60,19 +213,37 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
                 return true;
             }
 
-            if(isEroticism(par)){
+            if (isEroticism(par)) {
                 eroticismDialog(par);
             } else {
                 action2SearchResultActivity(getActivity(), SearchResultActivity.class, par);
             }
+            saveSearchHistory2DB(par);
             return true;
         }
-
         return false;
     }
 
     /**
+     * 保存搜索记录
      *
+     * @param keyword 关键子
+     */
+    private void saveSearchHistory2DB(String keyword) {
+        SearchHistoryBeen searchHistoryBeen = new SearchHistoryBeen(null, keyword, System.currentTimeMillis());
+        List<SearchHistoryBeen> list = querySearchHistoryDataList();
+        if (list.size() > 0) {
+            for (SearchHistoryBeen been : list) {
+                if (been.getKeyword().equals(searchHistoryBeen.getKeyword())) {
+                    mSearchHistoryDao.delete(new SearchHistoryBeen(been.getId(), been.getKeyword(), 0));
+                    break;
+                }
+            }
+        }
+        mSearchHistoryDao.insert(searchHistoryBeen);
+    }
+
+    /**
      * @param par 关键字
      * @return true 标志可能包含色情内容， false 反之
      */
@@ -106,11 +277,31 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
                 && keyCode == KeyEvent.KEYCODE_ENTER;
     }
 
-    public static void action2SearchResultActivity(Activity act, Class cla, String pars) {
-        RxKeyboardUtils.hideSoftInput(act);
+    /**
+     * 热门搜索
+     */
+    private class HotSearchAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+        public HotSearchAdapter(int layoutResId, @Nullable List<String> data) {
+            super(layoutResId, data);
+        }
 
-        Bundle bundle = new Bundle();
-        bundle.putString(KEY_KEYWORD, pars);
-        RxActivityUtils.skipActivity(act, cla, bundle);
+        @Override
+        protected void convert(BaseViewHolder helper, String item) {
+            helper.setText(R.id.text, item);
+        }
+    }
+
+    /**
+     * 最近搜过
+     */
+    private class HistorySearchAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+        public HistorySearchAdapter(int layoutResId, @Nullable List<String> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, String item) {
+            helper.setText(R.id.text, item);
+        }
     }
 }
