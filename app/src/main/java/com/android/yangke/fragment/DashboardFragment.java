@@ -65,6 +65,8 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
 
     private ArrayList<String> mDataList;
     private SearchHistoryBeenDao mSearchHistoryDao;
+    //最近搜过
+    private ArrayList<String> mHistoryDataList;
 
     public static void action2SearchResultActivity(Activity act, Class cla, String pars) {
         RxKeyboardUtils.hideSoftInput(act);
@@ -100,21 +102,11 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                handleListClick(adapter, position);
+                String currentClickItem = (String) adapter.getData().get(position);
+                saveSearchHistory2DB(currentClickItem);
+                action2SearchResultActivity(getActivity(), SearchResultActivity.class, currentClickItem);
             }
         });
-    }
-
-    /**
-     * 最近搜过，热门搜索逻辑是通用的，列表点击事件拿出来处理
-     *
-     * @param adapter  adapter
-     * @param position position
-     */
-    private void handleListClick(BaseQuickAdapter adapter, int position) {
-        String currentClickItem = (String) adapter.getData().get(position);
-//        saveSearchHistory(position, currentClickItem);
-        action2SearchResultActivity(getActivity(), SearchResultActivity.class, currentClickItem);
     }
 
     private void iniBeenDao() {
@@ -137,12 +129,12 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
         }
         List<SearchHistoryBeen> searchHistory = querySearchHistoryDataList();
         if (searchHistory.size() > 0) {
-            List<String> list = new ArrayList<>(searchHistory.size());
+            mHistoryDataList = new ArrayList<>(searchHistory.size());
             for (SearchHistoryBeen s : searchHistory) {
-                list.add(s.getKeyword());
+                mHistoryDataList.add(s.getKeyword());
             }
             mLLHistory.setVisibility(View.VISIBLE);
-            HistorySearchAdapter searchHistoryAdapter = new HistorySearchAdapter(R.layout.item_dashboard_history, list);
+            HistorySearchAdapter searchHistoryAdapter = new HistorySearchAdapter(R.layout.item_dashboard_history, mHistoryDataList);
             mHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             searchHistoryAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
             mHistoryRecyclerView.setAdapter(searchHistoryAdapter);
@@ -151,6 +143,7 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     String currentClickItem = (String) adapter.getData().get(position);
+                    saveSearchHistory2DB(currentClickItem);
                     action2SearchResultActivity(getActivity(), SearchResultActivity.class, currentClickItem);
                 }
             });
@@ -169,9 +162,7 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
     public void handleClick() {
         mSearchHistoryDao.deleteAll();
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_right_2_left);
-
         mLLHistory.startAnimation(animation);
-
         BaseApplication.instance().mMainHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -230,17 +221,26 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
      * @param keyword 关键子
      */
     private void saveSearchHistory2DB(String keyword) {
-        SearchHistoryBeen searchHistoryBeen = new SearchHistoryBeen(null, keyword, System.currentTimeMillis());
-        List<SearchHistoryBeen> list = querySearchHistoryDataList();
-        if (list.size() > 0) {
-            for (SearchHistoryBeen been : list) {
-                if (been.getKeyword().equals(searchHistoryBeen.getKeyword())) {
-                    mSearchHistoryDao.delete(new SearchHistoryBeen(been.getId(), been.getKeyword(), 0));
-                    break;
-                }
+        if (mHistoryDataList != null && mHistoryDataList.size() > 0) {
+            if (!isSaveHistory(keyword)) {
+                SearchHistoryBeen searchHistoryBeen = new SearchHistoryBeen(null, keyword, System.currentTimeMillis());
+                mSearchHistoryDao.insert(searchHistoryBeen);
             }
         }
-        mSearchHistoryDao.insert(searchHistoryBeen);
+    }
+
+    /**
+     *
+     * @param keyword 关键字
+     * @return true DB中已经保存过此关键字，false反之
+     */
+    private boolean isSaveHistory(String keyword) {
+        for (String key : mHistoryDataList) {
+            if (keyword.equals(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
