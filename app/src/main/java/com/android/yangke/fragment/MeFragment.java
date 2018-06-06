@@ -12,12 +12,15 @@ import android.widget.TextView;
 
 import com.android.yangke.R;
 import com.android.yangke.activity.AboutAuthorActivity;
+import com.android.yangke.activity.SearchResultActivity;
 import com.android.yangke.activity.SoftwareRequiredActivity;
 import com.android.yangke.base.BaseLazyFragment;
 import com.gyf.barlibrary.ImmersionBar;
 import com.vondear.rxtools.RxActivityUtils;
 import com.vondear.rxtools.RxAppUtils;
 import com.vondear.rxtools.RxClipboardUtils;
+import com.vondear.rxtools.RxSPUtils;
+import com.vondear.rxtools.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -36,8 +39,6 @@ public class MeFragment extends BaseLazyFragment {
     TextView mVersionCode;
     @BindView(R.id.me_ll_personal_msg)
     LinearLayout mLLPersonalMsg;
-    @BindView(R.id.me_ll_yuer)
-    LinearLayout mLLYuEr;
     @BindView(R.id.me_ll_youhui)
     LinearLayout mLLYouHui;
     @BindView(R.id.me_ll_fapiao)
@@ -50,6 +51,8 @@ public class MeFragment extends BaseLazyFragment {
     TextView mTvMsg;
     @BindView(R.id.me_tv_mianze)
     TextView mTvMianZe;
+    @BindView(R.id.me_txt_free)
+    TextView mFree;//剩余次数
 
     private static final String HINT_QQ = "您已成功复制作者QQ";
     private static final String HINT_QQ_FLOCK = "您已成功复制作者QQ群";
@@ -65,7 +68,22 @@ public class MeFragment extends BaseLazyFragment {
         ImmersionBar.setTitleBar(getActivity(), mTitle);
     }
 
-    @OnClick({R.id.me_tv_guanyu, R.id.me_tv_qq, R.id.me_ll_personal_msg, R.id.me_ll_yuer, R.id.me_ll_youhui,
+    @Override
+    public void onResume() {
+        super.onResume();
+        int freeCount = getFreeCount();
+        mFree.setText(freeCount + "次");
+    }
+
+    /*
+     * 剩余免费次数
+     */
+    private int getFreeCount() {
+        return SearchResultActivity.FREE_COUNT -
+                RxSPUtils.getInt(getContext(), SearchResultActivity.KEY_USED_COUNT) - 1;
+    }
+
+    @OnClick({R.id.me_tv_guanyu, R.id.me_tv_qq, R.id.me_ll_personal_msg, R.id.me_ll_free, R.id.me_ll_youhui,
             R.id.me_tv_tuijian, R.id.me_tv_account, R.id.me_tv_qq_flock, R.id.me_tv_mianze})
     public void click(View v) {
         switch (v.getId()) {
@@ -80,11 +98,17 @@ public class MeFragment extends BaseLazyFragment {
                 RxClipboardUtils.copyText(getContext(), HomeFragment.QQ);
                 snakeBar(v, HINT_QQ);
                 break;
-            case R.id.me_ll_yuer:
-                snakeBar(v, HINT_QQ);
-                break;
             case R.id.me_ll_youhui:
                 snakeBar(v, HINT_QQ);
+                break;
+            case R.id.me_ll_free:
+                int freeCount = getFreeCount();
+                String hintMsg = "可使用剩余次数 " + freeCount + " 次";
+                if(freeCount == 0) {
+                    RxToast.error(hintMsg);
+                } else {
+                    RxToast.warning(hintMsg);
+                }
                 break;
             case R.id.me_tv_tuijian:
                 snakeBar(v, HINT_QQ);

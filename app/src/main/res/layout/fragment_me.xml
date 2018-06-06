@@ -76,7 +76,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/me_ll_yuer"
+                    android:id="@+id/me_ll_free"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -86,10 +86,11 @@
                     android:padding="@dimen/activity_horizontal_margin">
 
                     <TextView
+                        android:id="@+id/me_txt_free"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="0元"
+                        android:text="0次"
                         android:textColor="@color/cff0000"
                         android:textSize="16sp" />
 
@@ -98,7 +99,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="4dp"
-                        android:text="余额" />
+                        android:text="剩余次数" />
                 </LinearLayout>
 
                 <LinearLayout

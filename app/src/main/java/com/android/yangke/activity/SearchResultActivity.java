@@ -45,9 +45,9 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
     private int mPage = 1;//请求页数(例：第一页，第二页)
 
     //使用次数
-    private static final String KEY_USED_COUNT = "used_count";
+    public static final String KEY_USED_COUNT = "used_count";
     //免费次数
-    private static final int FREE_COUNT = 80;
+    public static final int FREE_COUNT = 10;
     private String mKeyword;
     private static final String KEY_TASK = "task";
     //网络加载比较慢，当用户直接从当前页面点击了返回键后，处理响应函数被回调， 但 View 已经被回收就会
@@ -107,7 +107,7 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
                     return;
                 }
                 if (isPay()) {
-                    RxToast.warning("免费次数已经用完");
+                    RxToast.error("免费次数已经用完");
                     //TODO 支付
 //                    RxSPUtils.clearPreference(getApplicationContext(), KEY_USED_COUNT, KEY_USED_COUNT); //付费完成清空已使用次数
                     return;
