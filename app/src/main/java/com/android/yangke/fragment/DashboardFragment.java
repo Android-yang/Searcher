@@ -161,6 +161,7 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
     @OnClick(R.id.dashboard_tv_clear)
     public void handleClick() {
         mSearchHistoryDao.deleteAll();
+        mHistoryDataList.clear();
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_right_2_left);
         mLLHistory.startAnimation(animation);
         BaseApplication.instance().mMainHandler.postDelayed(new Runnable() {
