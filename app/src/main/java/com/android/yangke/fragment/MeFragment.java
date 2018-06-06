@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.android.yangke.R;
 import com.android.yangke.activity.AboutAuthorActivity;
 import com.android.yangke.activity.SearchResultActivity;
+import com.android.yangke.activity.ShareActivity;
 import com.android.yangke.activity.SoftwareRequiredActivity;
 import com.android.yangke.base.BaseLazyFragment;
 import com.gyf.barlibrary.ImmersionBar;
@@ -111,7 +112,7 @@ public class MeFragment extends BaseLazyFragment {
                 }
                 break;
             case R.id.me_tv_tuijian:
-                snakeBar(v, HINT_QQ);
+                RxActivityUtils.skipActivity(getActivity(), ShareActivity.class);
                 break;
             case R.id.me_tv_account:
                 snakeBar(v, HINT_QQ);

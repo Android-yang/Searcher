@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="line" >
+    <!--dashWidth虚线宽-->
+    <!--width虚线高，view中调用必须为2倍，否则不显示-->
+    <stroke
+        android:dashGap="@dimen/imaginary_dash_gap"
+        android:dashWidth="@dimen/imaginary_dash_width"
+        android:width="@dimen/imaginary_height"
+        android:color="@color/c_f5f5f5" />
+</shape>

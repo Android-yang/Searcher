@@ -12,4 +12,16 @@
     <string name="thunder_package">com.xunlei.downloadprovider</string>
     <string name="hint_no_data">data is null</string>
     <string name="about_author_more">更多</string>
+    <!--分享-->
+    <string name="title_share">分享APP得福利</string>
+    <string name="share_award_rule">奖励规则</string>
+    <string name="share_get_donwload">分享得 80 次下载体验</string>
+    <string name="share_invite_friend">邀请好友</string>
+    <string name="share_my_QR">我的分享二维码</string>
+    <string name="share_click_look">点击查看</string>
+    <string name="share_nothing_record">没有记录</string>
+    <string name="share_share_time">分享时间</string>
+    <string name="share_share_other_person">被分享人</string>
+    <string name="share_get_free">已获得免费次数0次</string>
+    <string name="share_accumulative">累计分享0次</string>
 </resources>
