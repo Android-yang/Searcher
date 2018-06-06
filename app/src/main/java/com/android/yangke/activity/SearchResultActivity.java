@@ -47,7 +47,7 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
     //使用次数
     public static final String KEY_USED_COUNT = "used_count";
     //免费次数
-    public static final int FREE_COUNT = 10;
+    public static final int FREE_COUNT = 80;
     private String mKeyword;
     private static final String KEY_TASK = "task";
     //网络加载比较慢，当用户直接从当前页面点击了返回键后，处理响应函数被回调， 但 View 已经被回收就会

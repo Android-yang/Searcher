@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bc_solide_circle_white"
+    android:orientation="horizontal"
+    android:paddingBottom="40dp"
+    android:paddingTop="40dp">
+
+    <TextView
+        android:id="@+id/share_txt_weichat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="@dimen/dp10"
+        android:drawableTop="@drawable/icon_share_wx_friend"
+        android:gravity="center"
+        android:text="朋友圈"
+        android:textColor="@color/c_2c241f"
+        android:textSize="@dimen/sp13" />
+
+    <TextView
+        android:id="@+id/share_txt_weichat_friend"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="@dimen/dp10"
+        android:drawableTop="@drawable/icon_share_weixin"
+        android:gravity="center"
+        android:text="微信好友"
+        android:textColor="@color/c_2c241f"
+        android:textSize="@dimen/sp13" />
+
+    <TextView
+        android:id="@+id/share_txt_weibo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="@dimen/dp10"
+        android:drawableTop="@drawable/icon_share_weibo"
+        android:gravity="center"
+        android:text="新浪微博"
+        android:textColor="@color/c_2c241f"
+        android:textSize="@dimen/sp13" />
+
+    <TextView
+        android:id="@+id/share_txt_copy_href"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="@dimen/dp10"
+        android:drawableTop="@drawable/icon_share_href"
+        android:gravity="center"
+        android:text="复制链接"
+        android:textColor="@color/c_2c241f"
+        android:textSize="@dimen/sp13" />
+
+</LinearLayout>
