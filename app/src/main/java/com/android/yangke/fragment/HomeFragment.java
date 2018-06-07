@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.android.yangke.R;
 import com.android.yangke.base.BaseLazyFragment;
-import com.vondear.rxtools.RxClipboardUtils;
+import com.vondear.rxtools.RxClipboardTool;
 
 import java.util.Random;
 
@@ -171,7 +171,7 @@ public class HomeFragment extends BaseLazyFragment implements View.OnClickListen
     }
 
     private void showMsg(String str) {
-        RxClipboardUtils.copyText(getContext(), str);
+        RxClipboardTool.copyText(getContext(), str);
         Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
     }
 }

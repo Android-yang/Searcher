@@ -20,8 +20,8 @@ import com.android.yangke.vo.MagnetVo;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
-import com.vondear.rxtools.RxClipboardUtils;
-import com.vondear.rxtools.RxSPUtils;
+import com.vondear.rxtools.RxClipboardTool;
+import com.vondear.rxtools.RxSPTool;
 import com.vondear.rxtools.view.RxToast;
 
 import java.util.ArrayList;
@@ -113,7 +113,7 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
                     return;
                 }
 
-                RxClipboardUtils.copyText(SearchResultActivity.this, vo.mMagnet);
+                RxClipboardTool.copyText(SearchResultActivity.this, vo.mMagnet);
                 action2Thunder();
             }
         });
@@ -137,12 +137,12 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
      * @return
      */
     private boolean isPay() {
-        int usedCount = RxSPUtils.getInt(getApplicationContext(), KEY_USED_COUNT);
+        int usedCount = RxSPTool.getInt(getApplicationContext(), KEY_USED_COUNT);
         usedCount++;
         if (usedCount >= FREE_COUNT) {
             return true;
         }
-        RxSPUtils.putInt(getApplicationContext(), KEY_USED_COUNT, usedCount);
+        RxSPTool.putInt(getApplicationContext(), KEY_USED_COUNT, usedCount);
         return false;
     }
 

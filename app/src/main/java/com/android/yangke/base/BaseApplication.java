@@ -7,7 +7,7 @@ import android.os.Looper;
 
 import com.android.yangke.vo.DaoMaster;
 import com.android.yangke.vo.DaoSession;
-import com.vondear.rxtools.RxUtils;
+import com.vondear.rxtools.RxTool;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class BaseApplication extends Application {
         instance = this;
 
         // 工具类初始化
-        RxUtils.init(this);
+        RxTool.init(this);
 
         iniDaoMaster();
     }

@@ -1,12 +1,8 @@
 package com.android.yangke.activity;
 
-import android.view.Menu;
-import android.view.MenuItem;
-
 import com.android.yangke.R;
 import com.android.yangke.base.BaseActivity;
-import com.vondear.rxtools.RxActivityUtils;
-import com.vondear.rxtools.view.RxToast;
+import com.vondear.rxtools.RxActivityTool;
 
 /**
  * author: yangke on 2018/5/20
@@ -31,6 +27,6 @@ public class AboutAuthorActivity extends BaseActivity {
 
     @Override
     protected void onRightButtonClick() {
-        RxActivityUtils.skipActivity(this, AuthorActivity.class);
+        RxActivityTool.skipActivity(this, AuthorActivity.class);
     }
 }

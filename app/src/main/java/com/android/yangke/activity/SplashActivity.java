@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.android.yangke.R;
 import com.android.yangke.base.BaseActivity;
 import com.android.yangke.util.AppTools;
-import com.vondear.rxtools.RxActivityUtils;
+import com.vondear.rxtools.RxActivityTool;
 
 import butterknife.BindView;
 
@@ -23,6 +23,18 @@ public class SplashActivity extends BaseActivity {
 
     @BindView(R.id.splash_tv_logo)
     TextView mTvLogo;
+
+    /**
+     * TODO 如果项目使用的字体比较多，此函数可以封装在工具类中
+     *
+     * @param textView textView
+     * @param ctx      context
+     * @param fontName 字体名字，字体文件放在 assets 根目录。例：方正字体
+     */
+    private static void textSetTypeface(TextView textView, Context ctx, String fontName) {
+        Typeface typeface = Typeface.createFromAsset(ctx.getAssets(), fontName);
+        textView.setTypeface(typeface);
+    }
 
     @Override
     protected int setLayoutId() {
@@ -53,16 +65,8 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void toMain() {
-        RxActivityUtils.skipActivity(SplashActivity.this, MainActivity.class);
+        RxActivityTool.skipActivity(SplashActivity.this, MainActivity.class);
         finish();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     /**
@@ -88,16 +92,12 @@ public class SplashActivity extends BaseActivity {
                 });
     }*/
 
-    /**
-     * TODO 如果项目使用的字体比较多，此函数可以封装在工具类中
-     *
-     * @param textView textView
-     * @param ctx      context
-     * @param fontName 字体名字，字体文件放在 assets 根目录。例：方正字体
-     */
-    private static void textSetTypeface(TextView textView, Context ctx, String fontName) {
-        Typeface typeface = Typeface.createFromAsset(ctx.getAssets(), fontName);
-        textView.setTypeface(typeface);
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

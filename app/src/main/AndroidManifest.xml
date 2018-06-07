@@ -31,7 +31,10 @@
             android:launchMode="singleTop" />
         <activity android:name=".activity.SearchResultActivity" />
         <activity android:name=".activity.AuthorActivity" />
-        <activity android:name=".activity.ShareActivity">
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
 
         </activity>
     </application>

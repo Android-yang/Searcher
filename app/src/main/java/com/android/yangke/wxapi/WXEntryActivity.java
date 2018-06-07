@@ -1,5 +1,6 @@
-package com.android.yangke.activity;
+package com.android.yangke.wxapi;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
@@ -9,11 +10,16 @@ import com.android.yangke.base.BaseActivity;
 import com.android.yangke.view.ImageDialog;
 import com.android.yangke.view.RightClickCancelDialog;
 import com.android.yangke.view.ShareDialog;
-import com.vondear.rxtools.RxAppUtils;
-import com.vondear.rxtools.RxClipboardUtils;
-import com.vondear.rxtools.RxImageUtils;
-import com.vondear.rxtools.model.wechat.share.WechatShareModel;
-import com.vondear.rxtools.model.wechat.share.WechatShareTools;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.vondear.rxtools.RxAppTool;
+import com.vondear.rxtools.RxClipboardTool;
+import com.vondear.rxtools.RxImageTool;
+import com.vondear.rxtools.RxLogTool;
+import com.vondear.rxtools.module.wechat.share.WechatShareModel;
+import com.vondear.rxtools.module.wechat.share.WechatShareTools;
 import com.vondear.rxtools.view.RxQRCode;
 import com.vondear.rxtools.view.RxToast;
 
@@ -25,12 +31,13 @@ import butterknife.OnClick;
  * email : 211yangke@gmail.com
  * desc  : 邀请好友得福利
  */
-public class ShareActivity extends BaseActivity implements View.OnClickListener {
+public class WXEntryActivity extends BaseActivity implements View.OnClickListener, IWXAPIEventHandler {
 
     private static final String WX_APP_ID = "wxcff97bee31f78c1f";
     //APP share href
     private static final String APP_SHARE_URL = "https://www.biying.com";
     private ShareDialog mShareDialog;
+    private IWXAPI mWXAPI;
 
     @Override
     protected int setLayoutId() {
@@ -40,6 +47,9 @@ public class ShareActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initData() {
         WechatShareTools.init(this, WX_APP_ID);
+        //固定写法
+        mWXAPI = WechatShareTools.getIwxapi();
+        mWXAPI.handleIntent(getIntent(), this);
     }
 
     @Override
@@ -101,7 +111,7 @@ public class ShareActivity extends BaseActivity implements View.OnClickListener 
         mShareDialog.dismiss();
         switch (v.getId()) {
             case R.id.share_txt_copy_href:
-                RxClipboardUtils.copyText(this, APP_SHARE_URL);
+                RxClipboardTool.copyText(this, APP_SHARE_URL);
                 RxToast.normal("复制成功");
                 break;
             case R.id.share_txt_weibo:
@@ -119,11 +129,44 @@ public class ShareActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void weChatShare(WechatShareTools.SharePlace sharePlace) {
-        String title = RxAppUtils.getAppName(this);
+        if(!WechatShareTools.isWXAppInstalled()) {
+            RxToast.error("微信客户端没有安装或版本过低");
+            return;
+        }
+        String title = RxAppTool.getAppName(this);
         String description = getString(R.string.software_effect);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        byte[] bitmapByte = RxImageUtils.bitmap2Bytes(bitmap, Bitmap.CompressFormat.PNG);
+        byte[] bitmapByte = RxImageTool.bitmap2Bytes(bitmap, Bitmap.CompressFormat.PNG);
         WechatShareModel mWechatShareModel = new WechatShareModel(APP_SHARE_URL, title, description, bitmapByte);
         WechatShareTools.shareURL(mWechatShareModel, sharePlace);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        //固定写法
+        setIntent(intent);
+        mWXAPI.handleIntent(intent, this);
+    }
+
+    @Override
+    public void onReq(BaseReq baseReq) {
+        RxLogTool.d(baseReq);
+    }
+
+    /**
+     * 微信请求后的响应回调
+     * @param baseResp
+     */
+    @Override
+    public void onResp(BaseResp baseResp) {
+        switch (baseResp.errCode) {
+            case BaseResp.ErrCode.ERR_OK:
+                RxToast.warning("分享成功");
+                break;
+            case BaseResp.ErrCode.ERR_USER_CANCEL:
+                RxToast.warning("分享取消");
+                break;
+        }
     }
 }

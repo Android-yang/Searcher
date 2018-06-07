@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.android.yangke.R;
 import com.gyf.barlibrary.ImmersionBar;
-import com.vondear.rxtools.RxDeviceUtils;
+import com.vondear.rxtools.RxDeviceTool;
 
 /**
  * author: yangke on 2018/5/20
@@ -31,7 +31,7 @@ public class AbsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base);
-        RxDeviceUtils.setPortrait(this);
+        RxDeviceTool.setPortrait(this);
     }
 
     @Override

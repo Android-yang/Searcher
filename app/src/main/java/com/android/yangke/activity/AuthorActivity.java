@@ -1,13 +1,11 @@
 package com.android.yangke.activity;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.webkit.WebView;
 
 import com.android.yangke.R;
 import com.android.yangke.base.BaseActivity;
-import com.vondear.rxtools.RxWebViewUtils;
+import com.vondear.rxtools.RxWebViewTool;
 
 import butterknife.BindView;
 
@@ -32,7 +30,7 @@ public class AuthorActivity extends BaseActivity{
     @Override
     protected void initData() {
         mWebView.loadUrl(URL_AUTHOR);
-        RxWebViewUtils.initWebView(this, mWebView);
+        RxWebViewTool.initWebView(this, mWebView);
     }
 
     @Override

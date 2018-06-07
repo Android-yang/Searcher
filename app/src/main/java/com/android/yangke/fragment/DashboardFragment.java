@@ -28,9 +28,9 @@ import com.android.yangke.vo.SearchHistoryBeenDao;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
-import com.vondear.rxtools.RxActivityUtils;
-import com.vondear.rxtools.RxAnimationUtils;
-import com.vondear.rxtools.RxKeyboardUtils;
+import com.vondear.rxtools.RxActivityTool;
+import com.vondear.rxtools.RxAnimationTool;
+import com.vondear.rxtools.RxKeyboardTool;
 import com.vondear.rxtools.view.RxToast;
 
 import java.util.ArrayList;
@@ -66,14 +66,15 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
     private ArrayList<String> mDataList;
     private SearchHistoryBeenDao mSearchHistoryDao;
     //最近搜过
-    private ArrayList<String> mHistoryDataList = new ArrayList<>();;
+    private ArrayList<String> mHistoryDataList = new ArrayList<>();
+    ;
 
     public static void action2SearchResultActivity(Activity act, Class cla, String pars) {
-        RxKeyboardUtils.hideSoftInput(act);
+        RxKeyboardTool.hideSoftInput(act);
 
         Bundle bundle = new Bundle();
         bundle.putString(KEY_KEYWORD, pars);
-        RxActivityUtils.skipActivity(act, cla, bundle);
+        RxActivityTool.skipActivity(act, cla, bundle);
     }
 
     @Override
@@ -168,7 +169,7 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
             @Override
             public void run() {
                 mLLHistory.setVisibility(View.GONE);
-                RxAnimationUtils.animateHeight(0, mRecyclerView.getHeight(), mRecyclerView);
+                RxAnimationTool.animateHeight(0, mRecyclerView.getHeight(), mRecyclerView);
             }
         }, animation.getDuration());
     }
@@ -231,12 +232,11 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
     }
 
     /**
-     *
      * @param keyword 关键字
      * @return true DB中已经保存过此关键字，false反之
      */
     private boolean isSaveHistory(String keyword) {
-        if(mHistoryDataList.size() == 0) {
+        if (mHistoryDataList.size() == 0) {
             return false;
         }
         for (String key : mHistoryDataList) {
