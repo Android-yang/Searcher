@@ -16,12 +16,13 @@
     <string name="title_share">分享APP得福利</string>
     <string name="share_award_rule">奖励规则</string>
     <string name="share_get_donwload">分享得 80 次下载体验</string>
-    <string name="share_invite_friend">邀请好友</string>
-    <string name="share_my_QR">我的分享二维码</string>
+    <string name="share_app">分享 APP</string>
+    <string name="share_my_qr">我的分享二维码</string>
     <string name="share_click_look">点击查看</string>
     <string name="share_nothing_record">没有记录</string>
     <string name="share_share_time">分享时间</string>
     <string name="share_share_other_person">被分享人</string>
     <string name="share_get_free">已获得免费次数0次</string>
     <string name="share_accumulative">累计分享0次</string>
+    <string name="software_effect">随着互联网高速发展，21世纪已经成为了会员时代，知识付费时代。作为土生土长的伪土豪，消费则能省则省。什么腾讯、爱奇艺 VIP 视频;网易、QQ 音乐月包;花钱不存的，这辈子都不存在的。还有综艺视频，优衣库视频，琪琪泥鳅，各种小视频应有尽有...</string>
 </resources>

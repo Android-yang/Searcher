@@ -45,6 +45,7 @@
             android:layout_weight="1.5" />
 
         <TextView
+            android:id="@+id/share_txt_share_app"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -54,7 +55,7 @@
             android:gravity="center"
             android:paddingBottom="@dimen/dp8"
             android:paddingTop="@dimen/dp8"
-            android:text="@string/share_invite_friend"
+            android:text="@string/share_app"
             android:textColor="@color/white"
             android:textSize="@dimen/sp18" />
 
@@ -65,12 +66,13 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/share_txt_share_qr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:gravity="center"
         android:padding="@dimen/dp8"
-        android:text="@string/share_my_QR"
+        android:text="@string/share_my_qr"
         android:textColor="@color/c_ff541f" />
 
     <LinearLayout

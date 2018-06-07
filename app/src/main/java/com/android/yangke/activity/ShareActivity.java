@@ -6,12 +6,15 @@ import android.view.View;
 
 import com.android.yangke.R;
 import com.android.yangke.base.BaseActivity;
+import com.android.yangke.view.ImageDialog;
 import com.android.yangke.view.RightClickCancelDialog;
 import com.android.yangke.view.ShareDialog;
 import com.vondear.rxtools.RxAppUtils;
+import com.vondear.rxtools.RxClipboardUtils;
 import com.vondear.rxtools.RxImageUtils;
 import com.vondear.rxtools.model.wechat.share.WechatShareModel;
 import com.vondear.rxtools.model.wechat.share.WechatShareTools;
+import com.vondear.rxtools.view.RxQRCode;
 import com.vondear.rxtools.view.RxToast;
 
 import butterknife.OnClick;
@@ -24,8 +27,10 @@ import butterknife.OnClick;
  */
 public class ShareActivity extends BaseActivity implements View.OnClickListener {
 
-    private ShareDialog mShareDialog;
     private static final String WX_APP_ID = "wxcff97bee31f78c1f";
+    //APP share href
+    private static final String APP_SHARE_URL = "https://www.biying.com";
+    private ShareDialog mShareDialog;
 
     @Override
     protected int setLayoutId() {
@@ -44,7 +49,7 @@ public class ShareActivity extends BaseActivity implements View.OnClickListener 
         setToolbarLineVisible();
     }
 
-    @OnClick(R.id.share_txt_reward)
+    @OnClick({R.id.share_txt_reward, R.id.share_txt_share_app, R.id.share_txt_share_qr})
     public void click(View v) {
         switch (v.getId()) {
             //奖励规则
@@ -58,11 +63,30 @@ public class ShareActivity extends BaseActivity implements View.OnClickListener 
                 dialog.getWindow().setWindowAnimations(R.style.DialogEnterOut2);
                 dialog.show();
                 break;
+            //分享app
+            case R.id.share_txt_share_app:
+                showShareDialog();
+                break;
+            //我的邀请二维码
+            case R.id.share_txt_share_qr:
+                ImageDialog imageDialog = new ImageDialog(this, 0);
+                RxQRCode.builder(APP_SHARE_URL)
+                        .backColor(getColor(R.color.white))
+                        .codeColor(getColor(R.color.black))
+                        .codeSide(900)
+                        .into(imageDialog.getIvContent());
+                imageDialog.setDescription("种子搜索器，下片我们是认真的！");
+                imageDialog.show();
+                break;
         }
     }
 
     @Override
     protected void onRightButtonClick() {
+        showShareDialog();
+    }
+
+    private void showShareDialog() {
         mShareDialog = new ShareDialog(this, 0);
         mShareDialog.mWeiChatFriend.setOnClickListener(this);
         mShareDialog.mWeibo.setOnClickListener(this);
@@ -77,22 +101,29 @@ public class ShareActivity extends BaseActivity implements View.OnClickListener 
         mShareDialog.dismiss();
         switch (v.getId()) {
             case R.id.share_txt_copy_href:
-                RxToast.normal("href");
+                RxClipboardUtils.copyText(this, APP_SHARE_URL);
+                RxToast.normal("复制成功");
                 break;
             case R.id.share_txt_weibo:
-                RxToast.normal("weibo");
+                RxToast.warning("研发奋力抢修中，敬请期待...");
                 break;
+            //微信朋友圈
             case R.id.share_txt_weichat:
-                RxToast.normal("weichat");
+                weChatShare(WechatShareTools.SharePlace.Zone);
                 break;
+            //微信好友
             case R.id.share_txt_weichat_friend:
-//                String url = "https://www.baidu.com";
-//                String description = "me description";
-//                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.close);
-//                byte[] bitmapByte = RxImageUtils.bitmap2Bytes(bitmap, Bitmap.CompressFormat.PNG);
-//                WechatShareModel mWechatShareModel = new WechatShareModel(url, "title", description, bitmapByte);
-//                WechatShareTools.shareURL(mWechatShareModel, WechatShareTools.SharePlace.Friend);
+                weChatShare(WechatShareTools.SharePlace.Friend);
                 break;
         }
+    }
+
+    private void weChatShare(WechatShareTools.SharePlace sharePlace) {
+        String title = RxAppUtils.getAppName(this);
+        String description = getString(R.string.software_effect);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        byte[] bitmapByte = RxImageUtils.bitmap2Bytes(bitmap, Bitmap.CompressFormat.PNG);
+        WechatShareModel mWechatShareModel = new WechatShareModel(APP_SHARE_URL, title, description, bitmapByte);
+        WechatShareTools.shareURL(mWechatShareModel, sharePlace);
     }
 }

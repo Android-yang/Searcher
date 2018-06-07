@@ -125,7 +125,7 @@
             android:layout_marginBottom="@dimen/dp_4"
             android:layout_marginTop="@dimen/dp_4"
             android:lineSpacingExtra="@dimen/dp6"
-            android:text="随着互联网高速发展，21世纪已经成为了会员时代，知识付费时代。作为土生土长的伪土豪，消费则能省则省。什么腾讯、爱奇艺 VIP 视频;网易、QQ 音乐月包;花钱不存的，这辈子都不存在的。还有综艺视频，优衣库视频，琪琪泥鳅，各种小视频应有尽有..."
+            android:text="@string/software_effect"
             android:textSize="@dimen/sp14" />
 
         <TextView
