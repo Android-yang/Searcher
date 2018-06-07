@@ -3,6 +3,7 @@
     package="com.android.yangke">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".base.BaseApplication"
@@ -30,7 +31,9 @@
             android:name=".activity.SoftwareRequiredActivity"
             android:launchMode="singleTop" />
         <activity android:name=".activity.SearchResultActivity" />
-        <activity android:name=".activity.AuthorActivity" />
+        <activity
+            android:name=".activity.AuthorActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
