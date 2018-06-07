@@ -42,7 +42,7 @@
                     android:drawableLeft="@drawable/ic_user"
                     android:drawablePadding="10dp"
                     android:gravity="center_vertical"
-                    android:text="作者：Android_YangKe\nQQ群：692699158"
+                    android:text="作者：Android_YangKe\nQQ：1551121393"
                     android:textColor="@android:color/white" />
 
                 <TextView

@@ -29,6 +29,8 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static com.vondear.rxtools.RxTool.getContext;
+
 /**
  * author: yangke on 5/30/18.
  * weChat: ACE_5200125
@@ -46,8 +48,10 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
 
     //使用次数
     public static final String KEY_USED_COUNT = "used_count";
+    //可用次数（包含分享获取的次数）
+    public static final String KEY_ALL_COUNT = "all_count";
     //免费次数
-    public static final int FREE_COUNT = 80;
+    public static final int FREE_COUNT = 80;//首次免费80
     private String mKeyword;
     private static final String KEY_TASK = "task";
     //网络加载比较慢，当用户直接从当前页面点击了返回键后，处理响应函数被回调， 但 View 已经被回收就会
@@ -137,13 +141,24 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
      * @return
      */
     private boolean isPay() {
-        int usedCount = RxSPTool.getInt(getApplicationContext(), KEY_USED_COUNT);
-        usedCount++;
-        if (usedCount >= FREE_COUNT) {
+        int usedCountTemp = RxSPTool.getInt(getApplicationContext(), KEY_USED_COUNT);
+        int usedCount = (usedCountTemp == -1 ? 0 : usedCountTemp);
+        if (usedCount >= getFreeCount()) {
             return true;
         }
+        ++usedCount;
         RxSPTool.putInt(getApplicationContext(), KEY_USED_COUNT, usedCount);
+        RxSPTool.putInt(getApplicationContext(), KEY_ALL_COUNT, getFreeCount());
         return false;
+    }
+
+    /*
+     * 剩余免费次数
+     */
+    private int getFreeCount() {
+        int allCount = RxSPTool.getInt(getContext(), SearchResultActivity.KEY_ALL_COUNT);
+        int freeCount = (-1 ==  allCount ? SearchResultActivity.FREE_COUNT : allCount);
+        return freeCount;
     }
 
     private void action2Thunder() {

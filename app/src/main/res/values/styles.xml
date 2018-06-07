@@ -10,11 +10,16 @@
     <!--dialog进入退出动画-->
     <style name="DialogEnterOut1">
         <item name="android:windowEnterAnimation">@anim/anim_bottom_2_top</item>
-        <item name="android:windowExitAnimation">@anim/anim_top_2_bottom</item>
+        <item name="android:windowExitAnimation">@anim/anim_view_top_2_bottom</item>
     </style>
 
     <style name="DialogEnterOut2">
         <item name="android:windowEnterAnimation">@anim/anim_bottom_2_top</item>
+        <item name="android:windowExitAnimation">@anim/anim_right_2_left</item>
+    </style>
+
+    <style name="DialogEnterOut3">
+        <item name="android:windowEnterAnimation">@anim/anim_top_2_bottom</item>
         <item name="android:windowExitAnimation">@anim/anim_right_2_left</item>
     </style>
 </resources>

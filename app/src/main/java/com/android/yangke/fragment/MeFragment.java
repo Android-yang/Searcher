@@ -74,16 +74,17 @@ public class MeFragment extends BaseLazyFragment {
     @Override
     public void onResume() {
         super.onResume();
-        int freeCount = getFreeCount();
-        mFree.setText(freeCount + "次");
+        mFree.setText(getFreeCount() + "次");
     }
 
     /*
      * 剩余免费次数
      */
     private int getFreeCount() {
-        return SearchResultActivity.FREE_COUNT -
-                RxSPTool.getInt(getContext(), SearchResultActivity.KEY_USED_COUNT) - 1;
+        int allCount = RxSPTool.getInt(getContext(), SearchResultActivity.KEY_ALL_COUNT);
+        int usedCount = RxSPTool.getInt(getContext(), SearchResultActivity.KEY_USED_COUNT);
+        int showCount = (allCount == -1 ? SearchResultActivity.FREE_COUNT : allCount) - (usedCount == -1 ? 0 : usedCount);
+        return showCount;
     }
 
     @OnClick({R.id.me_tv_guanyu, R.id.me_tv_qq, R.id.me_ll_personal_msg, R.id.me_ll_free, R.id.me_ll_youhui,
@@ -91,8 +92,8 @@ public class MeFragment extends BaseLazyFragment {
     public void click(View v) {
         switch (v.getId()) {
             case R.id.me_ll_personal_msg:
-                RxClipboardTool.copyText(getContext(), HomeFragment.QQ_FLOCK);
-                snakeBar(v, HINT_QQ_FLOCK);
+                RxClipboardTool.copyText(getContext(), HomeFragment.QQ);
+                snakeBar(v, HINT_QQ);
                 break;
             case R.id.me_tv_guanyu:
                 RxActivityTool.skipActivity(getActivity(), AboutAuthorActivity.class);
@@ -102,13 +103,13 @@ public class MeFragment extends BaseLazyFragment {
                 snakeBar(v, HINT_QQ);
                 break;
             case R.id.me_ll_youhui:
-                snakeBar(v, HINT_QQ);
+
                 break;
             case R.id.me_ll_free:
                 int freeCount = getFreeCount();
-                String hintMsg = "可使用剩余次数 " + freeCount + " 次";
+                String hintMsg = "可使用剩余次数" + freeCount + "次， 你可通过分享此软件获取体验次数！";
                 if (freeCount == 0) {
-                    RxToast.error(hintMsg);
+                    snakeBar(v, hintMsg);
                 } else {
                     RxToast.warning(hintMsg);
                 }
@@ -117,7 +118,7 @@ public class MeFragment extends BaseLazyFragment {
                 RxActivityTool.skipActivity(getActivity(), WXEntryActivity.class);
                 break;
             case R.id.me_tv_account:
-                snakeBar(v, HINT_QQ);
+                RxToast.warning("已经很安全了");
                 break;
             case R.id.me_tv_qq_flock:
                 snakeBar(v, HINT_QQ_FLOCK);
@@ -132,7 +133,6 @@ public class MeFragment extends BaseLazyFragment {
     @Override
     protected void initView() {
         super.initView();
-
         mVersionCode.setText("版本V" + RxAppTool.getAppVersionName(getContext()));
     }
 }
