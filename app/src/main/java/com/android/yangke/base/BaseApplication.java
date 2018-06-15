@@ -28,6 +28,7 @@ public class BaseApplication extends Application {
     private final LinkedHashMap<Class<? extends BaseActivity>, WeakReference<Context>> contextObjects =
             new LinkedHashMap<Class<? extends BaseActivity>, WeakReference<Context>>();
     private DaoMaster mDaoMaster;
+    private DaoSession mSession;
 
 
     public static BaseApplication instance() {
@@ -55,13 +56,14 @@ public class BaseApplication extends Application {
     private void iniDaoMaster() {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(instance(), "search.db", null);
         mDaoMaster = new DaoMaster(helper.getWritableDb());
+        mSession = mDaoMaster.newSession();
     }
 
     /**
      * @return 操作数据库的对象
      */
     public DaoSession getDaoSession() {
-        return mDaoMaster.newSession();
+        return mSession;
     }
 
     public synchronized Context getActiveContext(Class<? extends BaseActivity> className) {
