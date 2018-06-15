@@ -51,6 +51,8 @@ dependencies {
     //工具类库
 //    implementation 'com.github.vondear:RxTools:v1.7.3.4'
     implementation project(':RxTools-library')
+    //侧滑返回
+    implementation project(':Swipeback')
     //butterknife 避免 findViewById 的使用
     //注解
     implementation 'com.jakewharton:butterknife:8.7.0'

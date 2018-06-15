@@ -27,6 +27,7 @@ public abstract class BaseActivity extends AbsActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(setLayoutId());
+
         mImmersionBar = ImmersionBar.with(this).statusBarDarkFont(true);
         mImmersionBar.init();
         //绑定控件

@@ -19,7 +19,6 @@ public class AboutAuthorActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mImmersionBar.statusBarDarkFont(true).init();
         setTileLeft(getString(R.string.about_author));
         setTitleRight(getString(R.string.about_author_more));
         setToolbarLineVisible();

@@ -21,6 +21,8 @@ import com.vondear.rxtools.view.RxToast;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+
 /**
  * author: yangke on 2018/5/19
  * weChat: ACE_5200125
@@ -29,8 +31,10 @@ import java.util.List;
  */
 public class MainActivity extends BaseActivity {
 
-    private BottomNavigationView mBottomNavigationView;
-    private ViewPagerNoScroller mViewPager;
+    @BindView(R.id.navigation)
+    BottomNavigationView mBottomNavigationView;
+    @BindView(R.id.viewpager)
+    ViewPagerNoScroller mViewPager;
 
     @Override
     protected int setLayoutId() {
@@ -39,9 +43,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        mViewPager = findViewById(R.id.viewpager);
-        mBottomNavigationView = findViewById(R.id.navigation);
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        setSwipeBackEnable(false);
     }
 
     @Override

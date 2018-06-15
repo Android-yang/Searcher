@@ -14,13 +14,15 @@ import com.android.yangke.R;
 import com.gyf.barlibrary.ImmersionBar;
 import com.vondear.rxtools.RxDeviceTool;
 
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
 /**
  * author: yangke on 2018/5/20
  * weChat: ACE_5200125
  * email : 211yangke@gmail.com
  * desc  : 标题栏和状态栏的抽象
  */
-public class AbsActivity extends AppCompatActivity {
+public class AbsActivity extends SwipeBackActivity {
 
     protected Toolbar mToolbar;//整体标题栏容器
     private TextView mTitleRight;//右标题
@@ -43,19 +45,11 @@ public class AbsActivity extends AppCompatActivity {
 
     @Override
     public void setContentView(View view) {
-        mContentContainerView = findViewById(R.id.activity_content);
+        mContentContainerView = (FrameLayout) findViewById(R.id.activity_content);
         mContentContainerView.removeAllViewsInLayout();
         mContentContainerView.addView(view);
 
-        initStateBar();
         initTitleBar();
-    }
-
-    /**
-     * 初始化状态栏
-     */
-    protected void initStateBar() {
-        //在BaseActivity里初始化
     }
 
     /**
@@ -73,13 +67,13 @@ public class AbsActivity extends AppCompatActivity {
      * initialize title
      */
     private void initTitleBar() {
-        mToolbar = findViewById(R.id.base_toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.base_toolbar);
         mToolbar.setNavigationOnClickListener(leftBtnOnClickListener);
         mToolbar.setNavigationIcon(R.drawable.title_back);
 
         ImmersionBar.setTitleBar(this, mToolbar);
 
-        mTitleRight = findViewById(R.id.title_right);
+        mTitleRight = (TextView) findViewById(R.id.title_right);
         mToolbarLine = findViewById(R.id.base_toolbar_line);
         mTitleRight.setOnClickListener(rightBtnOnClickListener);
     }
