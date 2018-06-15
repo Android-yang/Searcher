@@ -10,15 +10,15 @@ import com.vondear.rxtools.RxWebViewTool;
 
 import butterknife.BindView;
 
-
 /**
- * author: yangke on 6/15/18.
+ * author: yangke on 6/1/18.
  * weChat: ACE_5200125
  * email : 211yangke@gmail.com
- * desc  : 个人中心
+ * desc  : 更多关于作者
  */
-public class AuthorActivity extends BaseActivity {
-    private static final String URL_AUTHOR = "https://www.jianshu.com/p/3a17db598e57";
+public class AboutAuthorMoreActivity extends BaseActivity{
+
+    private static final String URL_AUTHOR = "https://www.jianshu.com/u/eb77504b1d68";
 
     @BindView(R.id.webView)
     WebView mWebView;
@@ -27,21 +27,20 @@ public class AuthorActivity extends BaseActivity {
 
     @Override
     protected int setLayoutId() {
-        return R.layout.activity_author;
+        return R.layout.activity_about_more_author;
     }
 
     @Override
     protected void initData() {
-        RxWebViewTool.initWebView(this, mWebView, mProgressBatTop);
         mWebView.loadUrl(URL_AUTHOR);
+        RxWebViewTool.initWebView(this, mWebView, mProgressBatTop);
     }
 
     @Override
     protected void initView() {
-        setTileLeft(getString(R.string.title_personal_center));
+        setTileLeft(getString(R.string.about_author_more));
         setToolbarLineVisible();
     }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -50,6 +49,6 @@ public class AuthorActivity extends BaseActivity {
             mWebView.goBack();
             return true;
         }
-        return super.onKeyDown(keyCode, event);
+        return super.onKeyDown(keyCode,event);
     }
 }

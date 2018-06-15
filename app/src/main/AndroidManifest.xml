@@ -22,9 +22,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan|adjustResize">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
         <activity
             android:name=".activity.AboutAuthorActivity"
             android:launchMode="singleTop" />
@@ -33,14 +31,13 @@
             android:launchMode="singleTop" />
         <activity android:name=".activity.SearchResultActivity" />
         <activity
-            android:name=".activity.AuthorActivity"
+            android:name=".activity.AboutAuthorMoreActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
-            android:launchMode="singleTask">
-
-        </activity>
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".activity.AuthorActivity"></activity>
     </application>
 
 </manifest>

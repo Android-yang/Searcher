@@ -4,5 +4,6 @@
     android:layout_height="match_parent">
 
     <include
+        android:id="@+id/author_webview"
         layout="@layout/base_webview" />
 </LinearLayout>

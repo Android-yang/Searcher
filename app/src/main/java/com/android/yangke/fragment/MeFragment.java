@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.android.yangke.R;
 import com.android.yangke.activity.AboutAuthorActivity;
+import com.android.yangke.activity.AuthorActivity;
 import com.android.yangke.activity.SearchResultActivity;
 import com.android.yangke.activity.SoftwareRequiredActivity;
 import com.android.yangke.base.BaseLazyFragment;
@@ -91,21 +92,20 @@ public class MeFragment extends BaseLazyFragment {
             R.id.me_tv_tuijian, R.id.me_tv_account, R.id.me_tv_qq_flock, R.id.me_tv_mianze})
     public void click(View v) {
         switch (v.getId()) {
-            case R.id.me_ll_personal_msg:
-                RxClipboardTool.copyText(getContext(), HomeFragment.QQ);
-                snakeBar(v, HINT_QQ);
+            case R.id.me_ll_personal_msg://作者个人中心
+                RxActivityTool.skipActivity(getActivity(), AuthorActivity.class);
                 break;
-            case R.id.me_tv_guanyu:
+            case R.id.me_tv_guanyu://关于作者
                 RxActivityTool.skipActivity(getActivity(), AboutAuthorActivity.class);
                 break;
-            case R.id.me_tv_qq:
+            case R.id.me_tv_qq://作者QQ
                 RxClipboardTool.copyText(getContext(), HomeFragment.QQ);
                 snakeBar(v, HINT_QQ);
                 break;
-            case R.id.me_ll_youhui:
+            case R.id.me_ll_youhui://
 
                 break;
-            case R.id.me_ll_free:
+            case R.id.me_ll_free://剩余次数
                 int freeCount = getFreeCount();
                 String hintMsg = "可使用剩余次数" + freeCount + "次， 你可通过分享此软件获取体验次数！";
                 if (freeCount == 0) {
@@ -114,17 +114,17 @@ public class MeFragment extends BaseLazyFragment {
                     RxToast.warning(hintMsg);
                 }
                 break;
-            case R.id.me_tv_tuijian:
+            case R.id.me_tv_tuijian://推荐有奖
                 RxActivityTool.skipActivity(getActivity(), WXEntryActivity.class);
                 break;
-            case R.id.me_tv_account:
+            case R.id.me_tv_account://账户安全
                 RxToast.warning("已经很安全了");
                 break;
-            case R.id.me_tv_qq_flock:
+            case R.id.me_tv_qq_flock://QQ 群
                 snakeBar(v, HINT_QQ_FLOCK);
                 RxClipboardTool.copyText(getContext(), HomeFragment.QQ_FLOCK);
                 break;
-            case R.id.me_tv_mianze:
+            case R.id.me_tv_mianze://免责条款
                 RxActivityTool.skipActivity(getActivity(), SoftwareRequiredActivity.class);
                 break;
         }

@@ -17,13 +17,17 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.yangke.R;
 import com.android.yangke.base.BaseLazyFragment;
 import com.vondear.rxtools.RxClipboardTool;
+import com.vondear.rxtools.RxWebViewTool;
 
 import java.util.Random;
+
+import butterknife.BindView;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -34,7 +38,10 @@ import static android.content.Context.MODE_PRIVATE;
  * desc  : 主fragment
  */
 public class HomeFragment extends BaseLazyFragment implements View.OnClickListener {
-    private WebView mWebView;
+    @BindView(R.id.webView)
+    WebView mWebView;
+    @BindView(R.id.progressbar_webview)
+    ProgressBar mProgressBar;
 
     //种子引擎地址
     private String[] urls = {"https://btyitao.com", "http://www.btwu.xyz"};
@@ -77,9 +84,12 @@ public class HomeFragment extends BaseLazyFragment implements View.OnClickListen
     }
 
     private void iniWebView(View v) {
-        mWebView = v.findViewById(R.id.webView);
-        iniWebSetting(mWebView);
-        iniWebview();
+        RxWebViewTool.initWebView(getContext(), mWebView, mProgressBar);
+        Random r = new Random();
+        int index = r.nextInt(urls.length);
+        String url = urls[index];
+
+        mWebView.loadUrl(url);
     }
 
     private void iniHintDialog() {
@@ -88,74 +98,6 @@ public class HomeFragment extends BaseLazyFragment implements View.OnClickListen
                 "如涉及商业信息或侵害了您的利益请及时 QQ 联系（" + QQ + "）本人，我会第一时间清除该软件。最后，你可以添加 QQ 群（" + QQ_FLOCK + "）" +
                 "提出你的对软件的使用感觉，我会第一时间修复问题让软加更加好用，当然此群收费（3-5元）。一位集美貌与才华的程序员...")
                 .show();
-    }
-
-    private void iniWebview() {
-        Random r = new Random();
-        int index = r.nextInt(urls.length);
-        String url = urls[index];
-
-        mWebView.loadUrl(url);
-
-        //设置此方法可在WebView中打开链接，反之用浏览器打开
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.startsWith("http:") || url.startsWith("https:")) {
-                    view.loadUrl(url);
-                    return false;
-                }
-
-                // Otherwise allow the OS to handle things like tel, mailto, etc.
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
-                return true;
-            }
-
-            @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-                Log.i("-->", "地址：" + url);
-                url = url.toLowerCase();
-
-                if (url.contains("http://www.btwu.xyz") || url.contains("https://btyitao.com")) {
-                    return super.shouldInterceptRequest(view, url);
-                } else {
-                    return new WebResourceResponse(null, null, null);
-                }
-            }
-        });
-    }
-
-    protected void iniWebSetting(WebView webView) {
-        WebSettings webSetting = webView.getSettings();
-        webSetting.setJavaScriptEnabled(true);
-        webSetting.setSupportZoom(true);// 设置可以支持缩放
-        webSetting.setBuiltInZoomControls(true);// 设置出现缩放工具 是否使用WebView内置的缩放组件，由浮动在窗口上的缩放控制和手势缩放控制组成，默认false
-        webSetting.setDisplayZoomControls(false);//隐藏缩放工具
-        webSetting.setUseWideViewPort(true);// 扩大比例的缩放
-        webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);//自适应屏幕
-        webSetting.setLoadWithOverviewMode(true);
-        webSetting.setBlockNetworkImage(false);//设置自动加载图片
-        webSetting.setDatabaseEnabled(true);//
-        webSetting.setSavePassword(true);//保存密码
-        webSetting.setDomStorageEnabled(true);//是否开启本地DOM存储  鉴于它的安全特性（任何人都能读取到它，尽管有相应的限制，将敏感数据存储在这里依然不是明智之举），Android 默认是关闭该功能的。
-        webSetting.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//加载缓存否则网络
-
-        if (Build.VERSION.SDK_INT >= 19) {
-            webSetting.setLoadsImagesAutomatically(true);//图片自动缩放 打开
-        } else {
-            webSetting.setLoadsImagesAutomatically(false);//图片自动缩放 关闭
-        }
     }
 
     @Override

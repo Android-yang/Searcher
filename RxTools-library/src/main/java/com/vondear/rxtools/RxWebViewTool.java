@@ -1,15 +1,20 @@
 package com.vondear.rxtools;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.webkit.DownloadListener;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 /**
  *
@@ -19,8 +24,12 @@ import android.webkit.WebViewClient;
 
 public class RxWebViewTool {
 
-    public static void initWebView(final Context context, final WebView webBase) {
-        WebSettings webSettings = webBase.getSettings();
+    private static final String KEY_CURRENT_URL = "current_url";      //当期页面URL
+    private static final String KEY_CURRENT_X_POSITION = "x_position";//当期webView滚动的x位置
+    private static final String KEY_CURRENT_Y_POSITION = "y_position";//当期webView滚动的y位置
+
+    public static void initWebView(final Context context, final WebView webView, final ProgressBar progressBar) {
+        final WebSettings webSettings = webView.getSettings();
         if (Build.VERSION.SDK_INT >= 19) {
             webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//加载缓存否则网络
         }
@@ -32,9 +41,9 @@ public class RxWebViewTool {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            webBase.setLayerType(View.LAYER_TYPE_SOFTWARE, null);//软件解码
+            webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);//软件解码
         }
-        webBase.setLayerType(View.LAYER_TYPE_HARDWARE, null);//硬件解码
+        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);//硬件解码
 
 //        webSettings.setAllowContentAccess(true);
 //        webSettings.setAllowFileAccessFromFileURLs(true);
@@ -60,46 +69,61 @@ public class RxWebViewTool {
         webSettings.setDatabaseEnabled(true);//
         webSettings.setSavePassword(true);//保存密码
         webSettings.setDomStorageEnabled(true);//是否开启本地DOM存储  鉴于它的安全特性（任何人都能读取到它，尽管有相应的限制，将敏感数据存储在这里依然不是明智之举），Android 默认是关闭该功能的。
-        webBase.setSaveEnabled(true);
-        webBase.setKeepScreenOn(true);
+        webView.setSaveEnabled(true);
+        webView.setKeepScreenOn(true);
+        configScrollYPosition(context, webView);//配置webview当期滚动的y位置
 
+        progressBar.setMax(100);
 
         //设置此方法可在WebView中打开链接，反之用浏览器打开
-        webBase.setWebViewClient(new WebViewClient() {
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                progressBar.setMax(newProgress);
+            }
+        });
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                if (!webBase.getSettings().getLoadsImagesAutomatically()) {
-                    webBase.getSettings().setLoadsImagesAutomatically(true);
+                progressBar.setVisibility(View.GONE);
+                if (!webView.getSettings().getLoadsImagesAutomatically()) {
+                    webView.getSettings().setLoadsImagesAutomatically(true);
                 }
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                // TODO Auto-generated method stub
-                super.onPageStarted(view, url, favicon);
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-                if (url.startsWith("http:") || url.startsWith("https:")) {
-                    view.loadUrl(url);
-                    return false;
+                if(url.equals(RxSPTool.getString(context, KEY_CURRENT_URL))) {
+                    webView.setScrollX(RxSPTool.getInt(context, KEY_CURRENT_X_POSITION));
+                    webView.setScrollY(RxSPTool.getInt(context, KEY_CURRENT_Y_POSITION));
                 }
-
-                // Otherwise allow the OS to handle things like tel, mailto, etc.
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                context.startActivity(intent);
-                return true;
             }
         });
-        webBase.setDownloadListener(new DownloadListener() {
-            public void onDownloadStart(String paramAnonymousString1, String paramAnonymousString2, String paramAnonymousString3, String paramAnonymousString4, long paramAnonymousLong) {
+        webView.setDownloadListener(new DownloadListener() {
+            public void onDownloadStart(String paramAnonymousString1, String paramAnonymousString2,
+                                        String paramAnonymousString3, String paramAnonymousString4,
+                                        long paramAnonymousLong) {
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
                 intent.setData(Uri.parse(paramAnonymousString1));
                 context.startActivity(intent);
+            }
+        });
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private static void configScrollYPosition(final Context context, final WebView webView) {
+        webView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                RxSPTool.putInt(context, KEY_CURRENT_X_POSITION, scrollX);
+                RxSPTool.putInt(context, KEY_CURRENT_Y_POSITION, scrollY);
+                RxSPTool.putString(context, KEY_CURRENT_URL, webView.getUrl());
             }
         });
     }

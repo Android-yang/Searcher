@@ -14,5 +14,6 @@
     <color name="c_ff541f">#ff541f</color>
     <color name="c_3a3a3a">#3a3a3a</color>
     <color name="c_f5f5f5">#f5f5f5</color>
+    <color name="webview_loading_color">#dd7560</color>
 
 </resources>

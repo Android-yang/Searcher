@@ -26,6 +26,6 @@ public class AboutAuthorActivity extends BaseActivity {
 
     @Override
     protected void onRightButtonClick() {
-        RxActivityTool.skipActivity(this, AuthorActivity.class);
+        RxActivityTool.skipActivity(this, AboutAuthorMoreActivity.class);
     }
 }
