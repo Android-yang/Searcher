@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.android.yangke.R;
 import com.android.yangke.base.BaseActivity;
@@ -21,8 +23,6 @@ import com.vondear.rxtools.view.RxToast;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-
 /**
  * author: yangke on 2018/5/19
  * weChat: ACE_5200125
@@ -31,10 +31,9 @@ import butterknife.BindView;
  */
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.navigation)
-    BottomNavigationView mBottomNavigationView;
-    @BindView(R.id.viewpager)
-    ViewPagerNoScroller mViewPager;
+    private BottomNavigationView mBottomNavigationView;
+    private ViewPagerNoScroller mViewPager;
+    private HomeFragment mHomeFragment;
 
     @Override
     protected int setLayoutId() {
@@ -43,8 +42,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        mViewPager = (ViewPagerNoScroller) findViewById(R.id.viewpager);
+        mBottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        setSwipeBackEnable(false);
     }
 
     @Override
@@ -74,10 +74,10 @@ public class MainActivity extends BaseActivity {
         viewPager.setOffscreenPageLimit(3);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         DashboardFragment dashBoardFragment = new DashboardFragment();
-        HomeFragment homeFragment = new HomeFragment();
+        mHomeFragment = new HomeFragment();
         MeFragment meFragment = new MeFragment();
-        adapter.addFragment(homeFragment);
         adapter.addFragment(dashBoardFragment);
+        adapter.addFragment(mHomeFragment);
         adapter.addFragment(meFragment);
         viewPager.setAdapter(adapter);
     }
@@ -88,12 +88,12 @@ public class MainActivity extends BaseActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.navigation_dashboard:
                     mViewPager.setCurrentItem(0, false);
                     statusBarDarkFont(false);
                     return true;
 
-                case R.id.navigation_dashboard:
+                case R.id.navigation_home:
                     mViewPager.setCurrentItem(1, false);
                     statusBarDarkFont(false);
                     return true;
@@ -131,6 +131,13 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        WebView homeFragmentWebView = mHomeFragment.getWebView();
+        if (homeFragmentWebView != null && keyCode == KeyEvent.KEYCODE_BACK && homeFragmentWebView.canGoBack()) {
+            //webView 可返回
+            homeFragmentWebView.goBack();
+            return true;
+        }
+
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if (RxToast.doubleClickExit()) {
                 finish();

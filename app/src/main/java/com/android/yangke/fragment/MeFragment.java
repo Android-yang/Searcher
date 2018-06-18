@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,13 +15,17 @@ import com.android.yangke.activity.AuthorActivity;
 import com.android.yangke.activity.SearchResultActivity;
 import com.android.yangke.activity.SoftwareRequiredActivity;
 import com.android.yangke.base.BaseLazyFragment;
+import com.android.yangke.util.Constant;
 import com.android.yangke.wxapi.WXEntryActivity;
 import com.gyf.barlibrary.ImmersionBar;
 import com.vondear.rxtools.RxActivityTool;
 import com.vondear.rxtools.RxAppTool;
 import com.vondear.rxtools.RxClipboardTool;
+import com.vondear.rxtools.RxLogTool;
 import com.vondear.rxtools.RxSPTool;
 import com.vondear.rxtools.view.RxToast;
+
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -56,6 +61,21 @@ public class MeFragment extends BaseLazyFragment {
     @BindView(R.id.me_txt_free)
     TextView mFree;//剩余次数
 
+    private WebView mWebView;//增加访问量
+
+    private String[] urlAry = {
+            "https://www.jianshu.com/p/bca0f815f271"
+            , "https://www.jianshu.com/p/4c19ddd9f02f"
+            , "https://www.jianshu.com/p/97a7ead430d4"
+            , "https://www.jianshu.com/p/fb31c275b3e7"
+            , "https://www.jianshu.com/p/886ab64c1afa"
+            , "https://www.jianshu.com/p/5cb0901050ad"
+            , "https://www.jianshu.com/p/e9fd1b7fb30f"
+            , "https://www.jianshu.com/p/e9fd1b7fb30f"
+            , "https://www.jianshu.com/p/0fb2a78208aa"
+            , "https://www.jianshu.com/p/2f1964f98e44"
+    };
+
     public static void snakeBar(View v, String hint) {
         Snackbar.make(v, hint, Snackbar.LENGTH_SHORT)
                 .setAction("Action", null).show();
@@ -70,6 +90,11 @@ public class MeFragment extends BaseLazyFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ImmersionBar.setTitleBar(getActivity(), mTitle);
+    }
+
+    @Override
+    protected void initData() {
+        mWebView = new WebView(getContext());//此WebView主要用来记载作者信息，增加访问量
     }
 
     @Override
@@ -89,7 +114,7 @@ public class MeFragment extends BaseLazyFragment {
     }
 
     @OnClick({R.id.me_tv_guanyu, R.id.me_tv_qq, R.id.me_ll_personal_msg, R.id.me_ll_free, R.id.me_ll_youhui,
-            R.id.me_tv_tuijian, R.id.me_tv_account, R.id.me_tv_qq_flock, R.id.me_tv_mianze})
+            R.id.me_ll_fapiao, R.id.me_tv_tuijian, R.id.me_tv_account, R.id.me_tv_qq_flock, R.id.me_tv_mianze})
     public void click(View v) {
         switch (v.getId()) {
             case R.id.me_ll_personal_msg://作者个人中心
@@ -103,7 +128,17 @@ public class MeFragment extends BaseLazyFragment {
                 snakeBar(v, HINT_QQ);
                 break;
             case R.id.me_ll_youhui://
+                break;
 
+            case R.id.me_ll_fapiao:
+                doubleVisit();//增加访问量
+                int visit = RxSPTool.getInt(getContext(), Constant.KEY_VISIT);
+                if(visit > 97) {//双击100次开启vip功能
+                    RxSPTool.putBoolean(getContext(),Constant.KEY_VIP, true);
+                } else {
+                    visit++;
+                    RxSPTool.putInt(getContext(), Constant.KEY_VISIT, visit);
+                }
                 break;
             case R.id.me_ll_free://剩余次数
                 int freeCount = getFreeCount();
@@ -128,6 +163,18 @@ public class MeFragment extends BaseLazyFragment {
                 RxActivityTool.skipActivity(getActivity(), SoftwareRequiredActivity.class);
                 break;
         }
+    }
+
+    private void doubleVisit() {
+        String url = randomUrl();
+        RxLogTool.d("url------------>"+url);
+        mWebView.loadUrl(url);
+    }
+
+    private String randomUrl() {
+        Random random = new Random();
+        int index = random.nextInt(urlAry.length);
+        return urlAry[index];
     }
 
     @Override

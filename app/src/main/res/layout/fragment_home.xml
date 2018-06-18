@@ -1,27 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <include layout="@layout/base_webview"/>
-
-    <Button
-        android:id="@+id/red_money"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="复制作者QQ群"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="546dp" />
+    android:layout_height="match_parent"
+    android:background="@drawable/girl">
 
 
-    <Button
-        android:id="@+id/author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="复制作者QQ" />
+    <include layout="@layout/base_webview" />
+
+    <TextView
+        android:id="@+id/home_hint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#7f000000"
+        android:gravity="center"
+        android:text="高级功能请找群主开启\n3368168604\n更精彩！"
+        android:textColor="@color/webview_loading_color"
+        android:textSize="@dimen/sp18" />
 
 </RelativeLayout>
