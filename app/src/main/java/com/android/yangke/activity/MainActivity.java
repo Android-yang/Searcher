@@ -45,6 +45,7 @@ public class MainActivity extends BaseActivity {
         mViewPager = (ViewPagerNoScroller) findViewById(R.id.viewpager);
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        setSwipeBackEnable(false);
     }
 
     @Override
