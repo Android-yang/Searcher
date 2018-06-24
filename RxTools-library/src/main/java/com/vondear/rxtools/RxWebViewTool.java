@@ -16,6 +16,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.vondear.rxtools.view.RxToast;
+
 /**
  *
  * @author Vondear
@@ -71,7 +73,9 @@ public class RxWebViewTool {
         webSettings.setDomStorageEnabled(true);//是否开启本地DOM存储  鉴于它的安全特性（任何人都能读取到它，尽管有相应的限制，将敏感数据存储在这里依然不是明智之举），Android 默认是关闭该功能的。
         webView.setSaveEnabled(true);
         webView.setKeepScreenOn(true);
-        configScrollYPosition(context, webView);//配置webview当期滚动的y位置
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            configScrollYPosition(context, webView);//配置webview当期滚动的y位置
+        }
 
         progressBar.setMax(100);
 
@@ -89,6 +93,21 @@ public class RxWebViewTool {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if(url.contains("magnet:?xt") || url.contains("thunder:")) {
+                    if (!RxAppTool.appIsInstalled(context, "com.xunlei.downloadprovider")) {
+                        RxToast.normal("迅雷没有安装或版本过低，链接已复制到剪切板");
+                        return true;
+                    }
+
+                    RxClipboardTool.copyText(context, url);
+                    RxActivityTool.action2Thunder(context);
+                    return true;
+                }
+                    return super.shouldOverrideUrlLoading(view, url);
             }
 
             @Override

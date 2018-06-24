@@ -1,5 +1,7 @@
 package com.android.yangke.base;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -10,12 +12,14 @@ import java.io.Serializable;
  */
 public class BaseResponse implements Serializable {
     //服务器返回的状态码
-    public int mStatus = 0;
+    @SerializedName("status")
+    public int mStatus;
 
     //服务器返回的描述信息
+    @SerializedName("msg")
     public String mMessage;
 
-    //服务器返回的版本号，预留
-    public String mVersion;
-
+    public static final BaseResponse NULL = new BaseResponse() {
+        private static final long serialVersionUID = -1057834305902264760L;
+    };
 }

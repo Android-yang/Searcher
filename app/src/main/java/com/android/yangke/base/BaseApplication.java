@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.android.yangke.util.GsonTools;
 import com.android.yangke.vo.DaoMaster;
 import com.android.yangke.vo.DaoSession;
 import com.vondear.rxtools.RxTool;
@@ -22,7 +23,7 @@ import java.util.ListIterator;
  */
 public class BaseApplication extends Application {
 
-    public static BaseApplication instance;
+    private static BaseApplication instance;
     public static Handler mMainHandler = new Handler(Looper.getMainLooper());
 
     private final LinkedHashMap<Class<? extends BaseActivity>, WeakReference<Context>> contextObjects =
@@ -46,7 +47,7 @@ public class BaseApplication extends Application {
 
         // 工具类初始化
         RxTool.init(this);
-
+        GsonTools.init();
         iniDaoMaster();
     }
 
@@ -103,7 +104,7 @@ public class BaseApplication extends Application {
         return null;
     }
 
-    public synchronized void resetActiveContext(Class<? extends BaseActivity> className) {
+    public synchronized void resetActiveContext(Class<? extends AbsActivity> className) {
         contextObjects.remove(className);
     }
 }

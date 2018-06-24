@@ -390,8 +390,7 @@ public class RxDeviceTool {
      * @param context
      * @return
      */
-    public static int getAppVersionNo(Context context) {
-        // 获取packagemanager的实例
+    public static int getAppVersionCode(Context context) {
         PackageManager packageManager = context.getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
         PackageInfo packInfo = null;

@@ -12,4 +12,6 @@ public class Constant implements Serializable {
     public static final String KEY_VIP = "key_vip";
     public static final String KEY_VISIT = "key_visit";
 
+    public static  boolean LOG_LIFECYCLE = true;
+
 }

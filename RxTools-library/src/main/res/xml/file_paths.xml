@@ -17,7 +17,7 @@
 
     <external-files-path
         name="external_file_path"
-        path=""/>
+        path="/storage/emulated/0/Android/data/com.android.yangke/files/search/search.apk"/>
 
     <external-cache-path
         name="external_cache_path"

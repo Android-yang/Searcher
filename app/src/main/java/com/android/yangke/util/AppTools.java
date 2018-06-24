@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.vondear.rxtools.RxAppTool;
+
 import java.util.List;
 
 /**
@@ -14,24 +16,7 @@ import java.util.List;
  */
 public class AppTools {
     //闪屏时长
-    public static final int SPLASH_SCREEN_DURATION = 1000;
+    public static final int SPLASH_SCREEN_DURATION = 700;
 
-    /**
-     *
-     * @param context context
-     * @param packageName 应用报名
-     * @return true 标志安装了此 APP，false 反之
-     */
-    public static boolean appIsInstalled(Context context, String packageName) {
-        final PackageManager packageManager = context.getPackageManager();
-        List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
-        if (packageInfos != null) {
-            for (PackageInfo packageInfo : packageInfos) {
-                if(packageInfo.packageName.equals(packageName)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+
 }

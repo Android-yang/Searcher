@@ -2,6 +2,7 @@ package com.vondear.rxtools;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -251,5 +252,16 @@ public class RxActivityTool {
             }
         }
         return "no " + packageName;
+    }
+
+    /**
+     * 启动到迅雷
+     * @param context
+     */
+    public static void action2Thunder(Context context) {
+        Intent intent = new Intent();
+        ComponentName cmp = new ComponentName("com.xunlei.downloadprovider", "com.xunlei.downloadprovider.launch.LaunchActivity");
+        intent.setComponent(cmp);
+        context.startActivity(intent);
     }
 }

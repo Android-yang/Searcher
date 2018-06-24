@@ -20,6 +20,8 @@ import com.android.yangke.vo.MagnetVo;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.vondear.rxtools.RxActivityTool;
+import com.vondear.rxtools.RxAppTool;
 import com.vondear.rxtools.RxClipboardTool;
 import com.vondear.rxtools.RxSPTool;
 import com.vondear.rxtools.view.RxToast;
@@ -106,7 +108,7 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 MagnetVo vo = (MagnetVo) adapter.getItem(position);
-                if (!AppTools.appIsInstalled(SearchResultActivity.this, getString(R.string.thunder_package))) {
+                if (!RxAppTool.appIsInstalled(SearchResultActivity.this, getString(R.string.thunder_package))) {
                     MeFragment.snakeBar(mRecyclerView, getString(R.string.hint_thunder_no_installed));
                     return;
                 }
@@ -118,7 +120,7 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
                 }
 
                 RxClipboardTool.copyText(SearchResultActivity.this, vo.mMagnet);
-                action2Thunder();
+                RxActivityTool.action2Thunder(getContext());
             }
         });
 
@@ -159,13 +161,6 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
         int allCount = RxSPTool.getInt(getContext(), SearchResultActivity.KEY_ALL_COUNT);
         int freeCount = (-1 ==  allCount ? SearchResultActivity.FREE_COUNT : allCount);
         return freeCount;
-    }
-
-    private void action2Thunder() {
-        Intent intent = new Intent();
-        ComponentName cmp = new ComponentName(getString(R.string.thunder_package), "com.xunlei.downloadprovider.launch.LaunchActivity");
-        intent.setComponent(cmp);
-        startActivity(intent);
     }
 
     private List mDataList = new ArrayList();

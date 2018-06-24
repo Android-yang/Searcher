@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.android.yangke">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.INSTALL_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:name=".base.BaseApplication"
@@ -38,6 +42,9 @@
             android:exported="true"
             android:launchMode="singleTask"></activity>
         <activity android:name=".activity.AuthorActivity"></activity>
+
+        <service android:name=".service.ApkDownloadService" />
+
     </application>
 
 </manifest>
