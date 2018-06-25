@@ -104,7 +104,8 @@ public class ApkDownloadService extends Service {
         String download_hint = "已下载：" + (int) progress  + "%";
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel channel = new NotificationChannel(channelID, channelName,
+                    NotificationManager.IMPORTANCE_LOW);
             Notification.Builder builder = new Notification.Builder(context, channelID);
             Notification notification = builder
                     .setSmallIcon(android.R.drawable.stat_sys_download)//smallIcon 必备
