@@ -2,8 +2,9 @@ package com.android.yangke.activity;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.os.Handler;
+import android.os.CountDownTimer;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.android.yangke.R;
@@ -12,6 +13,7 @@ import com.android.yangke.util.AppTools;
 import com.vondear.rxtools.RxActivityTool;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * author: yangke on 2018/6/2
@@ -23,6 +25,10 @@ public class SplashActivity extends BaseActivity {
 
     @BindView(R.id.splash_tv_logo)
     TextView mTvLogo;
+    @BindView(R.id.splash_txt_skip)
+    TextView mTxtSkip;
+    private CountDownTimer mSkipTimer;
+
 
     /**
      * TODO 如果项目使用的字体比较多，此函数可以封装在工具类中
@@ -43,9 +49,27 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        iniSplashScreenImage();
+        mSkipTimer = iniSplashImage();
         setSwipeBackEnable(false);
     }
+
+    private CountDownTimer iniSplashImage() {
+        CountDownTimer timer = new CountDownTimer(AppTools.SPLASH_SCREEN_DURATION, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long second = millisUntilFinished / 1000;
+                mTxtSkip.setText(second + "s 丨 跳过");
+            }
+
+            @Override
+            public void onFinish() {
+                toMain();
+            }
+        };
+        timer.start();
+        return timer;
+    }
+
 
     @Override
     protected void initView() {
@@ -54,20 +78,26 @@ public class SplashActivity extends BaseActivity {
         textSetTypeface(mTvLogo, this, "方正启体简体.ttf");
     }
 
-    /**
-     * 初始化闪屏图片
-     */
-    private void iniSplashScreenImage() {
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                toMain();
-            }
-        }, AppTools.SPLASH_SCREEN_DURATION);
-    }
-
     private void toMain() {
         RxActivityTool.skipActivity(SplashActivity.this, MainActivity.class);
         finish();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mSkipTimer.cancel();
+        finish();
+    }
+
+    @OnClick({R.id.splash_txt_skip})
+    public void click(View v) {
+        switch (v.getId()) {
+            case R.id.splash_txt_skip:
+                mSkipTimer.cancel();
+                toMain();
+                break;
+        }
     }
 
     @Override

@@ -16,7 +16,5 @@ import java.util.List;
  */
 public class AppTools {
     //闪屏时长
-    public static final int SPLASH_SCREEN_DURATION = 700;
-
-
+    public static final int SPLASH_SCREEN_DURATION = 3000;
 }

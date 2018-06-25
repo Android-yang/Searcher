@@ -4,6 +4,20 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
+    <TextView
+        android:id="@+id/splash_txt_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/bc_splash_txt_timer"
+        android:paddingBottom="@dimen/dp5"
+        android:paddingLeft="@dimen/dp10"
+        android:paddingRight="@dimen/dp10"
+        android:paddingTop="@dimen/dp5"
+        android:text="3丨跳过"
+        android:textColor="@android:color/white" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,10 +33,10 @@
             android:layout_gravity="center"
             android:drawableLeft="@mipmap/ic_launcher"
             android:drawablePadding="@dimen/dp8"
-            android:typeface="monospace"
             android:gravity="center"
+            android:text="种子搜索器"
             android:textSize="30sp"
-            android:text="种子搜索器" />
+            android:typeface="monospace" />
     </RelativeLayout>
 
 </RelativeLayout>
