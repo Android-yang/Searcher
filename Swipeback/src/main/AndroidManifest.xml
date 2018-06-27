@@ -3,6 +3,4 @@
     package="me.imid.swipebacklayout.lib"
     tools:ignore="GradleOverrides">
 
-    <application />
-
 </manifest>

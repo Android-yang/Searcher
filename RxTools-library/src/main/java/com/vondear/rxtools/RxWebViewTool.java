@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
@@ -19,7 +17,6 @@ import android.widget.ProgressBar;
 import com.vondear.rxtools.view.RxToast;
 
 /**
- *
  * @author Vondear
  * @date 2017/4/1
  */
@@ -80,7 +77,7 @@ public class RxWebViewTool {
         progressBar.setMax(100);
 
         //设置此方法可在WebView中打开链接，反之用浏览器打开
-        webView.setWebChromeClient(new WebChromeClient(){
+        webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
@@ -97,7 +94,7 @@ public class RxWebViewTool {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(url.contains("magnet:?xt") || url.contains("thunder:")) {
+                if (url.contains("magnet:?xt") || url.contains("thunder:")) {
                     if (!RxAppTool.appIsInstalled(context, "com.xunlei.downloadprovider")) {
                         RxToast.normal("迅雷没有安装或版本过低，链接已复制到剪切板");
                         return true;
@@ -107,7 +104,7 @@ public class RxWebViewTool {
                     RxActivityTool.action2Thunder(context);
                     return true;
                 }
-                    return super.shouldOverrideUrlLoading(view, url);
+                return super.shouldOverrideUrlLoading(view, url);
             }
 
             @Override
@@ -117,7 +114,7 @@ public class RxWebViewTool {
                 if (!webView.getSettings().getLoadsImagesAutomatically()) {
                     webView.getSettings().setLoadsImagesAutomatically(true);
                 }
-                if(url.equals(RxSPTool.getString(context, KEY_CURRENT_URL))) {
+                if (url.equals(RxSPTool.getString(context, KEY_CURRENT_URL))) {
                     webView.setScrollX(RxSPTool.getInt(context, KEY_CURRENT_X_POSITION));
                     webView.setScrollY(RxSPTool.getInt(context, KEY_CURRENT_Y_POSITION));
                 }

@@ -37,4 +37,31 @@
         <item name="android:windowEnterAnimation">@anim/anim_top_2_bottom</item>
         <item name="android:windowExitAnimation">@anim/anim_right_2_left</item>
     </style>
+
+    <!--个人中心 item-->
+    <style name="me_item_property">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/activity_horizontal_margin</item>
+    </style>
+
+    <!--个人中心 item setting-->
+    <style name="me_item_setting">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingBottom">@dimen/dp10</item>
+        <item name="android:paddingTop">@dimen/dp10</item>
+        <item name="android:textColor">@color/c_2c241f</item>
+        <item name="android:drawablePadding">@dimen/activity_horizontal_margin</item>
+    </style>
+    <!--个人中心 item recommend-->
+    <style name="me_item_recommend" parent="me_item_setting"></style>
 </resources>

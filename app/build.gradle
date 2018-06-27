@@ -25,10 +25,10 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled true //启动代码压缩
             zipAlignEnabled true
             //Zipalign优化
-            shrinkResources true
+            shrinkResources true//启动资源压缩
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

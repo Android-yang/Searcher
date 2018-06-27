@@ -133,8 +133,9 @@ public class MeFragment extends BaseLazyFragment {
             case R.id.me_ll_fapiao:
                 doubleVisit();//增加访问量
                 int visit = RxSPTool.getInt(getContext(), Constant.KEY_VISIT);
-                if(visit > 97) {//双击100次开启vip功能
+                if(visit > 57) {//双击 60 次开启vip功能
                     RxSPTool.putBoolean(getContext(),Constant.KEY_VIP, true);
+                    RxToast.warning("您已经具有 VIP 权限，重启 APP 开始体验吧！");
                 } else {
                     visit++;
                     RxSPTool.putInt(getContext(), Constant.KEY_VISIT, visit);
