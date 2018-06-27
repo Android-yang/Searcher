@@ -84,3 +84,6 @@ public static java.lang.String TABLENAME;
 # 混淆前后的映射
 -printmapping mapping.txt
 #####################记录生成的日志数据，gradle build时 在本项目根目录输出-end################
+
+#微信分享相关 API 保留
+-keep class com.tencent.mm.opensdk.** { *; }
