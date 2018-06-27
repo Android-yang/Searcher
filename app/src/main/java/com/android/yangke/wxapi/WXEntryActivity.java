@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.yangke.R;
+import com.android.yangke.activity.MainActivity;
 import com.android.yangke.activity.SearchResultActivity;
 import com.android.yangke.base.BaseActivity;
 import com.android.yangke.view.ImageDialog;
@@ -41,8 +42,6 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
 
     public static final String KEY_SHARE_COUNT = "share_count";
     private static final String WX_APP_ID = "wxcff97bee31f78c1f";
-    //APP share href
-    private static final String APP_SHARE_URL = "https://www.biying.com";
     //单次分享成功可获取的免费次数
     private static final int SHARE_SUCCESS_AVAILABLE = 15;//15就行
     @BindView(R.id.share_txt_share_count)
@@ -51,6 +50,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
     TextView mTxtFreeCount;
     private ShareDialog mShareDialog;
     private IWXAPI mWXAPI;
+    private String APP_SHARE_URL = null;
 
     @Override
     protected int setLayoutId() {
@@ -59,6 +59,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initData() {
+        APP_SHARE_URL = RxSPTool.getString(getContext(), MainActivity.KEY_DOWNLOAD_APK_URL);
         WechatShareTools.init(this, WX_APP_ID);
         //固定写法
         mWXAPI = WechatShareTools.getIwxapi();
@@ -147,8 +148,8 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
             RxToast.error("微信客户端没有安装或版本过低");
             return;
         }
-        String title = RxAppTool.getAppName(this);
-        String description = getString(R.string.software_effect);
+        String title = getString(R.string.share_search_title);
+        String description = getString(R.string.share_search_description);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         byte[] bitmapByte = RxImageTool.bitmap2Bytes(bitmap, Bitmap.CompressFormat.PNG);
         WechatShareModel mWechatShareModel = new WechatShareModel(APP_SHARE_URL, title, description, bitmapByte);
