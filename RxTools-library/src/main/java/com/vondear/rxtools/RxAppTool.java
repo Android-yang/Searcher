@@ -3,6 +3,7 @@ package com.vondear.rxtools;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,10 @@ import android.util.Log;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * @author vondear
@@ -734,21 +739,40 @@ public class RxAppTool {
 //        }
     }
 
+    private static final String INSTALLED = "installed";//APP 已安装
+
     /**
-     *
-     * @param context context
+     * @param context     context
      * @param packageName 应用报名
      * @return true 标志安装了此 APP，false 反之
      */
-    public static boolean appIsInstalled(Context context, String packageName) {
-        final PackageManager packageManager = context.getPackageManager();
-        List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
-        if (packageInfos != null) {
-            for (PackageInfo packageInfo : packageInfos) {
-                if(packageInfo.packageName.equals(packageName)){
-                    return true;
+    public static boolean appIsInstalled(final Context context, final String packageName, Dialog dialog) {
+        Future<String> future = Executors.newSingleThreadExecutor().submit(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                final PackageManager packageManager = context.getPackageManager();
+                List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
+                if (packageInfos != null) {
+                    for (PackageInfo packageInfo : packageInfos) {
+                        if (packageInfo.packageName.equals(packageName)) {
+                            return INSTALLED;
+                        }
+                    }
                 }
+                return "";
             }
+        });
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+        try {
+            if (INSTALLED.equals(future.get())) {
+                return true;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
         return false;
     }

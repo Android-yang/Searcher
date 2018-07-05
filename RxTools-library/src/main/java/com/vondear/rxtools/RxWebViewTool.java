@@ -95,7 +95,7 @@ public class RxWebViewTool {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.contains("magnet:?xt") || url.contains("thunder:")) {
-                    if (!RxAppTool.appIsInstalled(context, "com.xunlei.downloadprovider")) {
+                    if (!RxAppTool.appIsInstalled(context, "com.xunlei.downloadprovider", null)) {
                         RxToast.normal("迅雷没有安装或版本过低，链接已复制到剪切板");
                         return true;
                     }

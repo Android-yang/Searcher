@@ -25,6 +25,7 @@ import com.vondear.rxtools.RxAppTool;
 import com.vondear.rxtools.RxClipboardTool;
 import com.vondear.rxtools.RxSPTool;
 import com.vondear.rxtools.view.RxToast;
+import com.vondear.rxtools.view.dialog.RxDialogLoading;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,8 +108,10 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                RxDialogLoading loading = new RxDialogLoading(SearchResultActivity.this);
+                loading.show();
                 MagnetVo vo = (MagnetVo) adapter.getItem(position);
-                if (!RxAppTool.appIsInstalled(SearchResultActivity.this, getString(R.string.thunder_package))) {
+                if (!RxAppTool.appIsInstalled(SearchResultActivity.this, getString(R.string.thunder_package), loading)) {
                     MeFragment.snakeBar(mRecyclerView, getString(R.string.hint_thunder_no_installed));
                     return;
                 }
