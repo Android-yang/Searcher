@@ -1,6 +1,7 @@
 package com.vondear.rxtools.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -383,12 +384,13 @@ public class RxToast {
         mToast.show();
     }
 
-    public static boolean doubleClickExit() {
+    public static boolean doubleClickExit(Activity activity) {
         if ((System.currentTimeMillis() - mExitTime) > 2000) {
             RxToast.normal("再按一次退出");
             mExitTime = System.currentTimeMillis();
             return false;
         }
+        activity.finish();
         return true;
     }
 }

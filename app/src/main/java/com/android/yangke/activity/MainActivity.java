@@ -260,20 +260,15 @@ public class MainActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         WebView homeFragmentWebView = mHomeFragment.getWebView();
         if (homeFragmentWebView != null && keyCode == KeyEvent.KEYCODE_BACK && homeFragmentWebView.canGoBack()) {
-            //webView 可返回
-            homeFragmentWebView.goBack();
-            return true;
-        }
-
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (RxToast.doubleClickExit()) {
-                finish();
-            }
-            return true;
+            homeFragmentWebView.goBack(); //webView goBack
         }
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void onBackPressed() {
+        RxToast.doubleClickExit(this);
+    }
 
     @Override
     protected void onDestroy() {
