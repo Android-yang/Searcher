@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/c_ff541f"
+    android:drawableLeft="@drawable/no_network"
+    android:drawablePadding="@dimen/dp4"
+    android:drawableRight="@drawable/icon_next"
+    android:gravity="center|left"
+    android:padding="@dimen/sp16"
+    android:text="网络不给力，请检查网络设置"
+    android:textColor="@color/white"
+    android:textSize="@dimen/sp14" />

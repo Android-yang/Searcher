@@ -1,4 +1,4 @@
-package com.android.yangke.util;
+package com.android.yangke.tool;
 
 import java.io.Serializable;
 

@@ -4,7 +4,7 @@ package com.android.yangke.http;
 import android.text.TextUtils;
 
 import com.android.yangke.base.BaseResponse;
-import com.android.yangke.util.GsonTools;
+import com.android.yangke.tool.GsonTool;
 import com.orhanobut.logger.Logger;
 
 import org.apache.http.conn.ssl.SSLSocketFactory;
@@ -200,7 +200,7 @@ abstract public class NetworkTask implements Serializable, ITask {
             return false;
         }
         try {
-            response = GsonTools.Gson2Bean(strResponse, key.getClazz());
+            response = GsonTool.Gson2Bean(strResponse, key.getClazz());
 
             printResponse(strResponse);
         } catch (Exception e) {
@@ -215,7 +215,7 @@ abstract public class NetworkTask implements Serializable, ITask {
 
     private void printResponse(String str) {
         Logger.i("response", "API=" + key.name());
-        String[] formattedJsons = GsonTools.GsonString(str).split("\n");
+        String[] formattedJsons = GsonTool.GsonString(str).split("\n");
         StringBuilder builder = new StringBuilder();
         for (String line : formattedJsons) {
             builder.append(line + '\n');

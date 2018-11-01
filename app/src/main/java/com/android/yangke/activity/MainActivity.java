@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +15,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewStub;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.webkit.WebView;
 
 import com.android.yangke.R;
@@ -27,12 +34,16 @@ import com.android.yangke.http.ResponseCode;
 import com.android.yangke.http.ServiceMap;
 import com.android.yangke.listener.OnPageChangeListener_;
 import com.android.yangke.service.ApkDownloadService;
+import com.android.yangke.tool.ViewTool;
 import com.android.yangke.view.ViewPagerNoScroller;
 import com.android.yangke.vo.AppVersionVo;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.FileCallback;
+import com.vondear.rxtools.RxActivityTool;
+import com.vondear.rxtools.RxBarTool;
 import com.vondear.rxtools.RxDeviceTool;
 import com.vondear.rxtools.RxFileTool;
+import com.vondear.rxtools.RxNetTool;
 import com.vondear.rxtools.RxPermissionsTool;
 import com.vondear.rxtools.RxSPTool;
 import com.vondear.rxtools.view.RxToast;
@@ -53,35 +64,67 @@ import okhttp3.Call;
  */
 public class MainActivity extends BaseActivity {
 
-    private static final String APK_NAME = "search.apk";
     private BottomNavigationView mBottomNavigationView;
     private ViewPagerNoScroller mViewPager;
     private HomeFragment mHomeFragment;
-
+    private View mNoNetwork;
 
     //忽略版本升级
     private static final String KEY_VERSION_IGNORE = "version_ignore";
+    private static final String APK_NAME = "search.apk";
+    private static final int NO_NETWORK_ANIMATION_DURATION = 700;
+
 
     @Override
     protected int setLayoutId() {
         return R.layout.activity_main;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initData() {
+        super.initData();
         mViewPager = (ViewPagerNoScroller) findViewById(R.id.viewpager);
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        ViewStub viewStubNoNetwork = (ViewStub) findViewById(R.id.viewStub_no_network);
+        mNoNetwork = viewStubNoNetwork.inflate();
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         setSwipeBackEnable(false);
 
         checkVersionCode();
-        RxToast.normal("-----------");
         RxPermissionsTool
                 .with(this)
                 .addPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .initPermission();
     }
 
+    private void handleNoNetwork() {
+        if (RxNetTool.isAvailable(this)) {
+            int topMargin = -(mNoNetwork.getHeight() + RxBarTool.getStatusBarHeight(this));
+            TranslateAnimation bottomToTop = new TranslateAnimation(0, 0, 0, topMargin);
+            bottomToTop.setDuration(NO_NETWORK_ANIMATION_DURATION);
+            mNoNetwork.startAnimation(bottomToTop);
+            ViewTool.setViewGone(mNoNetwork);
+            return;
+        }
+
+        ViewTool.setViewVisible(mNoNetwork);
+        Animation bottomToTop = AnimationUtils.loadAnimation(this, R.anim.anim_top_2_bottom);
+        bottomToTop.setDuration(NO_NETWORK_ANIMATION_DURATION);
+        mNoNetwork.startAnimation(bottomToTop);
+
+        mNoNetwork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RxActivityTool.skipActivity(MainActivity.this, NetworkErrorActivity.class);
+            }
+        });
+    }
+
+    @Override
+    public void onNetworkChangeListener(int status) {
+        handleNoNetwork();
+    }
 
     private void checkVersionCode() {
         Request.startRequest(new BaseParam() {
@@ -119,8 +162,7 @@ public class MainActivity extends BaseActivity {
             if (ignoreVersion == versionData.mVersion) {
                 return;
             }
-            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            AlertDialog dialog = builder
+            new AlertDialog.Builder(MainActivity.this)
                     .setCancelable(false)
                     .setTitle("我们更新了新版，快来体验！")
                     .setMessage(vo.mMessage)

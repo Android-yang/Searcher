@@ -1,7 +1,6 @@
 package com.android.yangke.fragment;
 
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +12,7 @@ import android.widget.Toast;
 
 import com.android.yangke.R;
 import com.android.yangke.base.BaseLazyFragment;
-import com.android.yangke.util.Constant;
+import com.android.yangke.tool.Constant;
 import com.vondear.rxtools.RxSPTool;
 import com.vondear.rxtools.RxWebViewTool;
 import com.vondear.rxtools.view.RxToast;

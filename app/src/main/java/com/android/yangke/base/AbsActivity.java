@@ -20,7 +20,7 @@ import com.android.yangke.http.NetworkTask;
 import com.android.yangke.http.RequestListener;
 import com.android.yangke.http.SimpleRequestListenerSwitcher;
 import com.android.yangke.http.TaskManager;
-import com.android.yangke.util.Constant;
+import com.android.yangke.tool.Constant;
 import com.gyf.barlibrary.ImmersionBar;
 import com.orhanobut.logger.Logger;
 import com.vondear.rxtools.RxDeviceTool;

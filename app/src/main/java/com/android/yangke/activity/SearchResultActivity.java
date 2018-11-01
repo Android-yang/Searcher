@@ -1,6 +1,5 @@
 package com.android.yangke.activity;
 
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +14,6 @@ import com.android.yangke.fragment.DashboardFragment;
 import com.android.yangke.fragment.MeFragment;
 import com.android.yangke.http.RequestListener;
 import com.android.yangke.http.SearchTask;
-import com.android.yangke.util.AppTools;
 import com.android.yangke.vo.MagnetVo;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;

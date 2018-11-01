@@ -15,7 +15,7 @@ import com.android.yangke.activity.AuthorActivity;
 import com.android.yangke.activity.SearchResultActivity;
 import com.android.yangke.activity.SoftwareRequiredActivity;
 import com.android.yangke.base.BaseLazyFragment;
-import com.android.yangke.util.Constant;
+import com.android.yangke.tool.Constant;
 import com.android.yangke.wxapi.WXEntryActivity;
 import com.gyf.barlibrary.ImmersionBar;
 import com.vondear.rxtools.RxActivityTool;

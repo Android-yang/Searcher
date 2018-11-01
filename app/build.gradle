@@ -87,5 +87,5 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2'
 
     //文件上传，下载框架
-    implementation'com.lzy.net:okgo:2.1.4'
+    implementation 'com.lzy.net:okgo:2.1.4'
 }

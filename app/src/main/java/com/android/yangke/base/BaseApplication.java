@@ -5,7 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.android.yangke.util.GsonTools;
+import com.android.yangke.tool.GsonTool;
 import com.android.yangke.vo.DaoMaster;
 import com.android.yangke.vo.DaoSession;
 import com.vondear.rxtools.RxTool;
@@ -47,7 +47,7 @@ public class BaseApplication extends Application {
 
         // 工具类初始化
         RxTool.init(this);
-        GsonTools.init();
+        GsonTool.init();
         iniDaoMaster();
     }
 

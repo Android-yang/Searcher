@@ -5,6 +5,8 @@
 
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="status_bar_height">0dp</dimen>
+
 
     <!--dp 常用内外边距-->
     <dimen name="dp1">1dp</dimen>

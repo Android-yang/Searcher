@@ -27,4 +27,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/navigation" />
 
+    <ViewStub
+        android:id="@+id/viewStub_no_network"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/status_bar_height"
+        android:layout="@layout/no_network" />
+
 </RelativeLayout>
