@@ -38,6 +38,11 @@ android {
             //Zipalign优化
             shrinkResources true//启动资源压缩
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("Boolean", "ENVIRONMENT", "true")
+        }
+
+        debug {
+            buildConfigField("Boolean", "ENVIRONMENT", "false")
         }
     }
 
