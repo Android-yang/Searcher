@@ -2,10 +2,14 @@ package com.android.yangke.fragment;
 
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
+import android.view.Display;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
@@ -20,6 +24,8 @@ import com.android.yangke.base.BaseApplication;
 import com.android.yangke.base.BaseLazyFragment;
 import com.android.yangke.tool.Constant;
 import com.android.yangke.tool.ViewTool;
+import com.android.yangke.view.TapTargetView.TapTarget;
+import com.android.yangke.view.TapTargetView.TapTargetSequence;
 import com.android.yangke.wxapi.WXEntryActivity;
 import com.gyf.barlibrary.ImmersionBar;
 import com.vondear.rxtools.RxActivityTool;
@@ -172,8 +178,54 @@ public class MeFragment extends BaseLazyFragment {
 
     @Override
     protected void initView() {
-        super.initView();
         mVersionCode.setText("版本V" + RxAppTool.getAppVersionName(getContext()));
         ViewTool.INSTANCE.textSetTypeface(mTvAuthorMsg, BaseApplication.instance(), Constant.INSTANCE.getFONT_FOUNDER_SIMPLIFIED());
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    protected void onVisible() {
+        if (RxSPTool.isFirstOpenApp(BaseApplication.instance(), Constant.FIRST_OPEN_APP)) {
+            showTapTarget();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void showTapTarget() {
+        // 引导用户使用
+        TapTargetSequence sequence = new TapTargetSequence(getActivity())
+                .targets(
+                        TapTarget.forView(mTvMsg, "进群领取福利")
+                                .dimColor(android.R.color.black)
+                                .outerCircleColor(R.color.c_ff541f)
+                                .drawShadow(true)
+                                .id(1),
+                        TapTarget.forView(mFree, "剩余免费试用次数")
+                                .dimColor(android.R.color.black)
+                                .outerCircleColor(R.color.c_ff541f)
+                                .drawShadow(true)
+                                .id(2)
+//                        , TapTarget.forBounds(target, "点击这里切换新闻", "双击返回顶部\n再次双击刷新当前页面")
+//                                .dimColor(android.R.color.black)
+//                                .outerCircleColor(R.color.c_ff541f)
+//                                .transparentTarget(true)
+//                                .drawShadow(true)
+//                                .cancelable(false)
+//                                .id(3)
+                ).listener(new TapTargetSequence.Listener() {
+                    @Override
+                    public void onSequenceFinish() {
+                        RxSPTool.putBoolean(BaseApplication.instance(),Constant.FIRST_OPEN_APP,false);
+                    }
+
+                    @Override
+                    public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) { }
+
+                    @Override
+                    public void onSequenceCanceled(TapTarget lastTarget) {
+                        RxSPTool.putBoolean(BaseApplication.instance(),Constant.FIRST_OPEN_APP,false);
+                    }
+                });
+        sequence.start();
     }
 }

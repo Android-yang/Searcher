@@ -4,7 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,9 +25,9 @@ import android.webkit.WebView;
 
 import com.android.yangke.R;
 import com.android.yangke.base.BaseActivity;
-import com.android.yangke.fragment.DashboardFragment;
 import com.android.yangke.fragment.HomeFragment;
 import com.android.yangke.fragment.MeFragment;
+import com.android.yangke.fragment.SearchFragment;
 import com.android.yangke.http.BaseParam;
 import com.android.yangke.http.NetworkTask;
 import com.android.yangke.http.Request;
@@ -34,11 +35,12 @@ import com.android.yangke.http.ResponseCode;
 import com.android.yangke.http.ServiceMap;
 import com.android.yangke.listener.OnPageChangeListener_;
 import com.android.yangke.service.ApkDownloadService;
+import com.android.yangke.tool.Constant;
 import com.android.yangke.tool.ViewTool;
+import com.android.yangke.view.TapTargetView.TapTarget;
+import com.android.yangke.view.TapTargetView.TapTargetSequence;
 import com.android.yangke.view.ViewPagerNoScroller;
 import com.android.yangke.vo.AppVersionVo;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.FileCallback;
 import com.vondear.rxtools.RxActivityTool;
 import com.vondear.rxtools.RxBarTool;
 import com.vondear.rxtools.RxDeviceTool;
@@ -48,13 +50,10 @@ import com.vondear.rxtools.RxPermissionsTool;
 import com.vondear.rxtools.RxSPTool;
 import com.vondear.rxtools.view.RxToast;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import okhttp3.Call;
 
 /**
  * author: yangke on 2018/5/19
@@ -73,6 +72,7 @@ public class MainActivity extends BaseActivity {
     private static final String KEY_VERSION_IGNORE = "version_ignore";
     private static final String APK_NAME = "search.apk";
     private static final int NO_NETWORK_ANIMATION_DURATION = 700;
+    private SearchFragment mSearchFragment;
 
 
     @Override
@@ -100,11 +100,13 @@ public class MainActivity extends BaseActivity {
 
     private void handleNoNetwork() {
         if (RxNetTool.isAvailable(this)) {
-            int topMargin = -(mNoNetwork.getHeight() + RxBarTool.getStatusBarHeight(this));
-            TranslateAnimation bottomToTop = new TranslateAnimation(0, 0, 0, topMargin);
-            bottomToTop.setDuration(NO_NETWORK_ANIMATION_DURATION);
-            mNoNetwork.startAnimation(bottomToTop);
-            ViewTool.INSTANCE.setViewGone(mNoNetwork);
+            if (mNoNetwork.getVisibility() != View.GONE) {
+                int topMargin = -(mNoNetwork.getHeight() + RxBarTool.getStatusBarHeight(this));
+                TranslateAnimation bottomToTop = new TranslateAnimation(0, 0, 0, topMargin);
+                bottomToTop.setDuration(NO_NETWORK_ANIMATION_DURATION);
+                mNoNetwork.startAnimation(bottomToTop);
+                ViewTool.INSTANCE.setViewGone(mNoNetwork);
+            }
             return;
         }
 
@@ -195,6 +197,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initView() {
         hideTitleBar();
@@ -221,10 +224,10 @@ public class MainActivity extends BaseActivity {
 
         viewPager.setOffscreenPageLimit(3);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        DashboardFragment dashBoardFragment = new DashboardFragment();
+        mSearchFragment = new SearchFragment();
         mHomeFragment = new HomeFragment();
         MeFragment meFragment = new MeFragment();
-        adapter.addFragment(dashBoardFragment);
+        adapter.addFragment(mSearchFragment);
         adapter.addFragment(mHomeFragment);
         adapter.addFragment(meFragment);
         viewPager.setAdapter(adapter);
@@ -254,27 +257,6 @@ public class MainActivity extends BaseActivity {
             return false;
         }
     };
-
-    public void getFile(String url, final String filePath, String name) {
-        OkGo.get(url)//
-                .tag(this)//
-                .execute(new FileCallback(filePath, name) {  //文件下载时，可以指定下载的文件目录和文件名
-                    @Override
-                    public void onSuccess(File file, Call call, okhttp3.Response response) {
-                        // file 即为文件数据，文件保存在指定目录
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.setDataAndType(Uri.parse("file://" + file.getAbsolutePath()), "application/vnd.android.package-archive");
-                        startActivity(i);
-                    }
-
-                    @Override
-                    public void downloadProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
-                        //这里回调下载进度(该回调在主线程,可以直接更新ui)
-
-                    }
-                });
-    }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();

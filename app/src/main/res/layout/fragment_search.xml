@@ -17,7 +17,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/dashboard_ll_history"
+                android:id="@+id/search_ll_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -35,13 +35,13 @@
                     android:textSize="16sp" />
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/dashboard_recycler_view_history"
+                    android:id="@+id/search_recycler_view_history"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:overScrollMode="never" />
 
                 <com.android.yangke.view.DrawableCenterTextView
-                    android:id="@+id/dashboard_tv_clear"
+                    android:id="@+id/search_tv_clear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/c_4f2c241f"
@@ -69,7 +69,7 @@
                 android:textSize="16sp" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/dashboard_recycler_view"
+                android:id="@+id/search_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:overScrollMode="never" />

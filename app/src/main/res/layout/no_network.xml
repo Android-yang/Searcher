@@ -8,6 +8,7 @@
     android:drawableRight="@drawable/icon_next"
     android:gravity="center|left"
     android:padding="@dimen/sp16"
+    android:visibility="gone"
     android:text="网络不给力，请检查网络设置"
     android:textColor="@color/white"
     android:textSize="@dimen/sp14" />

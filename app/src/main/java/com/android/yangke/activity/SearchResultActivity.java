@@ -10,8 +10,8 @@ import android.view.View;
 import com.android.yangke.R;
 import com.android.yangke.adapter.MagnetAdapter;
 import com.android.yangke.base.BaseActivity;
-import com.android.yangke.fragment.DashboardFragment;
 import com.android.yangke.fragment.MeFragment;
+import com.android.yangke.fragment.SearchFragment;
 import com.android.yangke.http.RequestListener;
 import com.android.yangke.http.SearchTask;
 import com.android.yangke.vo.MagnetVo;
@@ -40,10 +40,9 @@ import static com.vondear.rxtools.RxTool.getContext;
  */
 public class SearchResultActivity extends BaseActivity implements RequestListener {
 
-    @BindView(R.id.dashboard_recycler_view)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.dashboard_refreshLayout)
-    TwinklingRefreshLayout mRefreshLayout;
+    @BindView(R.id.dashboard_recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.dashboard_refreshLayout) TwinklingRefreshLayout mRefreshLayout;
+
     private MagnetAdapter mAdapter;
     private int mPage = 1;//请求页数(例：第一页，第二页)
 
@@ -67,7 +66,7 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
     @Override
     protected void initData() {
         Intent intent = getIntent();
-        mKeyword = intent.getStringExtra(DashboardFragment.KEY_KEYWORD);//搜索关键字
+        mKeyword = intent.getStringExtra(SearchFragment.KEY_KEYWORD);//搜索关键字
         executeTask(iniSearchTask(), mKeyword, mPage);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

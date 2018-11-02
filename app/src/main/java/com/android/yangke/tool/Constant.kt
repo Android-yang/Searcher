@@ -7,6 +7,7 @@ package com.android.yangke.tool
  * desc  : 常量类
  */
 object Constant {
+    const val FIRST_OPEN_APP = "firt_open_app"
     val KEY_VIP = "key_vip"
     val KEY_VISIT = "key_visit"
 

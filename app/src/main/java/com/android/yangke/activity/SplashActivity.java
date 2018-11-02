@@ -42,7 +42,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private CountDownTimer iniSplashImage() {
-        CountDownTimer timer = new CountDownTimer(AppTool.SPLASH_SCREEN_DURATION, 1000) {
+        CountDownTimer timer = new CountDownTimer(AppTool.INSTANCE.getSPLASH_SCREEN_DURATION(), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 long second = millisUntilFinished / 1000;

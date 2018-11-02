@@ -46,20 +46,15 @@ import butterknife.OnClick;
  * desc  : 主页
  * greenDao 使用可参考：https://blog.csdn.net/u012702547/article/details/52226163
  */
-public class DashboardFragment extends BaseLazyFragment implements View.OnKeyListener {
+public class SearchFragment extends BaseLazyFragment implements View.OnKeyListener {
 
     public static final String KEY_KEYWORD = "keyword";
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.dashboard_et_title)
-    EditText mEtSearch;
-    @BindView(R.id.dashboard_recycler_view)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.dashboard_recycler_view_history)
-    RecyclerView mHistoryRecyclerView;
-    @BindView(R.id.dashboard_ll_history)
-    LinearLayout mLLHistory;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.search_et_title) EditText mEtSearch;
+    @BindView(R.id.search_recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.search_recycler_view_history) RecyclerView mHistoryRecyclerView;
+    @BindView(R.id.search_ll_history) LinearLayout mLLHistory;
 
     private HotSearchAdapter mAdapter;
 
@@ -67,7 +62,6 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
     private SearchHistoryBeenDao mSearchHistoryDao;
     //最近搜过
     private ArrayList<String> mHistoryDataList = new ArrayList<>();
-    ;
 
     public static void action2SearchResultActivity(Activity act, Class cla, String pars) {
         RxKeyboardTool.hideSoftInput(act);
@@ -84,9 +78,7 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
     }
 
     @Override
-    protected int setLayoutId() {
-        return R.layout.fragment_dashboard;
-    }
+    protected int setLayoutId() {return R.layout.fragment_search;}
 
     @Override
     protected void initData() {
@@ -159,7 +151,7 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
                 .list();
     }
 
-    @OnClick(R.id.dashboard_tv_clear)
+    @OnClick(R.id.search_tv_clear)
     public void handleClick() {
         mSearchHistoryDao.deleteAll();
         mHistoryDataList.clear();
@@ -277,7 +269,7 @@ public class DashboardFragment extends BaseLazyFragment implements View.OnKeyLis
      * @return true 标志用户点击了回车（搜索）false反之
      */
     private boolean isSearch(View v, int keyCode, KeyEvent event) {
-        return v.getId() == R.id.dashboard_et_title && event.getAction() == KeyEvent.ACTION_DOWN
+        return v.getId() == R.id.search_et_title && event.getAction() == KeyEvent.ACTION_DOWN
                 && keyCode == KeyEvent.KEYCODE_ENTER;
     }
 
