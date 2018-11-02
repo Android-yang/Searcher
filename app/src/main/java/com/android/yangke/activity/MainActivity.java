@@ -104,11 +104,11 @@ public class MainActivity extends BaseActivity {
             TranslateAnimation bottomToTop = new TranslateAnimation(0, 0, 0, topMargin);
             bottomToTop.setDuration(NO_NETWORK_ANIMATION_DURATION);
             mNoNetwork.startAnimation(bottomToTop);
-            ViewTool.setViewGone(mNoNetwork);
+            ViewTool.INSTANCE.setViewGone(mNoNetwork);
             return;
         }
 
-        ViewTool.setViewVisible(mNoNetwork);
+        ViewTool.INSTANCE.setViewVisible(mNoNetwork);
         Animation bottomToTop = AnimationUtils.loadAnimation(this, R.anim.anim_top_2_bottom);
         bottomToTop.setDuration(NO_NETWORK_ANIMATION_DURATION);
         mNoNetwork.startAnimation(bottomToTop);
