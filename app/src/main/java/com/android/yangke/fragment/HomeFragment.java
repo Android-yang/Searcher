@@ -74,7 +74,7 @@ public class HomeFragment extends BaseLazyFragment {
         Random r = new Random();
         int index = r.nextInt(urls.length);
         String url = urls[index];
-        boolean vip = RxSPTool.getBoolean(getContext(), Constant.KEY_VIP);
+        boolean vip = RxSPTool.getBoolean(getContext(), Constant.INSTANCE.getKEY_VIP());
         if(vip) {//默认非VIP，VIP处理下
             mTxtHint.setVisibility(View.GONE);
             mWebView.loadUrl(url);

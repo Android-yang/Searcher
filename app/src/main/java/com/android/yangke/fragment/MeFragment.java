@@ -1,6 +1,8 @@
 package com.android.yangke.fragment;
 
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -14,8 +16,10 @@ import com.android.yangke.activity.AboutAuthorActivity;
 import com.android.yangke.activity.AuthorActivity;
 import com.android.yangke.activity.SearchResultActivity;
 import com.android.yangke.activity.SoftwareRequiredActivity;
+import com.android.yangke.base.BaseApplication;
 import com.android.yangke.base.BaseLazyFragment;
 import com.android.yangke.tool.Constant;
+import com.android.yangke.tool.ViewTool;
 import com.android.yangke.wxapi.WXEntryActivity;
 import com.gyf.barlibrary.ImmersionBar;
 import com.vondear.rxtools.RxActivityTool;
@@ -40,45 +44,33 @@ public class MeFragment extends BaseLazyFragment {
 
     private static final String HINT_QQ = "您已成功复制作者QQ";
     private static final String HINT_QQ_FLOCK = "您已成功复制作者QQ群";
-    @BindView(R.id.me_tv_title)
-    TextView mTitle;
-    @BindView(R.id.mt_tv_versionCode)
-    TextView mVersionCode;
-    @BindView(R.id.me_ll_personal_msg)
-    LinearLayout mLLPersonalMsg;
-    @BindView(R.id.me_ll_youhui)
-    LinearLayout mLLYouHui;
-    @BindView(R.id.me_ll_fapiao)
-    LinearLayout mLLFaPiao;
-    @BindView(R.id.me_tv_tuijian)
-    TextView mTvTuiJian;
-    @BindView(R.id.me_tv_account)
-    TextView mTvAccount;
-    @BindView(R.id.me_tv_qq_flock)
-    TextView mTvMsg;
-    @BindView(R.id.me_tv_mianze)
-    TextView mTvMianZe;
-    @BindView(R.id.me_txt_free)
-    TextView mFree;//剩余次数
+
+    @BindView(R.id.me_tv_title) TextView mTitle;
+    @BindView(R.id.mt_tv_versionCode) TextView mVersionCode;
+    @BindView(R.id.me_ll_personal_msg) LinearLayout mLLPersonalMsg;
+    @BindView(R.id.me_ll_youhui) LinearLayout mLLYouHui;
+    @BindView(R.id.me_ll_fapiao) LinearLayout mLLFaPiao;
+    @BindView(R.id.me_tv_tuijian) TextView mTvTuiJian;
+    @BindView(R.id.me_tv_account) TextView mTvAccount;
+    @BindView(R.id.me_tv_qq_flock) TextView mTvMsg;
+    @BindView(R.id.me_tv_mianze) TextView mTvMianZe;
+    @BindView(R.id.me_txt_free) TextView mFree;//剩余次数
+    @BindView(R.id.me_txt_author) TextView mTvAuthorMsg;
 
     private WebView mWebView;//增加访问量
 
     private String[] urlAry = {
-            "https://www.jianshu.com/p/bca0f815f271"
-            , "https://www.jianshu.com/p/4c19ddd9f02f"
-            , "https://www.jianshu.com/p/97a7ead430d4"
-            , "https://www.jianshu.com/p/fb31c275b3e7"
-            , "https://www.jianshu.com/p/886ab64c1afa"
-            , "https://www.jianshu.com/p/5cb0901050ad"
-            , "https://www.jianshu.com/p/e9fd1b7fb30f"
-            , "https://www.jianshu.com/p/e9fd1b7fb30f"
-            , "https://www.jianshu.com/p/0fb2a78208aa"
-            , "https://www.jianshu.com/p/2f1964f98e44"
+            "https://www.jianshu.com/p/bca0f815f271", "https://www.jianshu.com/p/4c19ddd9f02f"
+            , "https://www.jianshu.com/p/97a7ead430d4", "https://www.jianshu.com/p/fb31c275b3e7"
+            , "https://www.jianshu.com/p/886ab64c1afa", "https://www.jianshu.com/p/5cb0901050ad"
+            , "https://www.jianshu.com/p/e9fd1b7fb30f", "https://www.jianshu.com/p/e9fd1b7fb30f"
+            , "https://www.jianshu.com/p/0fb2a78208aa", "https://www.jianshu.com/p/2f1964f98e44"
     };
 
     public static void snakeBar(View v, String hint) {
         Snackbar.make(v, hint, Snackbar.LENGTH_SHORT)
-                .setAction("Action", null).show();
+                .setAction("Action", null)
+                .show();
     }
 
     @Override
@@ -132,13 +124,13 @@ public class MeFragment extends BaseLazyFragment {
 
             case R.id.me_ll_fapiao:
                 doubleVisit();//增加访问量
-                int visit = RxSPTool.getInt(getContext(), Constant.KEY_VISIT);
+                int visit = RxSPTool.getInt(getContext(), Constant.INSTANCE.getKEY_VISIT());
                 if(visit > 57) {//双击 60 次开启vip功能
-                    RxSPTool.putBoolean(getContext(),Constant.KEY_VIP, true);
+                    RxSPTool.putBoolean(getContext(), Constant.INSTANCE.getKEY_VIP(), true);
                     RxToast.warning("您已经具有 VIP 权限，重启 APP 开始体验吧！");
                 } else {
                     visit++;
-                    RxSPTool.putInt(getContext(), Constant.KEY_VISIT, visit);
+                    RxSPTool.putInt(getContext(), Constant.INSTANCE.getKEY_VISIT(), visit);
                 }
                 break;
             case R.id.me_ll_free://剩余次数
@@ -182,5 +174,6 @@ public class MeFragment extends BaseLazyFragment {
     protected void initView() {
         super.initView();
         mVersionCode.setText("版本V" + RxAppTool.getAppVersionName(getContext()));
+        ViewTool.INSTANCE.textSetTypeface(mTvAuthorMsg, BaseApplication.instance(), Constant.INSTANCE.getFONT_FOUNDER_SIMPLIFIED());
     }
 }

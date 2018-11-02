@@ -217,7 +217,7 @@ public class AbsActivity extends SwipeBackActivity implements RequestListener {
 
 
     private void logMethodName() {
-        if (Constant.LOG_LIFECYCLE) {
+        if (Constant.INSTANCE.getLOG_LIFECYCLE()) {
             String methodName = new Throwable().getStackTrace()[1].getMethodName();
             String className = getClass().getSimpleName();
             Logger.d(className + " " + methodName + "()");

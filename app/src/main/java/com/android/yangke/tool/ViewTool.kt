@@ -1,6 +1,9 @@
 package com.android.yangke.tool
 
+import android.content.Context
+import android.graphics.Typeface
 import android.view.View
+import android.widget.TextView
 
 /**
  * author: yangke on 2018/11/1
@@ -78,5 +81,16 @@ object ViewTool {
             }
         }
     }
+
+    /**
+     * @param textView textView
+     * @param ctx      context
+     * @param fontName 字体名字，字体文件放在 assets 根目录。例：方正字体
+     */
+    fun textSetTypeface(textView: TextView, ctx: Context, fontName: String) {
+        val typeface = Typeface.createFromAsset(ctx.assets, fontName)
+        textView.typeface = typeface
+    }
+
 
 }
