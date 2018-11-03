@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#2c241f</color>
     <color name="colorTransparent">#00000000</color>
+    <color name="indicate_color">#f02c241f</color>
+
 
     <color name="colorBarText">#F0F5E5</color>
     <color name="cff0000">#ff0000</color>

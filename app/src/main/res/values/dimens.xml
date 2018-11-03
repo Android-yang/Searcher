@@ -37,5 +37,6 @@
     <dimen name="imaginary_height">2dp</dimen>
     <dimen name="imaginary_dash_width">8dp</dimen>
     <dimen name="imaginary_dash_gap">6dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
 
 </resources>

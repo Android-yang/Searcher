@@ -12,6 +12,7 @@ import com.android.yangke.tool.AppTool;
 import com.android.yangke.tool.Constant;
 import com.android.yangke.tool.ViewTool;
 import com.vondear.rxtools.RxActivityTool;
+import com.vondear.rxtools.RxSPTool;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -67,7 +68,11 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void toMain() {
-        RxActivityTool.skipActivity(SplashActivity.this, MainActivity.class);
+        if (RxSPTool.isFirstOpenApp(BaseApplication.instance(), Constant.FIRST_OPEN_APP))
+            RxActivityTool.skipActivity(SplashActivity.this, AppExplainActivity.class);
+        else {
+            RxActivityTool.skipActivity(SplashActivity.this, MainActivity.class);
+        }
         finish();
     }
 

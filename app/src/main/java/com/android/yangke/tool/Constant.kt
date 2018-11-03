@@ -8,6 +8,7 @@ package com.android.yangke.tool
  */
 object Constant {
     const val FIRST_OPEN_APP = "firt_open_app"
+    const val FIRST_OPEN_INDICATE = "first_open_indicate"
     val KEY_VIP = "key_vip"
     val KEY_VISIT = "key_visit"
 

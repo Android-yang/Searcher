@@ -35,6 +35,9 @@
     <string name="share_cancel">分享取消</string>
     <string name="title_personal_center">个人中心</string>
     <string name="network_no_connection">网络无法连接</string>
+    <string name="title_activity_app_explain">AppExplainActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
     <!--title-->
 

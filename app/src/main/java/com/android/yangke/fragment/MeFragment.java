@@ -183,7 +183,7 @@ public class MeFragment extends BaseLazyFragment {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onVisible() {
-        if (RxSPTool.isFirstOpenApp(BaseApplication.instance(), Constant.FIRST_OPEN_APP)) {
+        if (RxSPTool.isFirstOpenApp(BaseApplication.instance(), Constant.FIRST_OPEN_INDICATE)) {
             showTapTarget();
         }
     }
@@ -213,7 +213,7 @@ public class MeFragment extends BaseLazyFragment {
                 ).listener(new TapTargetSequence.Listener() {
                     @Override
                     public void onSequenceFinish() {
-                        RxSPTool.putBoolean(BaseApplication.instance(),Constant.FIRST_OPEN_APP,false);
+                        RxSPTool.putBoolean(BaseApplication.instance(),Constant.FIRST_OPEN_INDICATE,false);
                     }
 
                     @Override

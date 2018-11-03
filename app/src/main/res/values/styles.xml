@@ -64,4 +64,8 @@
     </style>
     <!--个人中心 item recommend-->
     <style name="me_item_recommend" parent="me_item_setting"></style>
+
+    <style name="AppThemeTranslucent.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppThemeTranslucent.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
