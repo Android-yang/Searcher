@@ -91,9 +91,7 @@ public class MeFragment extends BaseLazyFragment {
     }
 
     @Override
-    protected void initData() {
-        mWebView = new WebView(getContext());//此WebView主要用来记载作者信息，增加访问量
-    }
+    protected void initData() { }
 
     @Override
     public void onResume() {
@@ -127,7 +125,6 @@ public class MeFragment extends BaseLazyFragment {
                 break;
             case R.id.me_ll_youhui://
                 break;
-
             case R.id.me_ll_fapiao:
                 doubleVisit();//增加访问量
                 int visit = RxSPTool.getInt(getContext(), Constant.INSTANCE.getKEY_VISIT());
@@ -178,6 +175,7 @@ public class MeFragment extends BaseLazyFragment {
 
     @Override
     protected void initView() {
+        mWebView = new WebView(getContext());
         mVersionCode.setText("版本V" + RxAppTool.getAppVersionName(getContext()));
         ViewTool.INSTANCE.textSetTypeface(mTvAuthorMsg, BaseApplication.instance(), Constant.INSTANCE.getFONT_FOUNDER_SIMPLIFIED());
     }

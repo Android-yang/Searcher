@@ -71,15 +71,8 @@ public abstract class BaseLazyFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-    }
-
-    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-
         if (getUserVisibleHint()) {
             mIsVisible = true;
             onVisible();
@@ -134,36 +127,27 @@ public abstract class BaseLazyFragment extends Fragment {
     /**
      * 初始化数据
      */
-    protected void initData() {
-
-    }
+    protected void initData() { }
 
     /**
      * 初始化沉浸式
      */
-    protected void initImmersionBar() {
-    }
+    protected void initImmersionBar() { }
 
     /**
      * view与数据绑定
      */
-    protected void initView() {
-
-    }
+    protected void initView() { }
 
     /**
      * 设置监听
      */
-    protected void setListener() {
-
-    }
+    protected void setListener() { }
 
     /**
      * 用户不可见执行
      */
-    protected void onInvisible() {
-
-    }
+    protected void onInvisible() { }
 
     /**
      * 找到activity的控件
@@ -175,5 +159,11 @@ public abstract class BaseLazyFragment extends Fragment {
     @SuppressWarnings("unchecked")
     protected <T extends View> T findActivityViewById(@IdRes int id) {
         return (T) mActivity.findViewById(id);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }
