@@ -23,6 +23,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -84,6 +85,22 @@ public class RxFileTool {
             path = Environment.getDataDirectory();
         }
         return path;
+    }
+
+    /**
+     * @param bitmap bitmap
+     * @param path xxx/xxx/xxx.png
+     * @throws IOException exception
+     */
+    public static void saveBitmap2Sdcard(Bitmap bitmap, String path) throws IOException {
+        File file = new File(path);
+        if (file.exists()) {
+            file.delete();
+        }
+        FileOutputStream fos = new FileOutputStream(path);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+        fos.flush();
+        fos.close();
     }
 
     /**
@@ -1785,6 +1802,7 @@ public class RxFileTool {
 
     /**
      * 将文件转换成uri(支持7.0)
+     *
      * @param mContext
      * @param file
      * @return

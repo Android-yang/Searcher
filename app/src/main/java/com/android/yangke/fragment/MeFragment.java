@@ -1,15 +1,11 @@
 package com.android.yangke.fragment;
 
 
-import android.content.Context;
-import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
-import android.view.Display;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
@@ -188,22 +184,22 @@ public class MeFragment extends BaseLazyFragment {
         }
     }
 
+    /**
+     * 引导用户使用
+     */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void showTapTarget() {
-        // 引导用户使用
         TapTargetSequence sequence = new TapTargetSequence(getActivity())
-                .targets(
-                        TapTarget.forView(mTvMsg, "进群领取福利")
+                .targets(TapTarget.forView(mTvMsg, "进群领取福利")
                                 .dimColor(android.R.color.black)
                                 .outerCircleColor(R.color.c_ff541f)
                                 .drawShadow(true)
                                 .id(1),
-                        TapTarget.forView(mFree, "剩余免费试用次数")
-                                .dimColor(android.R.color.black)
+                        TapTarget.forView(mFree, "剩余免费试用次数").dimColor(android.R.color.black)
                                 .outerCircleColor(R.color.c_ff541f)
                                 .drawShadow(true)
                                 .id(2)
-//                        , TapTarget.forBounds(target, "点击这里切换新闻", "双击返回顶部\n再次双击刷新当前页面")
+//                        TapTarget.forBounds(target, "点击这里切换新闻", "双击返回顶部\n再次双击刷新当前页面")
 //                                .dimColor(android.R.color.black)
 //                                .outerCircleColor(R.color.c_ff541f)
 //                                .transparentTarget(true)
@@ -212,16 +208,16 @@ public class MeFragment extends BaseLazyFragment {
 //                                .id(3)
                 ).listener(new TapTargetSequence.Listener() {
                     @Override
-                    public void onSequenceFinish() {
-                        RxSPTool.putBoolean(BaseApplication.instance(),Constant.FIRST_OPEN_INDICATE,false);
-                    }
+                    public void onSequenceFinish() { setFirstOpenAppToFalse(); }
 
                     @Override
                     public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) { }
 
                     @Override
-                    public void onSequenceCanceled(TapTarget lastTarget) {
-                        RxSPTool.putBoolean(BaseApplication.instance(),Constant.FIRST_OPEN_APP,false);
+                    public void onSequenceCanceled(TapTarget lastTarget) { setFirstOpenAppToFalse(); }
+
+                    private void setFirstOpenAppToFalse() {
+                        RxSPTool.putBoolean(BaseApplication.instance(), Constant.FIRST_OPEN_APP, false);
                     }
                 });
         sequence.start();

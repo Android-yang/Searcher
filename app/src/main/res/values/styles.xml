@@ -38,6 +38,11 @@
         <item name="android:windowExitAnimation">@anim/anim_right_2_left</item>
     </style>
 
+    <style name="DialogEnterOut4">
+        <item name="android:windowEnterAnimation">@anim/anim_bottom_2_top</item>
+        <item name="android:windowExitAnimation">@anim/anim_view_top_2_bottom</item>
+    </style>
+
     <!--个人中心 item-->
     <style name="me_item_property">
         <item name="android:layout_width">0dp</item>
