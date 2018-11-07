@@ -113,7 +113,7 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
                     return;
                 }
                 if (isPay()) {
-                    RxToast.error("免费次数已经用完");
+                    RxToast.error(getString(R.string.toast_no_free_number));
                     //TODO 支付
 //                    RxSPUtils.clearPreference(getApplicationContext(), KEY_USED_COUNT, KEY_USED_COUNT); //付费完成清空已使用次数
                     return;

@@ -194,7 +194,7 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
         if (isSearch(v, keyCode, event)) {
             final String par = mEtSearch.getText().toString().trim();
             if (TextUtils.isEmpty(par)) {
-                RxToast.showToast("小哥哥，关键字不能为空！");
+                RxToast.showToast(getString(R.string.toast_keyword_non_null));
                 return true;
             }
 
@@ -244,17 +244,17 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
      * @return true 标志可能包含色情内容， false 反之
      */
     private boolean isEroticism(String par) {
-        return par.contains("女") || par.contains("美女") || par.contains("加勒比")
-                || par.contains("一本道") || par.contains("波多野结衣") || par.contains("舞")
-                || par.contains("乳") || par.contains("巨") || par.contains("抹") || par.contains("爱");
+        return par.contains(getString(R.string.audult_1)) || par.contains(getString(R.string.audult_2))
+                || par.contains(getString(R.string.audult_3)) || par.contains(getString(R.string.audult_4))
+                || par.contains(getString(R.string.audult_6)) || par.contains(getString(R.string.audult_5));
     }
 
     private void eroticismDialog(final String par) {
         new AlertDialog.Builder(getContext())
-                .setMessage("您搜索的内容可能包含成人内容！")
+                .setMessage(R.string.hint_adult_content)
                 .setCancelable(false)
-                .setNegativeButton("未满18", null)
-                .setPositiveButton("已满18", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.under_18, null)
+                .setPositiveButton(R.string.old_18, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         action2SearchResultActivity(getActivity(), SearchResultActivity.class, par);

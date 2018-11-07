@@ -1,26 +1,21 @@
 <resources>
     <string name="app_name">种子搜索器</string>
+
+    <!--title-->
     <string name="title_home">主页</string>
     <string name="title_dashboard">...</string>
     <string name="title_notifications">我</string>
-
-    <!-- net -->
-    <string name="network_failed">网络连接异常，请稍后再试</string>
-    <string name="server_maintenance">服务器维护中</string>
-    <string name="server_error">服务器异常</string>
-    <string name="net_error">当前网络不可用，请检查你的网络设置</string>
-    <string name="net_error_refresh">点击屏幕刷新</string>
-
-    <string name="about_author">关于作者</string>
-    <string name="me_software_required">软件必读</string>
-    <string name="search_result">搜索结果</string>
-    <string name="default_text">xxx</string>
-    <string name="hint_thunder_no_installed">迅雷没有安装或版本过低，链接已复制到剪切板</string>
-    <string name="thunder_package">com.xunlei.downloadprovider</string>
-    <string name="hint_no_data">data is null</string>
-    <string name="about_author_more">更多</string>
-    <!--分享-->
+    <string name="title_personal_center">个人中心</string>
     <string name="title_share">分享APP得福利</string>
+
+    <!--SplashActivity-->
+    <string name="btn_skip">s 丨 跳过</string>
+    <string name="ignore_current_app_version">忽略此版本</string>
+    <string name="join_flock_welfare">进群领取福利</string>
+    <string name="app_version">版本V</string>
+
+
+    <!--share-->
     <string name="share_award_rule">奖励规则</string>
     <string name="share_get_donwload">分享得 15 次下载体验</string>
     <string name="share_app">分享 APP</string>
@@ -33,13 +28,61 @@
     <string name="share_accumulative">累计分享0次</string>
     <string name="software_effect">随着互联网高速发展，21世纪已经成为了会员时代，知识付费时代。作为土生土长的伪土豪，消费则能省则省。什么腾讯、爱奇艺 VIP 视频;网易、QQ 音乐月包;花钱不存的，这辈子都不存在的。还有综艺视频，优衣库视频，琪琪泥鳅，各种小视频应有尽有...</string>
     <string name="share_cancel">分享取消</string>
-    <string name="title_personal_center">个人中心</string>
     <string name="network_no_connection">网络无法连接</string>
     <string name="title_activity_app_explain">AppExplainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="long_click_save_qr_code">长按图片进行保存</string>
 
-    <!--title-->
+    <!--menu-->
+    <string name="menu_one_stone_two_birds">一石二鸟</string>
+    <string name="menu_copy_author_href">复制作者链接</string>
+
+    <!--SearchFragment-->
+    <string name="search_result">搜索结果</string>
+    <string name="under_18">未满18</string>
+    <string name="old_18">已满18</string>
+    <string name="audult_1">女</string>
+    <string name="audult_2">加勒比</string>
+    <string name="audult_3">一本道</string>
+    <string name="audult_4">波多野结衣</string>
+    <string name="audult_5">巨</string>
+    <string name="audult_6">乳</string>
+    <string name="hint_adult_content">您搜索的内容可能包含成人内容！</string>
+
+    <!--MeFragment-->
+    <string name="about_author">关于作者</string>
+    <string name="me_software_required">软件必读</string>
+    <string name="default_text">xxx</string>
+    <string name="hint_thunder_no_installed">迅雷没有安装或版本过低，链接已复制到剪切板</string>
+    <string name="thunder_package">com.xunlei.downloadprovider</string>
+    <string name="hint_no_data">data is null</string>
+    <string name="about_author_more">更多</string>
+    <string name="app_new_version">我们更新了新版，快来体验！</string>
+    <string name="surplus_free_time">剩余免费试用次数</string>
+    <string name="copy_author_qq_flock_success">您已成功复制作者QQ群</string>
+    <string name="sd_card_not_available">SD 不可用</string>
+    <string name="btn_confirm">确定</string>
+    <string name="btn_cancle">取消</string>
+
+    <!--text hint，this module contain toast、dialog、snackbar、net error=================================================================================================-->
+    <!-- net hint-->
+    <string name="network_failed">网络连接异常，请稍后再试</string>
+    <string name="server_maintenance">服务器维护中</string>
+    <string name="server_error">服务器异常</string>
+    <string name="net_error">当前网络不可用，请检查你的网络设置</string>
+    <string name="net_error_refresh">点击屏幕刷新</string>
+
+    <!--toast hint-->
+    <string name="toast_copy_author_href_success">你已成功复制作者链接</string>
+    <string name="toast_picture_save_fail">图片保存失败</string>
+    <string name="toast_is_vip_restart">您已经具有 VIP 权限，重启 APP 开始体验吧！</string>
+    <string name="toast_account_self">已经很安全了</string>
+    <string name="toast_use_count_">可使用剩余次数</string><!--可使用剩余次数 + xxx + 次， 你可通过分享此软件获取体验次数！-->
+    <string name="_toast_use_count">次， 你可通过分享此软件获取体验次数！</string>
+    <string name="toast_copy_author_qq_success">您已成功复制作者QQ</string>
+    <string name="toast_no_free_number">免费次数已经用完</string>
+    <string name="toast_warm_adult_software">此软件可能包含成人内容，未成年请自觉卸载！</string>
+    <string name="toast_keyword_non_null">小哥哥，关键字不能为空！</string>
 
 </resources>

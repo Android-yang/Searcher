@@ -166,9 +166,9 @@ public class MainActivity extends BaseActivity {
             }
             new AlertDialog.Builder(MainActivity.this)
                     .setCancelable(false)
-                    .setTitle("我们更新了新版，快来体验！")
+                    .setTitle(R.string.app_new_version)
                     .setMessage(vo.mMessage)
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.btn_confirm, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (RxFileTool.sdCardIsAvailable()) {
@@ -179,15 +179,15 @@ public class MainActivity extends BaseActivity {
                                 it.putExtra(ApkDownloadService.KEY_APK_FILE_PATH, apkFilePath);
                                 startService(it);
                             } else {
-                                RxToast.warning("SD 不可用");
+                                RxToast.warning(getString(R.string.sd_card_not_available));
                             }
                         }
-                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton(R.string.btn_cancle, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
-                    }).setNeutralButton("忽略此版本", new DialogInterface.OnClickListener() {
+                    }).setNeutralButton(R.string.ignore_current_app_version, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             RxSPTool.putInt(getApplicationContext(), KEY_VERSION_IGNORE, versionData.mVersion);

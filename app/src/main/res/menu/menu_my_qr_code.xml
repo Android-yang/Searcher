@@ -3,7 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="我的二维码"
-        app:showAsAction="never"
-        android:id="@+id/menu_my_qr_code" />
+        android:id="@+id/menu_my_qr_code"
+        android:title="@string/menu_one_stone_two_birds"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_author_href"
+        android:title="@string/menu_copy_author_href"
+        app:showAsAction="never" />
 </menu>

@@ -12,6 +12,9 @@ import android.widget.ProgressBar;
 
 import com.android.yangke.R;
 import com.android.yangke.base.BaseActivity;
+import com.android.yangke.fragment.HomeFragment;
+import com.android.yangke.tool.Constant;
+import com.vondear.rxtools.RxClipboardTool;
 import com.vondear.rxtools.RxFileTool;
 import com.vondear.rxtools.RxImageTool;
 import com.vondear.rxtools.RxPermissionsTool;
@@ -69,7 +72,9 @@ public class AuthorActivity extends BaseActivity {
         int id = item.getItemId();
         if (id == R.id.menu_my_qr_code) {
             showQrCodeView();
-            return true;
+        } else if (id == R.id.menu_author_href) {
+            RxClipboardTool.copyText(this, Constant.AUTHOR_HREF);
+            RxToast.success(getString(R.string.toast_copy_author_href_success));
         }
 
         return super.onOptionsItemSelected(item);
@@ -111,7 +116,7 @@ public class AuthorActivity extends BaseActivity {
                     RxToast.success(imageLocation);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    RxToast.error("图片保存失败");
+                    RxToast.error(getString(R.string.toast_picture_save_fail));
                 }
                 return false;
             }

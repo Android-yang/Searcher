@@ -7,6 +7,7 @@ package com.android.yangke.tool
  * desc  : 常量类
  */
 object Constant {
+    const  val AUTHOR_HREF = "https://www.jianshu.com/p/3a17db598e57"
     const val FIRST_OPEN_APP = "firt_open_app"
     const val FIRST_OPEN_INDICATE = "first_open_indicate"
     val KEY_VIP = "key_vip"

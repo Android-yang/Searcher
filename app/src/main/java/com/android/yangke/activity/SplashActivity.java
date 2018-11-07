@@ -47,7 +47,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 long second = millisUntilFinished / 1000;
-                mTxtSkip.setText(second + "s 丨 跳过");
+                mTxtSkip.setText(second + getString(R.string.btn_skip));
             }
 
             @Override

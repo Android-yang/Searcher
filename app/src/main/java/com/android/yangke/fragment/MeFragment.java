@@ -44,9 +44,6 @@ import butterknife.OnClick;
  */
 public class MeFragment extends BaseLazyFragment {
 
-    private static final String HINT_QQ = "您已成功复制作者QQ";
-    private static final String HINT_QQ_FLOCK = "您已成功复制作者QQ群";
-
     @BindView(R.id.me_tv_title) TextView mTitle;
     @BindView(R.id.mt_tv_versionCode) TextView mVersionCode;
     @BindView(R.id.me_ll_personal_msg) LinearLayout mLLPersonalMsg;
@@ -117,7 +114,7 @@ public class MeFragment extends BaseLazyFragment {
                 break;
             case R.id.me_tv_qq://作者QQ
                 RxClipboardTool.copyText(getContext(), HomeFragment.QQ);
-                snakeBar(v, HINT_QQ);
+                snakeBar(v, getString(R.string.toast_copy_author_qq_success));
                 break;
             case R.id.me_ll_youhui://
                 break;
@@ -126,7 +123,7 @@ public class MeFragment extends BaseLazyFragment {
                 int visit = RxSPTool.getInt(getContext(), Constant.INSTANCE.getKEY_VISIT());
                 if(visit > 57) {//双击 60 次开启vip功能
                     RxSPTool.putBoolean(getContext(), Constant.INSTANCE.getKEY_VIP(), true);
-                    RxToast.warning("您已经具有 VIP 权限，重启 APP 开始体验吧！");
+                    RxToast.warning(getString(R.string.toast_is_vip_restart));
                 } else {
                     visit++;
                     RxSPTool.putInt(getContext(), Constant.INSTANCE.getKEY_VISIT(), visit);
@@ -134,7 +131,7 @@ public class MeFragment extends BaseLazyFragment {
                 break;
             case R.id.me_ll_free://剩余次数
                 int freeCount = getFreeCount();
-                String hintMsg = "可使用剩余次数" + freeCount + "次， 你可通过分享此软件获取体验次数！";
+                String hintMsg = getString(R.string.toast_use_count_) + freeCount + getString(R.string._toast_use_count);
                 if (freeCount == 0) {
                     snakeBar(v, hintMsg);
                 } else {
@@ -145,10 +142,10 @@ public class MeFragment extends BaseLazyFragment {
                 RxActivityTool.skipActivity(getActivity(), WXEntryActivity.class);
                 break;
             case R.id.me_tv_account://账户安全
-                RxToast.warning("已经很安全了");
+                RxToast.warning(getString(R.string.toast_account_self));
                 break;
             case R.id.me_tv_qq_flock://QQ 群
-                snakeBar(v, HINT_QQ_FLOCK);
+                snakeBar(v, getString(R.string.copy_author_qq_flock_success));
                 RxClipboardTool.copyText(getContext(), HomeFragment.QQ_FLOCK);
                 break;
             case R.id.me_tv_mianze://免责条款
@@ -172,7 +169,7 @@ public class MeFragment extends BaseLazyFragment {
     @Override
     protected void initView() {
         mWebView = new WebView(getContext());
-        mVersionCode.setText("版本V" + RxAppTool.getAppVersionName(getContext()));
+        mVersionCode.setText(getString(R.string.app_version) + RxAppTool.getAppVersionName(getContext()));
         ViewTool.INSTANCE.textSetTypeface(mTvAuthorMsg, BaseApplication.instance(), Constant.INSTANCE.getFONT_FOUNDER_SIMPLIFIED());
     }
 
@@ -190,12 +187,12 @@ public class MeFragment extends BaseLazyFragment {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void showTapTarget() {
         TapTargetSequence sequence = new TapTargetSequence(getActivity())
-                .targets(TapTarget.forView(mTvMsg, "进群领取福利")
+                .targets(TapTarget.forView(mTvMsg, getString(R.string.join_flock_welfare))
                                 .dimColor(android.R.color.black)
                                 .outerCircleColor(R.color.c_ff541f)
                                 .drawShadow(true)
                                 .id(1),
-                        TapTarget.forView(mFree, "剩余免费试用次数").dimColor(android.R.color.black)
+                        TapTarget.forView(mFree, getString(R.string.surplus_free_time)).dimColor(android.R.color.black)
                                 .outerCircleColor(R.color.c_ff541f)
                                 .drawShadow(true)
                                 .id(2)
