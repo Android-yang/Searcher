@@ -5,28 +5,34 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.android.yangke.R;
 import com.android.yangke.activity.SearchResultActivity;
 import com.android.yangke.base.BaseApplication;
 import com.android.yangke.base.BaseLazyFragment;
+import com.android.yangke.tool.Constant;
 import com.android.yangke.vo.DaoSession;
 import com.android.yangke.vo.SearchHistoryBeen;
 import com.android.yangke.vo.SearchHistoryBeenDao;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.gyf.barlibrary.ImmersionBar;
 import com.vondear.rxtools.RxActivityTool;
 import com.vondear.rxtools.RxAnimationTool;
@@ -53,15 +59,16 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.search_et_title) EditText mEtSearch;
     @BindView(R.id.search_recycler_view) RecyclerView mRecyclerView;
-    @BindView(R.id.search_recycler_view_history) RecyclerView mHistoryRecyclerView;
     @BindView(R.id.search_ll_history) LinearLayout mLLHistory;
-
-    private HotSearchAdapter mAdapter;
+    @BindView(R.id.search_recycler_view_history) RecyclerView mHistoryRecyclerView;
+    @BindView(R.id.nested_scrollView) NestedScrollView mNestedScrollView;
 
     private ArrayList<String> mDataList;
     private SearchHistoryBeenDao mSearchHistoryDao;
     //最近搜过
     private ArrayList<String> mHistoryDataList = new ArrayList<>();
+    private HistorySearchAdapter mSearchHistoryAdapter;
+    private HotSearchAdapter mAdapter;
 
     public static void action2SearchResultActivity(Activity act, Class cla, String pars) {
         RxKeyboardTool.hideSoftInput(act);
@@ -87,10 +94,15 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
         iniHotSearchDataList();
         iniBeenDao();
         iniSearchHistory();
+        iniHotSearch();
+    }
 
+    private void iniHotSearch() {
         mAdapter = new HotSearchAdapter(R.layout.item_one, mDataList);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
+        flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
+        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
+        mRecyclerView.setLayoutManager(flexboxLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -127,12 +139,12 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
                 mHistoryDataList.add(s.getKeyword());
             }
             mLLHistory.setVisibility(View.VISIBLE);
-            HistorySearchAdapter searchHistoryAdapter = new HistorySearchAdapter(R.layout.item_dashboard_history, mHistoryDataList);
+            mSearchHistoryAdapter = new HistorySearchAdapter(R.layout.item_dashboard_history, mHistoryDataList);
             mHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            searchHistoryAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-            mHistoryRecyclerView.setAdapter(searchHistoryAdapter);
+            mSearchHistoryAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+            mHistoryRecyclerView.setAdapter(mSearchHistoryAdapter);
 
-            searchHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            mSearchHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     String currentClickItem = (String) adapter.getData().get(position);
@@ -141,6 +153,11 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
                 }
             });
         }
+        //解决当屏幕内内容大于一屏时出现默认滚动到底部的问题
+        mNestedScrollView.post(new Runnable() {
+            @Override
+            public void run() { mNestedScrollView.fullScroll(ScrollView.FOCUS_UP); }
+        });
     }
 
     private List<SearchHistoryBeen> querySearchHistoryDataList() {
@@ -171,20 +188,14 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
      */
     private void iniHotSearchDataList() {
         mDataList = new ArrayList<>();
-        mDataList.add("加勒比海盗");
-        mDataList.add("唐人街探案");
-        mDataList.add("捉妖记");
-        mDataList.add("刘德华");
-        mDataList.add("复仇者联盟");
-        mDataList.add("成龙");
-        mDataList.add("变形金刚");
-        mDataList.add("羞羞的铁拳");
-        mDataList.add("甄子丹");
-        mDataList.add("徐峥");
-        mDataList.add("熊出没");
-        mDataList.add("周星驰");
         mDataList.add("王宝强");
-        mDataList.add("黄渤");
+        mDataList.add("延禧攻略");
+        mDataList.add("甄子丹");
+        mDataList.add("摩天营救");
+        mDataList.add("羞羞的铁拳");
+        mDataList.add("加勒比海盗");
+        mDataList.add("复仇者联盟");
+        mDataList.add("西虹市首富");
         mDataList.add("史泰龙");
         mDataList.add("李连杰");
     }
@@ -277,13 +288,15 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
      * 热门搜索
      */
     private class HotSearchAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-        public HotSearchAdapter(int layoutResId, @Nullable List<String> data) {
-            super(layoutResId, data);
-        }
+
+        public HotSearchAdapter(int layoutResId, @Nullable List<String> data) { super(layoutResId, data); }
 
         @Override
         protected void convert(BaseViewHolder helper, String item) {
-            helper.setText(R.id.text, item);
+            int[] colors = Constant.INSTANCE.getCOLORS();
+            int color = colors[helper.getLayoutPosition() % colors.length];
+            helper.setBackgroundColor(R.id.txt_hot_search, color)
+                    .setText(R.id.txt_hot_search, item);
         }
     }
 
@@ -291,9 +304,7 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
      * 最近搜过
      */
     private class HistorySearchAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-        public HistorySearchAdapter(int layoutResId, @Nullable List<String> data) {
-            super(layoutResId, data);
-        }
+        public HistorySearchAdapter(int layoutResId, @Nullable List<String> data) { super(layoutResId, data); }
 
         @Override
         protected void convert(BaseViewHolder helper, String item) {

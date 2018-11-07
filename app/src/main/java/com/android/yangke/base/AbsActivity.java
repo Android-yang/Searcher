@@ -38,7 +38,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
  */
 public class AbsActivity extends SwipeBackActivity implements RequestListener {
 
-    protected Toolbar mToolbar;//整体标题栏容器
+    public Toolbar mToolbar;//整体标题栏容器
     private TextView mTitleRight;//右标题
     private FrameLayout mContentContainerView;//存放内容容器
     private View mToolbarLine;

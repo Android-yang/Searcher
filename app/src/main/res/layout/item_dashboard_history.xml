@@ -10,7 +10,6 @@
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/c_2f000000"
         android:drawableLeft="@drawable/search_history"
         android:drawablePadding="@dimen/dp8"
         android:padding="16dp"

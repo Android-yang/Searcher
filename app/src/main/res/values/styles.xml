@@ -73,4 +73,10 @@
     <style name="AppThemeTranslucent.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppThemeTranslucent.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="all_wrap_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>

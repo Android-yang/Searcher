@@ -91,6 +91,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation files('libs/barlibrary-2.3.0.jar')
     implementation files('libs/jsoup-1.9.2.jar')
+    //热门搜索、瀑布流效果
+    implementation 'com.google.android:flexbox:1.0.0'
 
     //数据库框架
     implementation 'org.greenrobot:greendao:3.2.2'
