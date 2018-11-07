@@ -217,7 +217,7 @@ public class MeFragment extends BaseLazyFragment {
                     public void onSequenceCanceled(TapTarget lastTarget) { setFirstOpenAppToFalse(); }
 
                     private void setFirstOpenAppToFalse() {
-                        RxSPTool.putBoolean(BaseApplication.instance(), Constant.FIRST_OPEN_APP, false);
+                        RxSPTool.putBoolean(BaseApplication.instance(), Constant.FIRST_OPEN_INDICATE, false);
                     }
                 });
         sequence.start();

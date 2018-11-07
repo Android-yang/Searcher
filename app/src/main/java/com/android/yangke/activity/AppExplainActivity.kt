@@ -79,6 +79,7 @@ class AppExplainActivity : BaseActivity() {
             var imageView: ImageView? = null
             if (imageView == null) {
                 imageView = ImageView(context)
+                imageView!!.scaleType = ImageView.ScaleType.FIT_XY
             }
             ImageTool.loadInto(context, mDataList[position % mDataList.size], imageView)
             container.addView(imageView)
