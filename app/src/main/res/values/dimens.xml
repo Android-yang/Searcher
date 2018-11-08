@@ -19,6 +19,7 @@
     <dimen name="dp8">8dp</dimen>
     <dimen name="dp9">9dp</dimen>
     <dimen name="dp10">10dp</dimen>
+    <dimen name="dp12">12dp</dimen>
 
 
     <!--sp 字体大小-->
