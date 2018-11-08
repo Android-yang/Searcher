@@ -47,11 +47,9 @@
                 android:textSize="16sp" />
 
             <LinearLayout
-                android:id="@+id/search_ll_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/search_recycler_view_history"
@@ -63,7 +61,6 @@
                     android:id="@+id/search_tv_clear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/c_4f2c241f"
                     android:clickable="true"
                     android:drawablePadding="@dimen/dp4"
                     android:gravity="center"

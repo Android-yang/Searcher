@@ -12,19 +12,20 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.android.yangke.R;
 import com.android.yangke.activity.SearchResultActivity;
+import com.android.yangke.adapter.AbsBaseAdapter;
 import com.android.yangke.base.BaseApplication;
 import com.android.yangke.base.BaseLazyFragment;
 import com.android.yangke.tool.Constant;
+import com.android.yangke.tool.ViewTool;
 import com.android.yangke.vo.DaoSession;
 import com.android.yangke.vo.SearchHistoryBeen;
 import com.android.yangke.vo.SearchHistoryBeenDao;
@@ -59,7 +60,7 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.search_et_title) EditText mEtSearch;
     @BindView(R.id.search_recycler_view) RecyclerView mRecyclerView;
-    @BindView(R.id.search_ll_history) LinearLayout mLLHistory;
+    @BindView(R.id.search_tv_clear) TextView mTxtClearHistory;
     @BindView(R.id.search_recycler_view_history) RecyclerView mHistoryRecyclerView;
     @BindView(R.id.nested_scrollView) NestedScrollView mNestedScrollView;
 
@@ -133,30 +134,31 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
             return;
         }
         List<SearchHistoryBeen> searchHistory = querySearchHistoryDataList();
-        if (searchHistory.size() > 0) {
-            mHistoryDataList.clear();
-            for (SearchHistoryBeen s : searchHistory) {
-                mHistoryDataList.add(s.getKeyword());
-            }
-            mLLHistory.setVisibility(View.VISIBLE);
-            mSearchHistoryAdapter = new HistorySearchAdapter(R.layout.item_dashboard_history, mHistoryDataList);
-            mHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            mSearchHistoryAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-            mHistoryRecyclerView.setAdapter(mSearchHistoryAdapter);
-
-            mSearchHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    String currentClickItem = (String) adapter.getData().get(position);
-                    saveSearchHistory2DB(currentClickItem);
-                    action2SearchResultActivity(getActivity(), SearchResultActivity.class, currentClickItem);
-                }
-            });
+        mHistoryDataList.clear();
+        for (SearchHistoryBeen s : searchHistory) {
+            mHistoryDataList.add(s.getKeyword());
         }
+        mSearchHistoryAdapter = new HistorySearchAdapter(R.layout.item_dashboard_history, mHistoryDataList);
+        mHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mSearchHistoryAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        mHistoryRecyclerView.setAdapter(mSearchHistoryAdapter);
+        if(mHistoryDataList.size() > 0) {
+            ViewTool.INSTANCE.setViewVisible(mTxtClearHistory);
+        } else {
+            ViewTool.INSTANCE.setViewGone(mTxtClearHistory);
+        }
+        mSearchHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                String currentClickItem = (String) adapter.getData().get(position);
+                saveSearchHistory2DB(currentClickItem);
+                action2SearchResultActivity(getActivity(), SearchResultActivity.class, currentClickItem);
+            }
+        });
+
         //解决当屏幕内内容大于一屏时出现默认滚动到底部的问题
         mNestedScrollView.post(new Runnable() {
-            @Override
-            public void run() { mNestedScrollView.fullScroll(ScrollView.FOCUS_UP); }
+            @Override public void run() { mNestedScrollView.fullScroll(ScrollView.FOCUS_UP); }
         });
     }
 
@@ -173,11 +175,11 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
         mSearchHistoryDao.deleteAll();
         mHistoryDataList.clear();
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_right_2_left);
-        mLLHistory.startAnimation(animation);
+        mTxtClearHistory.startAnimation(animation);
+        mSearchHistoryAdapter.setNewData(null);
+        ViewTool.INSTANCE.setViewGone(mTxtClearHistory);
         BaseApplication.instance().mMainHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mLLHistory.setVisibility(View.GONE);
+            @Override public void run() {
                 RxAnimationTool.animateHeight(0, mRecyclerView.getHeight(), mRecyclerView);
             }
         }, animation.getDuration());
@@ -287,7 +289,7 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
     /**
      * 热门搜索
      */
-    private class HotSearchAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    private class HotSearchAdapter extends AbsBaseAdapter<String, BaseViewHolder> {
 
         public HotSearchAdapter(int layoutResId, @Nullable List<String> data) { super(layoutResId, data); }
 
@@ -303,8 +305,9 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
     /**
      * 最近搜过
      */
-    private class HistorySearchAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-        public HistorySearchAdapter(int layoutResId, @Nullable List<String> data) { super(layoutResId, data); }
+    private class HistorySearchAdapter extends AbsBaseAdapter<String, BaseViewHolder> {
+
+        public HistorySearchAdapter(int layoutResId, @Nullable List data) { super(layoutResId, data); }
 
         @Override
         protected void convert(BaseViewHolder helper, String item) {

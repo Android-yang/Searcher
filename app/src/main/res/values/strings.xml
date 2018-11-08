@@ -3,7 +3,7 @@
 
     <!--title-->
     <string name="title_home">主页</string>
-    <string name="title_dashboard">...</string>
+    <string name="title_search">搜索</string>
     <string name="title_notifications">我</string>
     <string name="title_personal_center">个人中心</string>
     <string name="title_share">分享APP得福利</string>

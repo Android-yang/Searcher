@@ -1,6 +1,7 @@
 package com.android.yangke.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -70,6 +71,11 @@ public abstract class BaseActivity extends AbsActivity implements NetBroadcastRe
     public void finish() {
         super.finish();
         hideSoftKeyBoard();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
