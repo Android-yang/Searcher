@@ -192,14 +192,14 @@ public class SearchFragment extends BaseLazyFragment implements View.OnKeyListen
         mDataList = new ArrayList<>();
         mDataList.add("王宝强");
         mDataList.add("延禧攻略");
-        mDataList.add("甄子丹");
+        mDataList.add("吐槽大会");
         mDataList.add("摩天营救");
         mDataList.add("羞羞的铁拳");
         mDataList.add("加勒比海盗");
         mDataList.add("复仇者联盟");
         mDataList.add("西虹市首富");
         mDataList.add("史泰龙");
-        mDataList.add("李连杰");
+        mDataList.add("吴亦凡");
     }
 
     @Override

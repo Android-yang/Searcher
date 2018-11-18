@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -13,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,9 +23,9 @@ import android.webkit.WebView;
 
 import com.android.yangke.R;
 import com.android.yangke.base.BaseActivity;
-import com.android.yangke.fragment.HomeFragment;
 import com.android.yangke.fragment.MeFragment;
 import com.android.yangke.fragment.SearchFragment;
+import com.android.yangke.fragment.VipFragment;
 import com.android.yangke.http.BaseParam;
 import com.android.yangke.http.NetworkTask;
 import com.android.yangke.http.Request;
@@ -35,10 +33,7 @@ import com.android.yangke.http.ResponseCode;
 import com.android.yangke.http.ServiceMap;
 import com.android.yangke.listener.OnPageChangeListener_;
 import com.android.yangke.service.ApkDownloadService;
-import com.android.yangke.tool.Constant;
 import com.android.yangke.tool.ViewTool;
-import com.android.yangke.view.TapTargetView.TapTarget;
-import com.android.yangke.view.TapTargetView.TapTargetSequence;
 import com.android.yangke.view.ViewPagerNoScroller;
 import com.android.yangke.vo.AppVersionVo;
 import com.vondear.rxtools.RxActivityTool;
@@ -65,7 +60,7 @@ public class MainActivity extends BaseActivity {
 
     private BottomNavigationView mBottomNavigationView;
     private ViewPagerNoScroller mViewPager;
-    private HomeFragment mHomeFragment;
+    private VipFragment mVipFragment;
     private View mNoNetwork;
 
     //忽略版本升级
@@ -225,10 +220,10 @@ public class MainActivity extends BaseActivity {
         viewPager.setOffscreenPageLimit(3);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         mSearchFragment = new SearchFragment();
-        mHomeFragment = new HomeFragment();
+        mVipFragment = new VipFragment();
         MeFragment meFragment = new MeFragment();
         adapter.addFragment(mSearchFragment);
-        adapter.addFragment(mHomeFragment);
+        adapter.addFragment(mVipFragment);
         adapter.addFragment(meFragment);
         viewPager.setAdapter(adapter);
     }
@@ -282,7 +277,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        WebView homeFragmentWebView = mHomeFragment.getWebView();
+        WebView homeFragmentWebView = mVipFragment.getWebView();
         if (homeFragmentWebView != null && keyCode == KeyEvent.KEYCODE_BACK && homeFragmentWebView.canGoBack()) {
             homeFragmentWebView.goBack(); //webView goBack
         }

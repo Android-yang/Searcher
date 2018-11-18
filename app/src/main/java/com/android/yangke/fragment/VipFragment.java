@@ -26,19 +26,19 @@ import butterknife.BindView;
  * email : 211yangke@gmail.com
  * desc  : 主fragment
  */
-public class HomeFragment extends BaseLazyFragment {
+public class VipFragment extends BaseLazyFragment {
 
     @BindView(R.id.webView) WebView mWebView;
     @BindView(R.id.home_hint) TextView mTxtHint;
     @BindView(R.id.progressbar_webview) ProgressBar mProgressBar;
 
     private String[] urls = {"https://btyitao.com", "http://www.btwu.xyz"}; //种子引擎地址
-    public static final String QQ = "1551121393";     //QQ
+    public static final String QQ = "QQ：1551121393";     //QQ
     public static final String QQ_FLOCK = "692699158";//QQ群
 
     @Override
     protected int setLayoutId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_vip;
     }
 
     @Override
