@@ -96,4 +96,6 @@
     <string name="toast_in_develoment">研发奋力抢修中，敬请期待...</string>
     <string name="toast_search_significance">种子搜索器，下片我们是认真的！</string>
 
+    <string name="hint_loading">加载中...</string>
+
 </resources>

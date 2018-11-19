@@ -5,6 +5,8 @@ import android.app.Application;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -36,13 +38,20 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
  * email : 211yangke@gmail.com
  * desc  : 标题栏和状态栏的抽象
  */
-public class AbsActivity extends SwipeBackActivity implements RequestListener {
+public abstract class AbsActivity extends SwipeBackActivity implements RequestListener {
 
     public Toolbar mToolbar;//整体标题栏容器
     private TextView mTitleRight;//右标题
     private FrameLayout mContentContainerView;//存放内容容器
     private View mToolbarLine;
 
+    public Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            onHandleMessage(msg);
+        }
+    };
     private SimpleRequestListenerSwitcher mSwitcher = new SimpleRequestListenerSwitcher();
     private AlertDialog progressDialog;
     protected int progressClient = 0;
@@ -352,4 +361,6 @@ public class AbsActivity extends SwipeBackActivity implements RequestListener {
             this.progressDialog = null;
         }
     }
+
+    protected abstract void onHandleMessage(Message msg);
 }

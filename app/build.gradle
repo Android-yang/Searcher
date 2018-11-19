@@ -99,4 +99,7 @@ dependencies {
 
     //文件上传，下载框架
     implementation 'com.lzy.net:okgo:2.1.4'
+    //rxjava rxandroid
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
 }
