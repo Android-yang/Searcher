@@ -12,7 +12,6 @@ import android.widget.ProgressBar;
 
 import com.android.yangke.R;
 import com.android.yangke.base.BaseActivity;
-import com.android.yangke.fragment.HomeFragment;
 import com.android.yangke.tool.Constant;
 import com.vondear.rxtools.RxClipboardTool;
 import com.vondear.rxtools.RxFileTool;

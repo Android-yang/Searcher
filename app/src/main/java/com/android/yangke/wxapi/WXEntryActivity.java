@@ -42,7 +42,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
     public static final String KEY_SHARE_COUNT = "share_count";
     private static final String WX_APP_ID = "wxcff97bee31f78c1f";
     //APP share href
-    private static final String APP_SHARE_URL = "https://www.biying.com";
+    private static final String APP_SHARE_URL = "1551121393";
     //单次分享成功可获取的免费次数
     private static final int SHARE_SUCCESS_AVAILABLE = 15;//15就行
     @BindView(R.id.share_txt_share_count)
@@ -99,7 +99,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
                         .codeColor(getColor(R.color.black))
                         .codeSide(900)
                         .into(imageDialog.getIvContent());
-                imageDialog.setDescription("种子搜索器，下片我们是认真的！");
+                imageDialog.setDescription(getString(R.string.toast_search_significance));
                 imageDialog.show();
                 break;
         }
@@ -126,10 +126,10 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.share_txt_copy_href:
                 RxClipboardTool.copyText(this, APP_SHARE_URL);
-                RxToast.normal("复制成功");
+                RxToast.normal(getString(R.string.toast_copy_success));
                 break;
             case R.id.share_txt_weibo:
-                RxToast.warning("研发奋力抢修中，敬请期待...");
+                RxToast.warning(getString(R.string.toast_in_develoment));
                 break;
             //微信朋友圈
             case R.id.share_txt_weichat:
@@ -144,7 +144,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
 
     private void weChatShare(WechatShareTools.SharePlace sharePlace) {
         if (!WechatShareTools.isWXAppInstalled()) {
-            RxToast.error("微信客户端没有安装或版本过低");
+            RxToast.error(getString(R.string.toast_wechat_no_installed));
             return;
         }
         String title = RxAppTool.getAppName(this);
@@ -170,8 +170,8 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
     private void iniShareCountFreeCount() {
         int shareCountTemp = RxSPTool.getInt(this, KEY_SHARE_COUNT);
         int shareCount = shareCountTemp == -1 ? 0 : shareCountTemp;
-        mTxtShareCount.setText("累计分享" + shareCount + "次");
-        mTxtFreeCount.setText("已获得免费次数" + shareCount * SHARE_SUCCESS_AVAILABLE + "次");
+        mTxtShareCount.setText(getString(R.string.toast_accumulative_share_num) + shareCount + getString(R.string.toast_num));
+        mTxtFreeCount.setText(getString(R.string.toast_fress_num) + shareCount * SHARE_SUCCESS_AVAILABLE + getString(R.string.toast_num));
     }
 
     @Override
@@ -191,17 +191,17 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
                 int usedCount = RxSPTool.getInt(this, SearchResultActivity.KEY_USED_COUNT);
                 int currentFreeCount = getCurrentFreeCount();
                 if(usedCount == -1) {
-                    RxToast.warning("请先试用软件，现在免费次数很足呢");
+                    RxToast.warning(getString(R.string.toast_try_use));
                     return;
                 }
                 int available = currentFreeCount + SHARE_SUCCESS_AVAILABLE;
                 //对分享获取免费次数进行控制
                 if (available > 130) {
-                    RxToast.warning("您已通过分享获得最大体验次数");
+                    RxToast.warning(getString(R.string.toast_share_max));
                     return;
                 }
                 handleShareCount();
-                String shareSuccessHint = "分享成功，可使用剩余次数" + SHARE_SUCCESS_AVAILABLE + "次";
+                String shareSuccessHint = getString(R.string.toast_share_success_free_num) + SHARE_SUCCESS_AVAILABLE + getString(R.string.toast_num);
                 RxToast.warning(shareSuccessHint);
                 RxSPTool.putInt(this, SearchResultActivity.KEY_ALL_COUNT, available);
                 break;

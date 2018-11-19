@@ -113,7 +113,7 @@ public class MeFragment extends BaseLazyFragment {
                 RxActivityTool.skipActivity(getActivity(), AboutAuthorActivity.class);
                 break;
             case R.id.me_tv_qq://作者QQ
-                RxClipboardTool.copyText(getContext(), HomeFragment.QQ);
+                RxClipboardTool.copyText(getContext(), VipFragment.QQ);
                 snakeBar(v, getString(R.string.toast_copy_author_qq_success));
                 break;
             case R.id.me_ll_youhui://
@@ -146,7 +146,7 @@ public class MeFragment extends BaseLazyFragment {
                 break;
             case R.id.me_tv_qq_flock://QQ 群
                 snakeBar(v, getString(R.string.copy_author_qq_flock_success));
-                RxClipboardTool.copyText(getContext(), HomeFragment.QQ_FLOCK);
+                RxClipboardTool.copyText(getContext(), VipFragment.QQ_FLOCK);
                 break;
             case R.id.me_tv_mianze://免责条款
                 RxActivityTool.skipActivity(getActivity(), SoftwareRequiredActivity.class);

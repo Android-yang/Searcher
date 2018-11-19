@@ -2,8 +2,8 @@
     <string name="app_name">种子搜索器</string>
 
     <!--title-->
-    <string name="title_home">主页</string>
-    <string name="title_search">搜索</string>
+    <string name="title_vip">VIP</string>
+    <string name="title_search">搜一搜</string>
     <string name="title_notifications">我</string>
     <string name="title_personal_center">个人中心</string>
     <string name="title_share">分享APP得福利</string>
@@ -72,6 +72,7 @@
     <string name="server_error">服务器异常</string>
     <string name="net_error">当前网络不可用，请检查你的网络设置</string>
     <string name="net_error_refresh">点击屏幕刷新</string>
+    <string name="hint_open_vip">高级功能请找作者开启\nQQ：1551121393！</string>
 
     <!--toast hint-->
     <string name="toast_copy_author_href_success">你已成功复制作者链接</string>
@@ -84,5 +85,15 @@
     <string name="toast_no_free_number">免费次数已经用完</string>
     <string name="toast_warm_adult_software">此软件可能包含成人内容，未成年请自觉卸载！</string>
     <string name="toast_keyword_non_null">小哥哥，关键字不能为空！</string>
+    <string name="toast_wechat_no_installed">微信客户端没有安装或版本过低</string>
+    <string name="toast_share_success_free_num">分享成功，可使用剩余次数</string>
+    <string name="toast_num">次</string>
+    <string name="toast_accumulative_share_num">累计分享</string>
+    <string name="toast_fress_num">已获得免费次数</string>
+    <string name="toast_try_use">请先试用软件，现在免费次数很足呢</string>
+    <string name="toast_share_max">您已通过分享获得最大体验次数</string>
+    <string name="toast_copy_success">复制成功</string>
+    <string name="toast_in_develoment">研发奋力抢修中，敬请期待...</string>
+    <string name="toast_search_significance">种子搜索器，下片我们是认真的！</string>
 
 </resources>
