@@ -191,11 +191,13 @@ public class MeFragment extends BaseLazyFragment {
                                 .dimColor(android.R.color.black)
                                 .outerCircleColor(R.color.c_ff541f)
                                 .drawShadow(true)
+                                .cancelable(false)
                                 .id(1),
                         TapTarget.forView(mFree, getString(R.string.surplus_free_time)).dimColor(android.R.color.black)
                                 .outerCircleColor(R.color.c_ff541f)
                                 .drawShadow(true)
                                 .id(2)
+                                .cancelable(false)
 //                        TapTarget.forBounds(target, "点击这里切换新闻", "双击返回顶部\n再次双击刷新当前页面")
 //                                .dimColor(android.R.color.black)
 //                                .outerCircleColor(R.color.c_ff541f)

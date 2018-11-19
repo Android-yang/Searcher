@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -363,4 +364,29 @@ public abstract class AbsActivity extends SwipeBackActivity implements RequestLi
     }
 
     protected abstract void onHandleMessage(Message msg);
+
+    private static long lastClickTime;
+
+    /**
+     * @return true 标识是快速点击
+     */
+    public static boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (0 <= timeD && timeD < 200) {
+            return true;
+        }
+        lastClickTime = time;
+        return false;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (isFastDoubleClick()) {
+                return true;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 }

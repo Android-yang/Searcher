@@ -7,8 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <!--解决Activity切换时状态栏文字闪动问题-->
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:colorControlHighlight">@color/colorPrimary</item>
+        <!--<item name="android:windowIsTranslucent">true</item>-->
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">

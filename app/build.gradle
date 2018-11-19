@@ -80,6 +80,7 @@ dependencies {
     //轮播图
     implementation 'com.youth.banner:banner:1.4.9'
 
+    implementation 'com.gyf.immersionbar:immersionbar:2.3.2'
     //透明状态栏并入的 lib
     implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
 
@@ -89,7 +90,6 @@ dependencies {
     //RecyclerView 框架
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
     testImplementation 'junit:junit:4.12'
-    implementation files('libs/barlibrary-2.3.0.jar')
     implementation files('libs/jsoup-1.9.2.jar')
     //热门搜索、瀑布流效果
     implementation 'com.google.android:flexbox:1.0.0'
