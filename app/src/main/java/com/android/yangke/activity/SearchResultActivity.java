@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.yangke.R;
 import com.android.yangke.adapter.MagnetAdapter;
@@ -182,21 +183,27 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
         if (mPage == 1) {
             mDataList.clear();
             mDataList.addAll(list);
-            mRefreshLayout.finishRefreshing();
-            if (mDataList.size() == 0) {
-                View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view_base, null);
-                mAdapter.setEmptyView(emptyView);
-                return;
-            }
+            if (emptyView()) return;
             //当下拉到无更多数据时，DataSetChanged 函数不能清除已有状态，需调用 loadMoreComplete
             mAdapter.loadMoreComplete();
             mAdapter.notifyDataSetChanged();
         }
     }
 
+    private boolean emptyView() {
+        mRefreshLayout.finishRefreshing();
+        if (mDataList.size() == 0) {
+            View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view_base, null);
+            mAdapter.setEmptyView(emptyView);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void onDataReceiveFailed() {
-        RxToast.warning(getString(R.string.hint_no_data));
+        emptyView();
+        RxToast.warning(getString(R.string.server_maintenance));
     }
 
     @Override
