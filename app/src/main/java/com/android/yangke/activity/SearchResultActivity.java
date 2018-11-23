@@ -183,26 +183,21 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
         if (mPage == 1) {
             mDataList.clear();
             mDataList.addAll(list);
-            if (emptyView()) return;
+            mRefreshLayout.finishRefreshing();
+            if (mDataList.size() == 0) {
+                View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view_base, null);
+                mAdapter.setEmptyView(emptyView);
+                RxToast.warning(getString(R.string.server_maintenance));
+                return;
+            }
             //当下拉到无更多数据时，DataSetChanged 函数不能清除已有状态，需调用 loadMoreComplete
             mAdapter.loadMoreComplete();
             mAdapter.notifyDataSetChanged();
         }
     }
 
-    private boolean emptyView() {
-        mRefreshLayout.finishRefreshing();
-        if (mDataList.size() == 0) {
-            View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view_base, null);
-            mAdapter.setEmptyView(emptyView);
-            return true;
-        }
-        return false;
-    }
-
     @Override
     public void onDataReceiveFailed() {
-        emptyView();
         RxToast.warning(getString(R.string.server_maintenance));
     }
 
