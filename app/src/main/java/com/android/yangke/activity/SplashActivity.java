@@ -1,6 +1,5 @@
 package com.android.yangke.activity;
 
-import android.os.CountDownTimer;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -13,6 +12,10 @@ import com.android.yangke.tool.Constant;
 import com.android.yangke.tool.ViewTool;
 import com.vondear.rxtools.RxActivityTool;
 import com.vondear.rxtools.RxSPTool;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -29,7 +32,7 @@ public class SplashActivity extends BaseActivity {
     TextView mTvLogo;
     @BindView(R.id.splash_txt_skip)
     TextView mTxtSkip;
-    private CountDownTimer mSkipTimer;
+    private ScheduledExecutorService mSplashTimer;
 
     @Override
     protected int setLayoutId() {
@@ -38,25 +41,32 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        mSkipTimer = iniSplashImage();
+        mSplashTimer = iniSplashImage();
         setSwipeBackEnable(false);
     }
 
-    private CountDownTimer iniSplashImage() {
-        CountDownTimer timer = new CountDownTimer(AppTool.INSTANCE.getSPLASH_SCREEN_DURATION(), 1000) {
+    //闪屏时长
+    private int SPLASH_SCREEN_DURATION = AppTool.INSTANCE.getENVIRONMENT_RELEASE() == true ? 3 : 2;
+    private ScheduledExecutorService iniSplashImage() {
+        ScheduledExecutorService countDownTimer = Executors.newScheduledThreadPool(1);
+        countDownTimer.scheduleAtFixedRate(new Runnable() {
             @Override
-            public void onTick(long millisUntilFinished) {
-                long second = millisUntilFinished / 1000;
-                mTxtSkip.setText(second + getString(R.string.btn_skip));
+            public void run() {
+                SPLASH_SCREEN_DURATION--;
+                final int finalDuration = SPLASH_SCREEN_DURATION;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mTxtSkip.setText(finalDuration + getString(R.string.btn_skip));
+                        if(finalDuration == 0) {
+                            toMain();
+                        }
+                    }
+                });
             }
+        }, 0, 1, TimeUnit.SECONDS);
 
-            @Override
-            public void onFinish() {
-                toMain();
-            }
-        };
-        timer.start();
-        return timer;
+        return countDownTimer;
     }
 
 
@@ -68,6 +78,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void toMain() {
+        mSplashTimer.shutdown();
         if (RxSPTool.isFirstOpenApp(BaseApplication.instance(), Constant.FIRST_OPEN_APP))
             RxActivityTool.skipActivity(SplashActivity.this, AppExplainActivity.class);
         else {
@@ -76,18 +87,10 @@ public class SplashActivity extends BaseActivity {
         finish();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mSkipTimer.cancel();
-        finish();
-    }
-
     @OnClick({R.id.splash_txt_skip})
     public void click(View v) {
         switch (v.getId()) {
             case R.id.splash_txt_skip:
-                mSkipTimer.cancel();
                 toMain();
                 break;
         }

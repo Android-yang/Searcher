@@ -12,6 +12,4 @@ object AppTool {
 
     //打包环境
     val ENVIRONMENT_RELEASE = BuildConfig.ENVIRONMENT
-    //闪屏时长
-    val SPLASH_SCREEN_DURATION = if (ENVIRONMENT_RELEASE == true) 3000 else 1
 }
