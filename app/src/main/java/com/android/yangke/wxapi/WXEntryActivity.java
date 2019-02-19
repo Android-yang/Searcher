@@ -3,14 +3,19 @@ package com.android.yangke.wxapi;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.android.yangke.R;
 import com.android.yangke.activity.SearchResultActivity;
 import com.android.yangke.base.BaseActivity;
+import com.android.yangke.tool.Constant;
+import com.android.yangke.tool.ViewTool;
 import com.android.yangke.view.ImageDialog;
 import com.android.yangke.view.RightClickCancelDialog;
+import com.android.yangke.view.RxLoadingView;
 import com.android.yangke.view.ShareDialog;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -21,10 +26,12 @@ import com.vondear.rxtools.RxClipboardTool;
 import com.vondear.rxtools.RxImageTool;
 import com.vondear.rxtools.RxLogTool;
 import com.vondear.rxtools.RxSPTool;
+import com.vondear.rxtools.RxThreadPoolTool;
 import com.vondear.rxtools.module.wechat.share.WechatShareModel;
 import com.vondear.rxtools.module.wechat.share.WechatShareTools;
 import com.vondear.rxtools.view.RxQRCode;
 import com.vondear.rxtools.view.RxToast;
+import com.vondear.rxtools.view.dialog.RxDialogLoading;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -51,6 +58,8 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
     TextView mTxtFreeCount;
     private ShareDialog mShareDialog;
     private IWXAPI mWXAPI;
+    private RxLoadingView mLoadingQRCodeLoadingView;
+    private ImageDialog mLoadingQRCodeView;
 
     @Override
     protected int setLayoutId() {
@@ -68,7 +77,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initView() {
         setTileLeft(getString(R.string.title_share));
-        setTitleRight("", getDrawable(R.drawable.icon_share));
+        setTitleRight("", getResources().getDrawable(R.drawable.icon_share));
         setToolbarLineVisible();
         iniShareCountFreeCount();
     }
@@ -93,21 +102,42 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
                 break;
             //我的邀请二维码
             case R.id.share_txt_share_qr:
-                ImageDialog imageDialog = new ImageDialog(this, 0);
-                RxQRCode.builder(APP_SHARE_URL)
-                        .backColor(getColor(R.color.white))
-                        .codeColor(getColor(R.color.black))
-                        .codeSide(900)
-                        .into(imageDialog.getIvContent());
-                imageDialog.setDescription(getString(R.string.toast_search_significance));
-                imageDialog.show();
+                showQRCodeView();
                 break;
         }
+    }
+
+    private void showQRCodeView() {
+        mLoadingQRCodeLoadingView = new RxLoadingView(this);
+        mLoadingQRCodeLoadingView.show();
+        mLoadingQRCodeView = new ImageDialog(WXEntryActivity.this, 0);
+
+        new Thread(){
+            @Override
+            public void run() {
+                RxQRCode.builder(APP_SHARE_URL)
+                        .backColor(getResources().getColor(R.color.white))
+                        .codeColor(getResources().getColor(R.color.black))
+                        .codeSide(900)
+                        .into(mLoadingQRCodeView.getIvContent());
+                mLoadingQRCodeView.setDescription(getString(R.string.toast_search_significance));
+                mHandler.sendEmptyMessage(Constant.EMPTY_MESSAGE);
+            }
+        }.start();
     }
 
     @Override
     protected void onRightButtonClick() {
         showShareDialog();
+    }
+
+    @Override
+    protected void onHandleMessage(Message msg) {
+        if(msg.what == Constant.EMPTY_MESSAGE) {
+            RxLogTool.d("---------"+Thread.currentThread().getName());
+            ViewTool.INSTANCE.dismissDialog(mLoadingQRCodeLoadingView);
+            mLoadingQRCodeView.show();
+        }
     }
 
     private void showShareDialog() {

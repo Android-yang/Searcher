@@ -47,6 +47,7 @@
 -keep public class * extends android.app.Service
 -keep public class * extends android.content.BroadcastReceiver
 -keep public class * extends android.content.ContentProvider
+ -keep class com.gyf.barlibrary.* {*;}
 
 # 保持自定义控件类不被混淆
 -keepclasseswithmembers class * {

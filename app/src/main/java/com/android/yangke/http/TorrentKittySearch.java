@@ -69,9 +69,8 @@ public class TorrentKittySearch implements MagnetRequest {
             return data;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-
-        return new ArrayList<>();
     }
 
     /**

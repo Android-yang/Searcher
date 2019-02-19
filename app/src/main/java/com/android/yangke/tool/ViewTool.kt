@@ -1,5 +1,6 @@
 package com.android.yangke.tool
 
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Typeface
 import android.view.View
@@ -92,5 +93,10 @@ object ViewTool {
         textView.typeface = typeface
     }
 
+    fun dismissDialog(dia: Dialog) {
+        if (null != dia ) {
+            dia.dismiss()
+        }
+    }
 
 }
