@@ -74,23 +74,21 @@ public class RxNetTool {
      * @link #NETWORK_UNKNOWN =  5; 未知网络
      */
     public static int getNetWorkType(Context context) {
-        // 获取ConnectivityManager
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo ni = cm.getActiveNetworkInfo();// 获取当前网络状态
-
         int netType = NETWORK_NO;
 
-        if (ni != null && ni.isConnectedOrConnecting()) {
+        // 获取ConnectivityManager
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();// 获取当前网络状态
 
-            switch (ni.getType()) {//获取当前网络的状态
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+            switch (networkInfo.getType()) {//获取当前网络的状态
                 case ConnectivityManager.TYPE_WIFI:// wifi的情况下
                     netType = NETWORK_WIFI;
-                    RxToast.success("切换到wifi环境下");
+//                    RxToast.success("切换到wifi环境下");
                     break;
                 case ConnectivityManager.TYPE_MOBILE:
 
-                    switch (ni.getSubtype()) {
+                    switch (networkInfo.getSubtype()) {
                         case NETWORK_TYPE_GSM:
                         case TelephonyManager.NETWORK_TYPE_GPRS: // 联通2g
                         case TelephonyManager.NETWORK_TYPE_CDMA: // 电信2g
@@ -98,7 +96,7 @@ public class RxNetTool {
                         case TelephonyManager.NETWORK_TYPE_1xRTT:
                         case TelephonyManager.NETWORK_TYPE_IDEN:
                             netType = NETWORK_2G;
-                            RxToast.info("切换到2G环境下");
+//                            RxToast.info("切换到2G环境下");
                             break;
                         case TelephonyManager.NETWORK_TYPE_EVDO_A: // 电信3g
                         case TelephonyManager.NETWORK_TYPE_UMTS:
@@ -111,17 +109,16 @@ public class RxNetTool {
                         case TelephonyManager.NETWORK_TYPE_HSPAP:
                         case NETWORK_TYPE_TD_SCDMA:
                             netType = NETWORK_3G;
-                            RxToast.info("切换到3G环境下");
+//                            RxToast.info("切换到3G环境下");
                             break;
                         case TelephonyManager.NETWORK_TYPE_LTE:
 
                         case NETWORK_TYPE_IWLAN:
                             netType = NETWORK_4G;
-                            RxToast.info("切换到4G环境下");
+//                            RxToast.info("切换到4G环境下");
                             break;
                         default:
-
-                            String subtypeName = ni.getSubtypeName();
+                            String subtypeName = networkInfo.getSubtypeName();
                             if (subtypeName.equalsIgnoreCase("TD-SCDMA")
                                     || subtypeName.equalsIgnoreCase("WCDMA")
                                     || subtypeName.equalsIgnoreCase("CDMA2000")) {
@@ -129,17 +126,17 @@ public class RxNetTool {
                             } else {
                                 netType = NETWORK_UNKNOWN;
                             }
-                            RxToast.normal("未知网络");
+//                            RxToast.normal("未知网络");
                     }
                     break;
                 default:
-                    netType = 5;
-                    RxToast.normal("未知网络");
+                    netType = NETWORK_UNKNOWN;
+//                    RxToast.normal("未知网络");
             }
 
         } else {
             netType = NETWORK_NO;
-            RxToast.error(context, "当前无网络连接").show();
+//            RxToast.error(context, "当前无网络连接").show();
         }
         return netType;
     }

@@ -168,6 +168,27 @@ public class RxSPTool {
     }
 
     /**
+     * @param ctx context
+     * @param key key
+     * @return true：first open APP
+     */
+    public static boolean isFirstOpenApp (Context ctx, String key) {
+        SharedPreferences sp = ctx.getSharedPreferences(key, Context.MODE_PRIVATE);
+        return sp.getBoolean(key, true);
+    }
+
+    /**
+     *
+     * @param ctx context
+     * @param key key
+     * @return true: 已经打开过“我”QQ群、剩余次数
+     */
+    public static boolean isFirstOpenIndicate(Context ctx, String key) {
+        SharedPreferences sp = ctx.getSharedPreferences(key, Context.MODE_PRIVATE);
+        return sp.getBoolean(key, true);
+    }
+
+    /**
      * SP中移除该key
      *
      * @param key 键

@@ -1,4 +1,4 @@
-package com.android.yangke.util;
+package com.android.yangke.tool;
 
 import com.android.yangke.base.BaseResponse;
 import com.google.gson.Gson;
@@ -13,10 +13,10 @@ import java.util.Map;
  * email : 211yangke@gmail.com
  * desc  : Gson 转 vo
  */
-public class GsonTools {
+public class GsonTool {
 
     private volatile static Gson mGson = null;
-    private GsonTools() { }
+    private GsonTool() { }
 
     public static void init() {
         instance();
@@ -24,7 +24,7 @@ public class GsonTools {
 
     public static Gson instance() {
         if(mGson == null) {
-            synchronized (GsonTools.class) {
+            synchronized (GsonTool.class) {
                 if(mGson == null) {
                     mGson = new Gson();
                 }

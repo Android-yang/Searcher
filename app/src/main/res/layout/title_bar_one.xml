@@ -6,7 +6,7 @@
     android:background="@color/c_4f2c241f">
 
     <EditText
-        android:id="@+id/dashboard_et_title"
+        android:id="@+id/search_et_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp"

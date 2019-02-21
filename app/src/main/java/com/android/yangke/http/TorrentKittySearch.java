@@ -9,6 +9,9 @@ import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.SocketAddress;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,9 +69,8 @@ public class TorrentKittySearch implements MagnetRequest {
             return data;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-
-        return new ArrayList<>();
     }
 
     /**
@@ -124,8 +126,10 @@ public class TorrentKittySearch implements MagnetRequest {
      * @throws IOException IOException
      */
     public static Document getDocument(String pageUrl) throws IOException {
+//        SocketAddress address = new InetSocketAddress("121.61.0.165", 9999);
         return Jsoup.connect(pageUrl)
                 .userAgent(getRandomUserAgent())
+//                .proxy(new Proxy(Proxy.Type.HTTP, address))
                 .timeout(TIME_OUT)
                 .get();
     }

@@ -1,21 +1,20 @@
 package com.android.yangke.activity;
 
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.yangke.R;
 import com.android.yangke.adapter.MagnetAdapter;
 import com.android.yangke.base.BaseActivity;
-import com.android.yangke.fragment.DashboardFragment;
 import com.android.yangke.fragment.MeFragment;
+import com.android.yangke.fragment.SearchFragment;
 import com.android.yangke.http.RequestListener;
 import com.android.yangke.http.SearchTask;
-import com.android.yangke.util.AppTools;
 import com.android.yangke.vo.MagnetVo;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -25,6 +24,7 @@ import com.vondear.rxtools.RxAppTool;
 import com.vondear.rxtools.RxClipboardTool;
 import com.vondear.rxtools.RxSPTool;
 import com.vondear.rxtools.view.RxToast;
+import com.vondear.rxtools.view.dialog.RxDialogLoading;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +41,9 @@ import static com.vondear.rxtools.RxTool.getContext;
  */
 public class SearchResultActivity extends BaseActivity implements RequestListener {
 
-    @BindView(R.id.dashboard_recycler_view)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.dashboard_refreshLayout)
-    TwinklingRefreshLayout mRefreshLayout;
+    @BindView(R.id.dashboard_recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.dashboard_refreshLayout) TwinklingRefreshLayout mRefreshLayout;
+
     private MagnetAdapter mAdapter;
     private int mPage = 1;//请求页数(例：第一页，第二页)
 
@@ -68,7 +67,7 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
     @Override
     protected void initData() {
         Intent intent = getIntent();
-        mKeyword = intent.getStringExtra(DashboardFragment.KEY_KEYWORD);//搜索关键字
+        mKeyword = intent.getStringExtra(SearchFragment.KEY_KEYWORD);//搜索关键字
         executeTask(iniSearchTask(), mKeyword, mPage);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -107,13 +106,15 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                RxDialogLoading loading = new RxDialogLoading(SearchResultActivity.this);
+                loading.show();
                 MagnetVo vo = (MagnetVo) adapter.getItem(position);
-                if (!RxAppTool.appIsInstalled(SearchResultActivity.this, getString(R.string.thunder_package))) {
+                if (!RxAppTool.appIsInstalled(SearchResultActivity.this, getString(R.string.thunder_package), loading)) {
                     MeFragment.snakeBar(mRecyclerView, getString(R.string.hint_thunder_no_installed));
                     return;
                 }
                 if (isPay()) {
-                    RxToast.error("免费次数已经用完");
+                    RxToast.error(getString(R.string.toast_no_free_number));
                     //TODO 支付
 //                    RxSPUtils.clearPreference(getApplicationContext(), KEY_USED_COUNT, KEY_USED_COUNT); //付费完成清空已使用次数
                     return;
@@ -186,6 +187,7 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
             if (mDataList.size() == 0) {
                 View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view_base, null);
                 mAdapter.setEmptyView(emptyView);
+                RxToast.warning(getString(R.string.server_maintenance));
                 return;
             }
             //当下拉到无更多数据时，DataSetChanged 函数不能清除已有状态，需调用 loadMoreComplete
@@ -196,7 +198,7 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
 
     @Override
     public void onDataReceiveFailed() {
-        RxToast.warning(getString(R.string.hint_no_data));
+        RxToast.warning(getString(R.string.server_maintenance));
     }
 
     @Override

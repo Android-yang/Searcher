@@ -5,10 +5,13 @@ import android.app.Application;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -20,7 +23,7 @@ import com.android.yangke.http.NetworkTask;
 import com.android.yangke.http.RequestListener;
 import com.android.yangke.http.SimpleRequestListenerSwitcher;
 import com.android.yangke.http.TaskManager;
-import com.android.yangke.util.Constant;
+import com.android.yangke.tool.Constant;
 import com.gyf.barlibrary.ImmersionBar;
 import com.orhanobut.logger.Logger;
 import com.vondear.rxtools.RxDeviceTool;
@@ -36,13 +39,20 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
  * email : 211yangke@gmail.com
  * desc  : 标题栏和状态栏的抽象
  */
-public class AbsActivity extends SwipeBackActivity implements RequestListener {
+public abstract class AbsActivity extends SwipeBackActivity implements RequestListener {
 
-    protected Toolbar mToolbar;//整体标题栏容器
+    public Toolbar mToolbar;//整体标题栏容器
     private TextView mTitleRight;//右标题
     private FrameLayout mContentContainerView;//存放内容容器
     private View mToolbarLine;
 
+    public Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            onHandleMessage(msg);
+        }
+    };
     private SimpleRequestListenerSwitcher mSwitcher = new SimpleRequestListenerSwitcher();
     private AlertDialog progressDialog;
     protected int progressClient = 0;
@@ -217,7 +227,7 @@ public class AbsActivity extends SwipeBackActivity implements RequestListener {
 
 
     private void logMethodName() {
-        if (Constant.LOG_LIFECYCLE) {
+        if (Constant.INSTANCE.getLOG_LIFECYCLE()) {
             String methodName = new Throwable().getStackTrace()[1].getMethodName();
             String className = getClass().getSimpleName();
             Logger.d(className + " " + methodName + "()");
@@ -351,5 +361,32 @@ public class AbsActivity extends SwipeBackActivity implements RequestListener {
             }
             this.progressDialog = null;
         }
+    }
+
+    protected abstract void onHandleMessage(Message msg);
+
+    private static long lastClickTime;
+
+    /**
+     * @return true 标识是快速点击
+     */
+    public static boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (0 <= timeD && timeD < 200) {
+            return true;
+        }
+        lastClickTime = time;
+        return false;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (isFastDoubleClick()) {
+                return true;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }

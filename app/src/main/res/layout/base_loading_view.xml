@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <!--android:paddingLeft="@dimen/sp16" android:paddingRight="@dimen/sp16" 尽可能保证进度条为正方形-->
+    <ProgressBar
+        android:id="@+id/progressbar_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/sp16"
+        android:paddingRight="@dimen/sp16"
+        />
+
+    <TextView
+        android:id="@+id/txt_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hint_loading"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/sp14" />
+
+</LinearLayout>

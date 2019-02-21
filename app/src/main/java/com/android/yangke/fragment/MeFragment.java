@@ -1,8 +1,10 @@
 package com.android.yangke.fragment;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.webkit.WebView;
@@ -14,8 +16,12 @@ import com.android.yangke.activity.AboutAuthorActivity;
 import com.android.yangke.activity.AuthorActivity;
 import com.android.yangke.activity.SearchResultActivity;
 import com.android.yangke.activity.SoftwareRequiredActivity;
+import com.android.yangke.base.BaseApplication;
 import com.android.yangke.base.BaseLazyFragment;
-import com.android.yangke.util.Constant;
+import com.android.yangke.tool.Constant;
+import com.android.yangke.tool.ViewTool;
+import com.android.yangke.view.TapTargetView.TapTarget;
+import com.android.yangke.view.TapTargetView.TapTargetSequence;
 import com.android.yangke.wxapi.WXEntryActivity;
 import com.gyf.barlibrary.ImmersionBar;
 import com.vondear.rxtools.RxActivityTool;
@@ -38,47 +44,32 @@ import butterknife.OnClick;
  */
 public class MeFragment extends BaseLazyFragment {
 
-    private static final String HINT_QQ = "您已成功复制作者QQ";
-    private static final String HINT_QQ_FLOCK = "您已成功复制作者QQ群";
-    @BindView(R.id.me_tv_title)
-    TextView mTitle;
-    @BindView(R.id.mt_tv_versionCode)
-    TextView mVersionCode;
-    @BindView(R.id.me_ll_personal_msg)
-    LinearLayout mLLPersonalMsg;
-    @BindView(R.id.me_ll_youhui)
-    LinearLayout mLLYouHui;
-    @BindView(R.id.me_ll_fapiao)
-    LinearLayout mLLFaPiao;
-    @BindView(R.id.me_tv_tuijian)
-    TextView mTvTuiJian;
-    @BindView(R.id.me_tv_account)
-    TextView mTvAccount;
-    @BindView(R.id.me_tv_qq_flock)
-    TextView mTvMsg;
-    @BindView(R.id.me_tv_mianze)
-    TextView mTvMianZe;
-    @BindView(R.id.me_txt_free)
-    TextView mFree;//剩余次数
+    @BindView(R.id.me_tv_title) TextView mTitle;
+    @BindView(R.id.mt_tv_versionCode) TextView mVersionCode;
+    @BindView(R.id.me_ll_personal_msg) LinearLayout mLLPersonalMsg;
+    @BindView(R.id.me_ll_youhui) LinearLayout mLLYouHui;
+    @BindView(R.id.me_ll_fapiao) LinearLayout mLLFaPiao;
+    @BindView(R.id.me_tv_tuijian) TextView mTvTuiJian;
+    @BindView(R.id.me_tv_account) TextView mTvAccount;
+    @BindView(R.id.me_tv_qq_flock) TextView mTvMsg;
+    @BindView(R.id.me_tv_mianze) TextView mTvMianZe;
+    @BindView(R.id.me_txt_free) TextView mFree;//剩余次数
+    @BindView(R.id.me_txt_author) TextView mTvAuthorMsg;
 
     private WebView mWebView;//增加访问量
 
     private String[] urlAry = {
-            "https://www.jianshu.com/p/bca0f815f271"
-            , "https://www.jianshu.com/p/4c19ddd9f02f"
-            , "https://www.jianshu.com/p/97a7ead430d4"
-            , "https://www.jianshu.com/p/fb31c275b3e7"
-            , "https://www.jianshu.com/p/886ab64c1afa"
-            , "https://www.jianshu.com/p/5cb0901050ad"
-            , "https://www.jianshu.com/p/e9fd1b7fb30f"
-            , "https://www.jianshu.com/p/e9fd1b7fb30f"
-            , "https://www.jianshu.com/p/0fb2a78208aa"
-            , "https://www.jianshu.com/p/2f1964f98e44"
+            "https://www.jianshu.com/p/bca0f815f271", "https://www.jianshu.com/p/4c19ddd9f02f"
+            , "https://www.jianshu.com/p/97a7ead430d4", "https://www.jianshu.com/p/fb31c275b3e7"
+            , "https://www.jianshu.com/p/886ab64c1afa", "https://www.jianshu.com/p/5cb0901050ad"
+            , "https://www.jianshu.com/p/e9fd1b7fb30f", "https://www.jianshu.com/p/e9fd1b7fb30f"
+            , "https://www.jianshu.com/p/0fb2a78208aa", "https://www.jianshu.com/p/2f1964f98e44"
     };
 
     public static void snakeBar(View v, String hint) {
         Snackbar.make(v, hint, Snackbar.LENGTH_SHORT)
-                .setAction("Action", null).show();
+                .setAction("Action", null)
+                .show();
     }
 
     @Override
@@ -93,9 +84,7 @@ public class MeFragment extends BaseLazyFragment {
     }
 
     @Override
-    protected void initData() {
-        mWebView = new WebView(getContext());//此WebView主要用来记载作者信息，增加访问量
-    }
+    protected void initData() { }
 
     @Override
     public void onResume() {
@@ -124,26 +113,25 @@ public class MeFragment extends BaseLazyFragment {
                 RxActivityTool.skipActivity(getActivity(), AboutAuthorActivity.class);
                 break;
             case R.id.me_tv_qq://作者QQ
-                RxClipboardTool.copyText(getContext(), HomeFragment.QQ);
-                snakeBar(v, HINT_QQ);
+                RxClipboardTool.copyText(getContext(), VipFragment.QQ);
+                snakeBar(v, getString(R.string.toast_copy_author_qq_success));
                 break;
             case R.id.me_ll_youhui://
                 break;
-
             case R.id.me_ll_fapiao:
                 doubleVisit();//增加访问量
-                int visit = RxSPTool.getInt(getContext(), Constant.KEY_VISIT);
+                int visit = RxSPTool.getInt(getContext(), Constant.INSTANCE.getKEY_VISIT());
                 if(visit > 57) {//双击 60 次开启vip功能
-                    RxSPTool.putBoolean(getContext(),Constant.KEY_VIP, true);
-                    RxToast.warning("您已经具有 VIP 权限，重启 APP 开始体验吧！");
+                    RxSPTool.putBoolean(getContext(), Constant.INSTANCE.getKEY_VIP(), true);
+                    RxToast.warning(getString(R.string.toast_is_vip_restart));
                 } else {
                     visit++;
-                    RxSPTool.putInt(getContext(), Constant.KEY_VISIT, visit);
+                    RxSPTool.putInt(getContext(), Constant.INSTANCE.getKEY_VISIT(), visit);
                 }
                 break;
             case R.id.me_ll_free://剩余次数
                 int freeCount = getFreeCount();
-                String hintMsg = "可使用剩余次数" + freeCount + "次， 你可通过分享此软件获取体验次数！";
+                String hintMsg = getString(R.string.toast_use_count_) + freeCount + getString(R.string._toast_use_count);
                 if (freeCount == 0) {
                     snakeBar(v, hintMsg);
                 } else {
@@ -154,11 +142,11 @@ public class MeFragment extends BaseLazyFragment {
                 RxActivityTool.skipActivity(getActivity(), WXEntryActivity.class);
                 break;
             case R.id.me_tv_account://账户安全
-                RxToast.warning("已经很安全了");
+                RxToast.warning(getString(R.string.toast_account_self));
                 break;
             case R.id.me_tv_qq_flock://QQ 群
-                snakeBar(v, HINT_QQ_FLOCK);
-                RxClipboardTool.copyText(getContext(), HomeFragment.QQ_FLOCK);
+                snakeBar(v, getString(R.string.copy_author_qq_flock_success));
+                RxClipboardTool.copyText(getContext(), VipFragment.QQ_FLOCK);
                 break;
             case R.id.me_tv_mianze://免责条款
                 RxActivityTool.skipActivity(getActivity(), SoftwareRequiredActivity.class);
@@ -180,7 +168,57 @@ public class MeFragment extends BaseLazyFragment {
 
     @Override
     protected void initView() {
-        super.initView();
-        mVersionCode.setText("版本V" + RxAppTool.getAppVersionName(getContext()));
+        mWebView = new WebView(getContext());
+        mVersionCode.setText(getString(R.string.app_version) + RxAppTool.getAppVersionName(getContext()));
+        ViewTool.INSTANCE.textSetTypeface(mTvAuthorMsg, BaseApplication.instance(), Constant.INSTANCE.getFONT_FOUNDER_SIMPLIFIED());
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    protected void onVisible() {
+        if (RxSPTool.isFirstOpenApp(BaseApplication.instance(), Constant.FIRST_OPEN_INDICATE)) {
+            showTapTarget();
+        }
+    }
+
+    /**
+     * 引导用户使用
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void showTapTarget() {
+        TapTargetSequence sequence = new TapTargetSequence(getActivity())
+                .targets(TapTarget.forView(mTvMsg, getString(R.string.join_flock_welfare))
+                                .dimColor(android.R.color.black)
+                                .outerCircleColor(R.color.c_ff541f)
+                                .drawShadow(true)
+                                .cancelable(false)
+                                .id(1),
+                        TapTarget.forView(mFree, getString(R.string.surplus_free_time)).dimColor(android.R.color.black)
+                                .outerCircleColor(R.color.c_ff541f)
+                                .drawShadow(true)
+                                .id(2)
+                                .cancelable(false)
+//                        TapTarget.forBounds(target, "点击这里切换新闻", "双击返回顶部\n再次双击刷新当前页面")
+//                                .dimColor(android.R.color.black)
+//                                .outerCircleColor(R.color.c_ff541f)
+//                                .transparentTarget(true)
+//                                .drawShadow(true)
+//                                .cancelable(false)
+//                                .id(3)
+                ).listener(new TapTargetSequence.Listener() {
+                    @Override
+                    public void onSequenceFinish() { setFirstOpenAppToFalse(); }
+
+                    @Override
+                    public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) { }
+
+                    @Override
+                    public void onSequenceCanceled(TapTarget lastTarget) { setFirstOpenAppToFalse(); }
+
+                    private void setFirstOpenAppToFalse() {
+                        RxSPTool.putBoolean(BaseApplication.instance(), Constant.FIRST_OPEN_INDICATE, false);
+                    }
+                });
+        sequence.start();
     }
 }

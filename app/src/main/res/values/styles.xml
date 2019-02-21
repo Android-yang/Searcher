@@ -7,7 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <!--解决Activity切换时状态栏文字闪动问题-->
-        <item name="android:windowIsTranslucent">true</item>
+        <!--<item name="android:windowIsTranslucent">true</item>-->
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -38,6 +38,11 @@
         <item name="android:windowExitAnimation">@anim/anim_right_2_left</item>
     </style>
 
+    <style name="DialogEnterOut4">
+        <item name="android:windowEnterAnimation">@anim/anim_bottom_2_top</item>
+        <item name="android:windowExitAnimation">@anim/anim_view_top_2_bottom</item>
+    </style>
+
     <!--个人中心 item-->
     <style name="me_item_property">
         <item name="android:layout_width">0dp</item>
@@ -57,11 +62,19 @@
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingBottom">@dimen/dp10</item>
-        <item name="android:paddingTop">@dimen/dp10</item>
+        <item name="android:paddingBottom">@dimen/dp12</item>
+        <item name="android:paddingTop">@dimen/dp12</item>
         <item name="android:textColor">@color/c_2c241f</item>
         <item name="android:drawablePadding">@dimen/activity_horizontal_margin</item>
     </style>
-    <!--个人中心 item recommend-->
-    <style name="me_item_recommend" parent="me_item_setting"></style>
+
+    <style name="AppThemeTranslucent.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppThemeTranslucent.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="all_wrap_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>

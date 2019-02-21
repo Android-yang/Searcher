@@ -1,13 +1,17 @@
 package com.vondear.rxtools;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.ActivityOptions;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 
 import java.util.List;
 import java.util.Stack;
@@ -221,6 +225,22 @@ public class RxActivityTool {
         Intent intent = new Intent(context, goal);
         intent.putExtras(bundle);
         context.startActivity(intent);
+    }
+
+    /**
+     * Activity 跳转，具有转场动画
+     * @param context
+     * @param goal
+     * @param activityOptions
+     */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public static void skipActivity(Context context, Class<?> goal, ActivityOptions activityOptions) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            Intent intent = new Intent(context, goal);
+            context.startActivity(intent, activityOptions.toBundle());
+        } else {
+            skipActivity(context, goal);
+        }
     }
 
     public static void skipActivityForResult(Activity context, Class<?> goal, int requestCode) {

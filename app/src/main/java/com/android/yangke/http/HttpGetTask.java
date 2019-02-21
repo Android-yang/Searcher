@@ -1,7 +1,5 @@
 package com.android.yangke.http;
 
-import com.android.yangke.util.Constant;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.HttpURLConnection;

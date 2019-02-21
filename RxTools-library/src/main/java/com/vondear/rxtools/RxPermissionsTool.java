@@ -58,7 +58,18 @@ public class RxPermissionsTool {
             }
             return list;
         }
+    }
 
+    /**
+     * @param act activity
+     * @param permission permission
+     * @return true: 标识具有权限
+     */
+    public static boolean permissionGranted (Activity act, String permission) {
+        if (ActivityCompat.checkSelfPermission(act, permission) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        return false;
     }
 
 

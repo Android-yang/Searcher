@@ -1,11 +1,16 @@
 package com.android.yangke.base;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.android.yangke.tool.receiver.NetBroadcastReceiver;
 import com.gyf.barlibrary.ImmersionBar;
 
 import butterknife.ButterKnife;
@@ -17,11 +22,14 @@ import butterknife.Unbinder;
  * email : 211yangke@gmail.com
  * desc  : base activity
  */
-public abstract class BaseActivity extends AbsActivity {
+public abstract class BaseActivity extends AbsActivity implements NetBroadcastReceiver.NetChangeListener{
 
     private Unbinder mBinder;
     private InputMethodManager mInputMethodManager;
     protected ImmersionBar mImmersionBar;
+
+    private NetBroadcastReceiver mNetReceiver;
+    public static NetBroadcastReceiver.NetChangeListener mListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +52,11 @@ public abstract class BaseActivity extends AbsActivity {
     protected abstract int setLayoutId();
 
     protected void initData() {
+        mListener = this;
+        mNetReceiver = new NetBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(mNetReceiver, intentFilter);
     }
 
     protected void initView() {
@@ -53,9 +66,18 @@ public abstract class BaseActivity extends AbsActivity {
     }
 
     @Override
+    public void onNetworkChangeListener(int status) {
+    }
+
+    @Override
     public void finish() {
         super.finish();
         hideSoftKeyBoard();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
@@ -80,6 +102,12 @@ public abstract class BaseActivity extends AbsActivity {
         if (mBinder != null) {
             mBinder.unbind();
         }
+        if(mNetReceiver != null) {
+            unregisterReceiver(mNetReceiver);
+        }
     }
+
+    @Override
+    protected void onHandleMessage(Message msg) { }
 }
 

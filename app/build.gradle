@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 //apply plugin
 apply plugin: 'org.greenrobot.greendao'
 
+//use kotlin language
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+ext {
+    SUPPORT_LIBRARY_VERSION = '27.1.0'
+}
+
 def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
@@ -20,7 +28,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "1.1.1"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -30,6 +38,11 @@ android {
             //Zipalign优化
             shrinkResources true//启动资源压缩
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("Boolean", "ENVIRONMENT", "true")
+        }
+
+        debug {
+            buildConfigField("Boolean", "ENVIRONMENT", "false")
         }
     }
 
@@ -43,36 +56,50 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    //noinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation 'com.android.support:design:27.1.0'
+    implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
+    implementation "com.android.support:design:${SUPPORT_LIBRARY_VERSION}"
+    implementation "com.android.support:support-vector-drawable:${SUPPORT_LIBRARY_VERSION}"
+    implementation "com.android.support:support-v4:${SUPPORT_LIBRARY_VERSION}"
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    implementation 'com.android.support:support-vector-drawable:27.1.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //工具类库
     //    implementation 'com.github.vondear:RxTools:v1.7.3.4'
     implementation project(':RxTools-library')
+
     //侧滑返回
     implementation project(':Swipeback')
+
     //butterknife 避免 findViewById 的使用
     //注解
     implementation 'com.jakewharton:butterknife:8.7.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
     //图片加载框架
     compile 'com.github.bumptech.glide:glide:3.7.0'
+
     //轮播图
     implementation 'com.youth.banner:banner:1.4.9'
+
+    implementation 'com.gyf.immersionbar:immersionbar:2.3.2'
     //透明状态栏并入的 lib
     implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
-    implementation 'com.android.support:support-v4:27.1.0'
+
     //log框架
     implementation 'com.orhanobut:logger:2.1.1'
+
     //RecyclerView 框架
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
     testImplementation 'junit:junit:4.12'
-    implementation files('libs/barlibrary-2.3.0.jar')
     implementation files('libs/jsoup-1.9.2.jar')
+    //热门搜索、瀑布流效果
+    implementation 'com.google.android:flexbox:1.0.0'
+
     //数据库框架
     implementation 'org.greenrobot:greendao:3.2.2'
+
     //文件上传，下载框架
-    implementation'com.lzy.net:okgo:2.1.4'
+    implementation 'com.lzy.net:okgo:2.1.4'
+    //rxjava rxandroid
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
 }

@@ -15,11 +15,9 @@ import java.util.List;
  * email : 211yangke@gmail.com
  * desc  : 磁力搜索结果
  */
-public class MagnetAdapter extends BaseQuickAdapter<MagnetVo, BaseViewHolder> {
+public class MagnetAdapter extends AbsBaseAdapter<MagnetVo, BaseViewHolder> {
 
-    public MagnetAdapter(int layoutResId, @Nullable List<MagnetVo> data) {
-        super(layoutResId, data);
-    }
+    public MagnetAdapter(int layoutResId, @Nullable List<MagnetVo> data) { super(layoutResId, data); }
 
     @Override
     protected void convert(BaseViewHolder helper, MagnetVo item) {
