@@ -4,10 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-<<<<<<< HEAD
-=======
 import android.os.Build;
->>>>>>> yangkeDevelopment
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
@@ -39,11 +36,8 @@ import com.android.yangke.service.ApkDownloadService;
 import com.android.yangke.tool.ViewTool;
 import com.android.yangke.view.ViewPagerNoScroller;
 import com.android.yangke.vo.AppVersionVo;
-<<<<<<< HEAD
-=======
 import com.vondear.rxtools.RxActivityTool;
 import com.vondear.rxtools.RxBarTool;
->>>>>>> yangkeDevelopment
 import com.vondear.rxtools.RxDeviceTool;
 import com.vondear.rxtools.RxFileTool;
 import com.vondear.rxtools.RxNetTool;
@@ -64,14 +58,19 @@ import java.util.Map;
  */
 public class MainActivity extends BaseActivity {
 
-<<<<<<< HEAD
-    public static final String KEY_DOWNLOAD_APK_URL = "key_download_apk_url";
-    private static final String APK_NAME = "search.apk";
     //忽略版本升级
     private static final String KEY_VERSION_IGNORE = "version_ignore";
+    private static final String APK_NAME           = "search.apk";
+    private static final int ANIMATION_DURATION    = 700;
+    public  static final String KEY_APK_URL        = "key_apk_url";
+
+    private VipFragment mVipFragment;
+    private SearchFragment mSearchFragment;
+
     private BottomNavigationView mBottomNavigationView;
     private ViewPagerNoScroller mViewPager;
-    private HomeFragment mHomeFragment;
+    private View mNoNetwork;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -96,19 +95,6 @@ public class MainActivity extends BaseActivity {
             return false;
         }
     };
-=======
-    private BottomNavigationView mBottomNavigationView;
-    private ViewPagerNoScroller mViewPager;
-    private VipFragment mVipFragment;
-    private View mNoNetwork;
-
-    //忽略版本升级
-    private static final String KEY_VERSION_IGNORE = "version_ignore";
-    private static final String APK_NAME = "search.apk";
-    private static final int NO_NETWORK_ANIMATION_DURATION = 700;
-    private SearchFragment mSearchFragment;
-
->>>>>>> yangkeDevelopment
 
     @Override
     protected int setLayoutId() {
@@ -133,14 +119,12 @@ public class MainActivity extends BaseActivity {
                 .initPermission();
     }
 
-<<<<<<< HEAD
-=======
     private void handleNoNetwork() {
         if (RxNetTool.isAvailable(this)) {
             if (mNoNetwork.getVisibility() != View.GONE) {
                 int topMargin = -(mNoNetwork.getHeight() + RxBarTool.getStatusBarHeight(this));
                 TranslateAnimation bottomToTop = new TranslateAnimation(0, 0, 0, topMargin);
-                bottomToTop.setDuration(NO_NETWORK_ANIMATION_DURATION);
+                bottomToTop.setDuration(ANIMATION_DURATION);
                 mNoNetwork.startAnimation(bottomToTop);
                 ViewTool.INSTANCE.setViewGone(mNoNetwork);
             }
@@ -149,7 +133,7 @@ public class MainActivity extends BaseActivity {
 
         ViewTool.INSTANCE.setViewVisible(mNoNetwork);
         Animation bottomToTop = AnimationUtils.loadAnimation(this, R.anim.anim_top_2_bottom);
-        bottomToTop.setDuration(NO_NETWORK_ANIMATION_DURATION);
+        bottomToTop.setDuration(ANIMATION_DURATION);
         mNoNetwork.startAnimation(bottomToTop);
 
         mNoNetwork.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +149,6 @@ public class MainActivity extends BaseActivity {
         handleNoNetwork();
     }
 
->>>>>>> yangkeDevelopment
     private void checkVersionCode() {
         Request.startRequest(new BaseParam() {
             @Override
@@ -197,21 +180,15 @@ public class MainActivity extends BaseActivity {
 
     private void showUpdateAppDialog(AppVersionVo vo) {
         final AppVersionVo.AppDataBean versionData = vo.mData;
-        RxSPTool.putString(this, KEY_DOWNLOAD_APK_URL, versionData.mUrl);
+        RxSPTool.putString(this, KEY_APK_URL, versionData.mUrl);
         if (RxDeviceTool.getAppVersionCode(this) < versionData.mVersion) {
             int ignoreVersion = RxSPTool.getInt(getApplicationContext(), KEY_VERSION_IGNORE);
             if (ignoreVersion == versionData.mVersion) {
                 return;
             }
-<<<<<<< HEAD
             final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setCancelable(false)
                     .setTitle("我们更新了新版，快来体验！")
-=======
-            new AlertDialog.Builder(MainActivity.this)
-                    .setCancelable(false)
-                    .setTitle(R.string.app_new_version)
->>>>>>> yangkeDevelopment
                     .setMessage(vo.mMessage)
                     .setPositiveButton(R.string.btn_confirm, new DialogInterface.OnClickListener() {
                         @Override
@@ -227,7 +204,6 @@ public class MainActivity extends BaseActivity {
                                 RxToast.warning(getString(R.string.sd_card_not_available));
                             }
                         }
-<<<<<<< HEAD
                     }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -240,20 +216,6 @@ public class MainActivity extends BaseActivity {
                     dialog.dismiss();
                 }
             }).show();
-=======
-                    }).setNegativeButton(R.string.btn_cancle, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).setNeutralButton(R.string.ignore_current_app_version, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            RxSPTool.putInt(getApplicationContext(), KEY_VERSION_IGNORE, versionData.mVersion);
-                            dialog.dismiss();
-                        }
-                    }).show();
->>>>>>> yangkeDevelopment
         }
     }
 
@@ -295,32 +257,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        WebView homeFragmentWebView = mHomeFragment.getWebView();
+        WebView homeFragmentWebView = mVipFragment.getWebView();
         if (homeFragmentWebView != null && keyCode == KeyEvent.KEYCODE_BACK && homeFragmentWebView.canGoBack()) {
             //webView 可返回
             homeFragmentWebView.goBack();
             return true;
         }
-
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (RxToast.doubleClickExit()) {
-                finish();
-            }
-            return true;
-        }
-<<<<<<< HEAD
         return super.onKeyDown(keyCode, event);
     }
-
-    @Override
-    protected void onDestroy() {
-        Intent it = new Intent(this, ApkDownloadService.class);
-        stopService(it);
-        super.onDestroy();
-    }
-=======
-    };
->>>>>>> yangkeDevelopment
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -343,17 +287,6 @@ public class MainActivity extends BaseActivity {
             mFragmentList.add(fragment);
         }
     }
-<<<<<<< HEAD
-=======
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        WebView homeFragmentWebView = mVipFragment.getWebView();
-        if (homeFragmentWebView != null && keyCode == KeyEvent.KEYCODE_BACK && homeFragmentWebView.canGoBack()) {
-            homeFragmentWebView.goBack(); //webView goBack
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 
     @Override
     public void onBackPressed() {
@@ -366,5 +299,4 @@ public class MainActivity extends BaseActivity {
         stopService(it);
         super.onDestroy();
     }
->>>>>>> yangkeDevelopment
 }

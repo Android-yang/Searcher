@@ -78,24 +78,13 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void toMain() {
-<<<<<<< HEAD
         mSplashTimer.shutdown();
         if (RxSPTool.isFirstOpenApp(BaseApplication.instance(), Constant.FIRST_OPEN_APP))
             RxActivityTool.skipActivity(SplashActivity.this, AppExplainActivity.class);
         else {
             RxActivityTool.skipActivity(SplashActivity.this, MainActivity.class);
         }
-=======
-        RxActivityTool.skipActivity(SplashActivity.this, MainActivity.class);
         overridePendingTransition(R.anim.splash_activity_fade, R.anim.splash_activity_exit);
-        finish();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mSkipTimer.cancel();
->>>>>>> yangkeSplash
         finish();
     }
 

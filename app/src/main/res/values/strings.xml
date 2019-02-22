@@ -28,11 +28,8 @@
     <string name="share_accumulative">累计分享0次</string>
     <string name="software_effect">随着互联网高速发展，21世纪已经成为了会员时代，知识付费时代。作为土生土长的伪土豪，消费则能省则省。什么腾讯、爱奇艺 VIP 视频;网易、QQ 音乐月包;花钱不存的，这辈子都不存在的。还有综艺视频，优衣库视频，琪琪泥鳅，各种小视频应有尽有...</string>
     <string name="share_cancel">分享取消</string>
-<<<<<<< HEAD
-    <string name="title_personal_center">个人中心</string>
     <string name="share_search_title">种子搜索器搜你想搜</string>
     <string name="share_search_description">腾讯，爱奇艺 VIP，花钱不存的，这辈子都不存在的。还有综艺，优衣库，琪琪泥鳅，各种小视频！</string>
-=======
     <string name="network_no_connection">网络无法连接</string>
     <string name="title_activity_app_explain">AppExplainActivity</string>
     <string name="action_settings">Settings</string>
@@ -103,5 +100,4 @@
 
     <string name="hint_loading">加载中...</string>
 
->>>>>>> yangkeDevelopment
 </resources>

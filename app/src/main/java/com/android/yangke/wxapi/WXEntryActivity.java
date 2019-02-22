@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -49,11 +50,6 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
 
     public static final String KEY_SHARE_COUNT = "share_count";
     private static final String WX_APP_ID = "wxcff97bee31f78c1f";
-<<<<<<< HEAD
-=======
-    //APP share href
-    private static final String APP_SHARE_URL = "1551121393";
->>>>>>> yangkeDevelopment
     //单次分享成功可获取的免费次数
     private static final int SHARE_SUCCESS_AVAILABLE = 15;//15就行
     @BindView(R.id.share_txt_share_count)
@@ -62,12 +58,9 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
     TextView mTxtFreeCount;
     private ShareDialog mShareDialog;
     private IWXAPI mWXAPI;
-<<<<<<< HEAD
     private String APP_SHARE_URL = null;
-=======
     private RxLoadingView mLoadingQRCodeLoadingView;
     private ImageDialog mLoadingQRCodeView;
->>>>>>> yangkeDevelopment
 
     @Override
     protected int setLayoutId() {
@@ -76,7 +69,10 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initData() {
-        APP_SHARE_URL = RxSPTool.getString(getContext(), MainActivity.KEY_DOWNLOAD_APK_URL);
+        APP_SHARE_URL = TextUtils.isEmpty(RxSPTool.getString(getContext(), MainActivity.KEY_APK_URL))
+                ? "谢谢关注，搞笑我们是认真的，有问题请联系 QQ:1551121393！"
+                :RxSPTool.getString(getContext(), MainActivity.KEY_APK_URL);
+
         WechatShareTools.init(this, WX_APP_ID);
         //固定写法
         mWXAPI = WechatShareTools.getIwxapi();
