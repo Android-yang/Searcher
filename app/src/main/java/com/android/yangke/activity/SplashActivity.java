@@ -80,6 +80,7 @@ public class SplashActivity extends BaseActivity {
 
     private void toMain() {
         RxActivityTool.skipActivity(SplashActivity.this, MainActivity.class);
+        overridePendingTransition(R.anim.splash_activity_fade, R.anim.splash_activity_exit);
         finish();
     }
 
