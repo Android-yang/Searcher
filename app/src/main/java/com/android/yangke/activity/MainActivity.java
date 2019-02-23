@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -178,9 +179,11 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public static final String DEFAULT_APK_URL = "https://github.com/Android-yang/Searcher/raw/yangkeRelease/app/release/search-release.apk";
     private void showUpdateAppDialog(AppVersionVo vo) {
         final AppVersionVo.AppDataBean versionData = vo.mData;
-        RxSPTool.putString(this, KEY_APK_URL, versionData.mUrl);
+        final String url = TextUtils.isEmpty(versionData.mUrl) ? DEFAULT_APK_URL : versionData.mUrl;
+        RxSPTool.putString(this, KEY_APK_URL, url);
         if (RxDeviceTool.getAppVersionCode(this) < versionData.mVersion) {
             int ignoreVersion = RxSPTool.getInt(getApplicationContext(), KEY_VERSION_IGNORE);
             if (ignoreVersion == versionData.mVersion) {
@@ -195,7 +198,7 @@ public class MainActivity extends BaseActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             if (RxFileTool.sdCardIsAvailable()) {
                                 Intent it = new Intent(MainActivity.this, ApkDownloadService.class);
-                                it.putExtra(ApkDownloadService.KEY_APK_URL, versionData.mUrl);
+                                it.putExtra(ApkDownloadService.KEY_APK_URL, url);
                                 it.putExtra(ApkDownloadService.KEY_APK_NAME, APK_NAME);
                                 String apkFilePath = getExternalFilesDir("search").getAbsolutePath();
                                 it.putExtra(ApkDownloadService.KEY_APK_FILE_PATH, apkFilePath);

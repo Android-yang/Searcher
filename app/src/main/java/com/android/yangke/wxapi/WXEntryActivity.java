@@ -70,7 +70,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initData() {
         APP_SHARE_URL = TextUtils.isEmpty(RxSPTool.getString(getContext(), MainActivity.KEY_APK_URL))
-                ? "谢谢关注，搞笑我们是认真的，有问题请联系 QQ:1551121393！"
+                ? MainActivity.DEFAULT_APK_URL
                 :RxSPTool.getString(getContext(), MainActivity.KEY_APK_URL);
 
         WechatShareTools.init(this, WX_APP_ID);
