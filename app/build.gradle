@@ -43,6 +43,8 @@ android {
 
         debug {
             buildConfigField("Boolean", "ENVIRONMENT", "false")
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
         }
     }
 
@@ -51,6 +53,10 @@ android {
         variant.outputs.all {
             outputFileName = "search-${variant.versionName}-${releaseTime()}-${variant.name}.apk"
         }
+    }
+
+    aaptOptions{
+        cruncherEnabled false
     }
 }
 

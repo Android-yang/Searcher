@@ -10,6 +10,6 @@ import com.android.yangke.BuildConfig
  */
 object AppTool {
 
-    //打包环境
     val ENVIRONMENT_RELEASE = BuildConfig.ENVIRONMENT
+    val TAG = "yangke"
 }
