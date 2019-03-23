@@ -46,7 +46,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     //闪屏时长
-    private int SPLASH_SCREEN_DURATION = AppTool.INSTANCE.getENVIRONMENT_RELEASE() == true ? 3 : 2;
+    private int SPLASH_SCREEN_DURATION = AppTool.INSTANCE.getENVIRONMENT_RELEASE() == true ? 3 : 1;
     private ScheduledExecutorService iniSplashImage() {
         ScheduledExecutorService countDownTimer = Executors.newScheduledThreadPool(1);
         countDownTimer.scheduleAtFixedRate(new Runnable() {
