@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">种子搜索器</string>
+    <string name="app_name">BtSearch</string>
 
     <!--title-->
     <string name="title_vip">VIP</string>
