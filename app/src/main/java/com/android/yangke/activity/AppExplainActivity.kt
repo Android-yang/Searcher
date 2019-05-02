@@ -32,17 +32,17 @@ class AppExplainActivity : BaseActivity() {
         RxSPTool.putBoolean(this, Constant.FIRST_OPEN_APP, false)
         mViewPager = findViewById(R.id.app_explain_viewPager) as ViewPager
         mDataList = ArrayList<Int>()
-        mDataList!!.add(R.mipmap.explain1)
-        mDataList!!.add(R.mipmap.explain4)
-        mDataList!!.add(R.mipmap.explain3)
-        mDataList!!.add(R.mipmap.explain2)
+        mDataList?.add(R.mipmap.explain1)
+        mDataList?.add(R.mipmap.explain4)
+        mDataList?.add(R.mipmap.explain3)
+        mDataList?.add(R.mipmap.explain2)
         mSectionsPagerAdapter = ExplainPagerAdapter(this, mDataList!!, false)
     }
 
     override fun initView() {
         setSwipeBackEnable(false)
         hideTitleBar()
-        mViewPager!!.adapter = mSectionsPagerAdapter
+        mViewPager?.adapter = mSectionsPagerAdapter
     }
 
     fun doClick(v: View) {

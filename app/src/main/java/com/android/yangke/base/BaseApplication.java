@@ -1,9 +1,10 @@
 package com.android.yangke.base;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.android.yangke.tool.GsonTool;
 import com.android.yangke.vo.DaoMaster;
@@ -21,13 +22,12 @@ import java.util.ListIterator;
  * email : 211yangke@gmail.com
  * desc  : BaseApplication
  */
-public class BaseApplication extends Application {
+public class BaseApplication extends MultiDexApplication {
 
     private static BaseApplication instance;
     public static Handler mMainHandler = new Handler(Looper.getMainLooper());
 
-    private final LinkedHashMap<Class<? extends BaseActivity>, WeakReference<Context>> contextObjects =
-            new LinkedHashMap<Class<? extends BaseActivity>, WeakReference<Context>>();
+    private final LinkedHashMap<Class<? extends BaseActivity>, WeakReference<Context>> contextObjects = new LinkedHashMap<Class<? extends BaseActivity>, WeakReference<Context>>();
     private DaoMaster mDaoMaster;
     private DaoSession mSession;
 
@@ -51,9 +51,13 @@ public class BaseApplication extends Application {
         iniDaoMaster();
     }
 
-    /**
-     * GreenDAO 使用前的初始化
-     */
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+        /**
+         * GreenDAO 使用前的初始化
+         */
     private void iniDaoMaster() {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(instance(), "search.db", null);
         mDaoMaster = new DaoMaster(helper.getWritableDb());
@@ -85,10 +89,8 @@ public class BaseApplication extends Application {
     }
 
     public synchronized Context getLastContext() {
-        ArrayList<Class<? extends BaseActivity>> templList = new ArrayList<Class<? extends BaseActivity>>(
-                contextObjects.keySet());
-        for (ListIterator<Class<? extends BaseActivity>> it = templList.listIterator(templList.size()); it
-                .hasPrevious(); ) {
+        ArrayList<Class<? extends BaseActivity>> templList = new ArrayList<Class<? extends BaseActivity>>(contextObjects.keySet());
+        for (ListIterator<Class<? extends BaseActivity>> it = templList.listIterator(templList.size()); it.hasPrevious(); ) {
             Object key = it.previous();
             WeakReference<Context> ref = contextObjects.get(key);
             if (ref == null) {
