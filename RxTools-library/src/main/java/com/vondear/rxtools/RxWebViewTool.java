@@ -110,6 +110,10 @@ public class RxWebViewTool {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                if (RxPayTool.isPay(context)) {
+                    RxToast.error("免费次数已经用完");
+                    return;
+                }
                 progressBar.setVisibility(View.GONE);
                 if (!webView.getSettings().getLoadsImagesAutomatically()) {
                     webView.getSettings().setLoadsImagesAutomatically(true);

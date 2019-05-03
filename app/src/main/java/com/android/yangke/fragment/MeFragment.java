@@ -28,6 +28,7 @@ import com.vondear.rxtools.RxActivityTool;
 import com.vondear.rxtools.RxAppTool;
 import com.vondear.rxtools.RxClipboardTool;
 import com.vondear.rxtools.RxLogTool;
+import com.vondear.rxtools.RxPayTool;
 import com.vondear.rxtools.RxSPTool;
 import com.vondear.rxtools.view.RxToast;
 
@@ -96,9 +97,9 @@ public class MeFragment extends BaseLazyFragment {
      * 剩余免费次数
      */
     private int getFreeCount() {
-        int allCount = RxSPTool.getInt(getContext(), SearchResultActivity.KEY_ALL_COUNT);
-        int usedCount = RxSPTool.getInt(getContext(), SearchResultActivity.KEY_USED_COUNT);
-        int showCount = (allCount == -1 ? SearchResultActivity.FREE_COUNT : allCount) - (usedCount == -1 ? 0 : usedCount);
+        int allCount = RxSPTool.getInt(getContext(), RxPayTool.KEY_ALL_COUNT);
+        int usedCount = RxSPTool.getInt(getContext(), RxPayTool.KEY_USED_COUNT);
+        int showCount = (allCount == -1 ? RxPayTool.FREE_COUNT : allCount) - (usedCount == -1 ? 0 : usedCount);
         return showCount;
     }
 
@@ -113,7 +114,7 @@ public class MeFragment extends BaseLazyFragment {
                 RxActivityTool.skipActivity(getActivity(), AboutAuthorActivity.class);
                 break;
             case R.id.me_tv_qq://作者QQ
-                RxClipboardTool.copyText(getContext(), VipFragment.QQ);
+                RxClipboardTool.copyText(getContext(), VipFragment.Companion.getQQ());
                 snakeBar(v, getString(R.string.toast_copy_author_qq_success));
                 break;
             case R.id.me_ll_youhui://
@@ -146,7 +147,7 @@ public class MeFragment extends BaseLazyFragment {
                 break;
             case R.id.me_tv_qq_flock://QQ 群
                 snakeBar(v, getString(R.string.copy_author_qq_flock_success));
-                RxClipboardTool.copyText(getContext(), VipFragment.QQ_FLOCK);
+                RxClipboardTool.copyText(getContext(), VipFragment.Companion.getQQ_FLOCK());
                 break;
             case R.id.me_tv_mianze://免责条款
                 RxActivityTool.skipActivity(getActivity(), SoftwareRequiredActivity.class);

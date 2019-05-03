@@ -1,12 +1,12 @@
 package com.android.yangke.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import com.android.yangke.R;
 import com.android.yangke.adapter.MagnetAdapter;
@@ -22,7 +22,7 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.vondear.rxtools.RxActivityTool;
 import com.vondear.rxtools.RxAppTool;
 import com.vondear.rxtools.RxClipboardTool;
-import com.vondear.rxtools.RxSPTool;
+import com.vondear.rxtools.RxPayTool;
 import com.vondear.rxtools.view.RxToast;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
 
@@ -41,18 +41,14 @@ import static com.vondear.rxtools.RxTool.getContext;
  */
 public class SearchResultActivity extends BaseActivity implements RequestListener {
 
-    @BindView(R.id.dashboard_recycler_view) RecyclerView mRecyclerView;
-    @BindView(R.id.dashboard_refreshLayout) TwinklingRefreshLayout mRefreshLayout;
+    @BindView(R.id.dashboard_recycler_view)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.dashboard_refreshLayout)
+    TwinklingRefreshLayout mRefreshLayout;
 
     private MagnetAdapter mAdapter;
     private int mPage = 1;//请求页数(例：第一页，第二页)
 
-    //使用次数
-    public static final String KEY_USED_COUNT = "used_count";
-    //可用次数（包含分享获取的次数）
-    public static final String KEY_ALL_COUNT = "all_count";
-    //免费次数
-    public static final int FREE_COUNT = 80;//首次免费80
     private String mKeyword;
     private static final String KEY_TASK = "task";
     //网络加载比较慢，当用户直接从当前页面点击了返回键后，处理响应函数被回调， 但 View 已经被回收就会
@@ -64,6 +60,7 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
         return R.layout.activity_search_result;
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void initData() {
         Intent intent = getIntent();
@@ -113,7 +110,7 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
                     MeFragment.snakeBar(mRecyclerView, getString(R.string.hint_thunder_no_installed));
                     return;
                 }
-                if (isPay()) {
+                if (RxPayTool.isPay(getContext())) {
                     RxToast.error(getString(R.string.toast_no_free_number));
                     //TODO 支付
 //                    RxSPUtils.clearPreference(getApplicationContext(), KEY_USED_COUNT, KEY_USED_COUNT); //付费完成清空已使用次数
@@ -138,37 +135,12 @@ public class SearchResultActivity extends BaseActivity implements RequestListene
         task.execute(keyword, String.valueOf(page));
     }
 
-    /**
-     * 是否需要支付
-     *
-     * @return
-     */
-    private boolean isPay() {
-        int usedCountTemp = RxSPTool.getInt(getApplicationContext(), KEY_USED_COUNT);
-        int usedCount = (usedCountTemp == -1 ? 0 : usedCountTemp);
-        if (usedCount >= getFreeCount()) {
-            return true;
-        }
-        ++usedCount;
-        RxSPTool.putInt(getApplicationContext(), KEY_USED_COUNT, usedCount);
-        RxSPTool.putInt(getApplicationContext(), KEY_ALL_COUNT, getFreeCount());
-        return false;
-    }
-
-    /*
-     * 剩余免费次数
-     */
-    private int getFreeCount() {
-        int allCount = RxSPTool.getInt(getContext(), SearchResultActivity.KEY_ALL_COUNT);
-        int freeCount = (-1 ==  allCount ? SearchResultActivity.FREE_COUNT : allCount);
-        return freeCount;
-    }
 
     private List mDataList = new ArrayList();
 
     @Override
     public void onDataReceivedSuccess(List list) {
-        if(mRefreshLayout == null || mAdapter == null) {
+        if (mRefreshLayout == null || mAdapter == null) {
             return;
         }
         if (mPage > 1) {
