@@ -3,6 +3,7 @@ package com.android.yangke.fragment
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebView
+import android.widget.ProgressBar
 import com.android.yangke.R
 import com.android.yangke.base.BaseApplication
 import com.android.yangke.base.BaseLazyFragment
@@ -26,12 +27,14 @@ import java.util.*
 class VipFragment : BaseLazyFragment() {
 
     private var mWebView: WebView? = null
-//        private val urls = arrayOf("https://www.cilimao.xyz") //种子引擎地址
-        private val urls = arrayOf("https://www.askyaya.com") //种子引擎地址
-//    private val urls = arrayOf("https://lemoncili.com") //种子引擎地址
-//    private val urls = arrayOf("https://www.ciliwiki.com") //种子引擎地址
-//    private val urls = arrayOf("https://lemoncili.com") //种子引擎地址
-//    private val urls = arrayOf("https://www.ciliwiki.com") //种子引擎地址
+    private var mProgressBar: ProgressBar? = null
+
+//        private val urls = arrayOf("https://www.cilimao.xyz")
+        private val urls = arrayOf("https://www.askyaya.com")
+//    private val urls = arrayOf("https://lemoncili.com")
+//    private val urls = arrayOf("https://www.ciliwiki.com")
+//    private val urls = arrayOf("https://lemoncili.com")
+//    private val urls = arrayOf("https://www.ciliwiki.com")
 
     override fun setLayoutId(): Int = R.layout.fragment_vip
 
@@ -58,12 +61,12 @@ class VipFragment : BaseLazyFragment() {
 
     private fun iniWebView() {
         mWebView = view?.findViewById(R.id.main_vip_webView)
-        RxWebViewTool.initWebView(context, main_vip_webView, progressbar_webview)
-
+        mProgressBar = view?.findViewById(R.id.progressbar_webview)
+        RxWebViewTool.initWebView(context, mWebView, mProgressBar)
+        mWebView?.loadUrl(urls[Random().nextInt(urls.size)])
         if (RxPayTool.isPay(context)) {
             RxToast.error(getString(R.string.toast_no_free_number))
-            main_vip_webView?.loadUrl(urls[Random().nextInt(urls.size)])
-            return
+            mWebView?.loadUrl(urls[Random().nextInt(urls.size)])
         }
     }
 

@@ -87,12 +87,6 @@ public class MeFragment extends BaseLazyFragment {
     @Override
     protected void initData() { }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mFree.setText(getFreeCount() + "次");
-    }
-
     /*
      * 剩余免费次数
      */
@@ -177,6 +171,7 @@ public class MeFragment extends BaseLazyFragment {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onVisible() {
+        mFree.setText(getFreeCount() + "次");
         if (RxSPTool.isFirstOpenApp(BaseApplication.instance(), Constant.FIRST_OPEN_INDICATE)) {
             showTapTarget();
         }
