@@ -7,14 +7,4 @@
 
     <include layout="@layout/base_webview" />
 
-    <TextView
-        android:id="@+id/home_hint"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#7f000000"
-        android:gravity="center"
-        android:text="@string/hint_open_vip"
-        android:textColor="@color/webview_loading_color"
-        android:textSize="@dimen/sp18" />
-
 </RelativeLayout>

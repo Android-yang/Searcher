@@ -62,7 +62,7 @@
     <string name="about_author_more">更多</string>
     <string name="app_new_version">我们更新了新版，快来体验！</string>
     <string name="surplus_free_time">剩余免费试用次数</string>
-    <string name="copy_author_qq_flock_success">您已成功复制作者QQ群</string>
+    <string name="copy_author_qq_flock_success">您已成功复制此QQ群</string>
     <string name="sd_card_not_available">SD 不可用</string>
     <string name="btn_confirm">确定</string>
     <string name="btn_cancle">取消</string>

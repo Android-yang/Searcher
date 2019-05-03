@@ -27,6 +27,7 @@ import com.vondear.rxtools.RxAppTool;
 import com.vondear.rxtools.RxClipboardTool;
 import com.vondear.rxtools.RxImageTool;
 import com.vondear.rxtools.RxLogTool;
+import com.vondear.rxtools.RxPayTool;
 import com.vondear.rxtools.RxSPTool;
 import com.vondear.rxtools.RxThreadPoolTool;
 import com.vondear.rxtools.module.wechat.share.WechatShareModel;
@@ -223,7 +224,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
     public void onResp(BaseResp baseResp) {
         switch (baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
-                int usedCount = RxSPTool.getInt(this, SearchResultActivity.KEY_USED_COUNT);
+                int usedCount = RxSPTool.getInt(this, RxPayTool.KEY_USED_COUNT);
                 int currentFreeCount = getCurrentFreeCount();
                 if(usedCount == -1) {
                     RxToast.warning(getString(R.string.toast_try_use));
@@ -238,7 +239,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
                 handleShareCount();
                 String shareSuccessHint = getString(R.string.toast_share_success_free_num) + SHARE_SUCCESS_AVAILABLE + getString(R.string.toast_num);
                 RxToast.warning(shareSuccessHint);
-                RxSPTool.putInt(this, SearchResultActivity.KEY_ALL_COUNT, available);
+                RxSPTool.putInt(this, RxPayTool.KEY_ALL_COUNT, available);
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 RxToast.warning(getString(R.string.share_cancel));
@@ -260,6 +261,6 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
     * 剩余免费次数
     */
     private int getCurrentFreeCount() {
-        return RxSPTool.getInt(getContext(), SearchResultActivity.KEY_ALL_COUNT);
+        return RxSPTool.getInt(getContext(), RxPayTool.KEY_ALL_COUNT);
     }
 }

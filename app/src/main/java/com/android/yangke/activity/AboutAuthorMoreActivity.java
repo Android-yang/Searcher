@@ -20,7 +20,7 @@ public class AboutAuthorMoreActivity extends BaseActivity{
 
     private static final String URL_AUTHOR = "https://www.jianshu.com/u/eb77504b1d68";
 
-    @BindView(R.id.webView)
+    @BindView(R.id.main_vip_webView)
     WebView mWebView;
     @BindView(R.id.progressbar_webview)
     ProgressBar mProgressBatTop;
