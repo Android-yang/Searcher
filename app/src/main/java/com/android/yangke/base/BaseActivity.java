@@ -16,6 +16,7 @@ import com.android.yangke.BuildConfig;
 import com.android.yangke.tool.AppTool;
 import com.android.yangke.tool.receiver.NetBroadcastReceiver;
 import com.gyf.barlibrary.ImmersionBar;
+import com.vondear.rxtools.RxLogTool;
 import com.vondear.rxtools.view.RxToast;
 
 import butterknife.ButterKnife;
@@ -40,10 +41,7 @@ public abstract class BaseActivity extends AbsActivity implements NetBroadcastRe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(setLayoutId());
-        if(!BuildConfig.ENVIRONMENT) {
-            RxToast.showToast(getClass().getSimpleName());
-            Log.d(AppTool.INSTANCE.getTAG(), getClass().getSimpleName());
-        }
+        RxLogTool.d(AppTool.INSTANCE.getTAG(), getClass().getSimpleName());
         mImmersionBar = ImmersionBar.with(this).statusBarDarkFont(true);
         mImmersionBar.init();
         //绑定控件

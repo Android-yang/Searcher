@@ -11,5 +11,5 @@ import com.android.yangke.BuildConfig
 object AppTool {
 
     val ENVIRONMENT_RELEASE = BuildConfig.ENVIRONMENT
-    val TAG = "yangke"
+    val TAG = "yangke-->"
 }
