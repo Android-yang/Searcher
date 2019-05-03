@@ -59,15 +59,27 @@ class VipFragment : BaseLazyFragment() {
         }
     }
 
+    override fun onVisible() {
+        super.onVisible()
+        if (RxPayTool.isPay(context)) {
+            showNoFreeCountHint()
+        }
+    }
+
+    private fun showNoFreeCountHint() {
+        vip_fragment_no_free_count?.visibility = View.VISIBLE
+    }
+
     private fun iniWebView() {
         mWebView = view?.findViewById(R.id.main_vip_webView)
         mProgressBar = view?.findViewById(R.id.progressbar_webview)
-        RxWebViewTool.initWebView(context, mWebView, mProgressBar)
-        mWebView?.loadUrl(urls[Random().nextInt(urls.size)])
         if (RxPayTool.isPay(context)) {
             RxToast.error(getString(R.string.toast_no_free_number))
-            mWebView?.loadUrl(urls[Random().nextInt(urls.size)])
+            showNoFreeCountHint()
+            return
         }
+        RxWebViewTool.initWebView(context, mWebView, mProgressBar)
+        mWebView?.loadUrl(urls[Random().nextInt(urls.size)])
     }
 
     fun getWebView(): WebView? = mWebView

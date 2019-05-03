@@ -7,4 +7,16 @@
 
     <include layout="@layout/base_webview" />
 
+    <TextView
+        android:id="@+id/vip_fragment_no_free_count"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/no_free_count"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="免费次数使用完毕
+        \n分享软件可获取500次使用次数
+        \n我->我的福利->推荐有奖获取免费次数"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
 </RelativeLayout>

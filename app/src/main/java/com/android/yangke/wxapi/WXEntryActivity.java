@@ -52,7 +52,7 @@ public class WXEntryActivity extends BaseActivity implements View.OnClickListene
     public static final String KEY_SHARE_COUNT = "share_count";
     private static final String WX_APP_ID = "wxcff97bee31f78c1f";
     //单次分享成功可获取的免费次数
-    private static final int SHARE_SUCCESS_AVAILABLE = 15;//15就行
+    private static final int SHARE_SUCCESS_AVAILABLE = 200;
     @BindView(R.id.share_txt_share_count)
     TextView mTxtShareCount;
     @BindView(R.id.share_txt_free_count)
