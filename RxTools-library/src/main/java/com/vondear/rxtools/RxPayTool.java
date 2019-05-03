@@ -11,7 +11,7 @@ import android.content.Context;
 public class RxPayTool {
     public static final String KEY_USED_COUNT = "used_count";
     public static final String KEY_ALL_COUNT  = "all_count";
-    public static final int FREE_COUNT        = 400 + 1;//首次免费80;
+    public static final int FREE_COUNT        = 500 + 1;//首次免费80;
 
     /**
      * 是否需要支付
