@@ -3,7 +3,10 @@ package com.android.yangke.fragment
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebView
+<<<<<<< HEAD
 import android.widget.ProgressBar
+=======
+>>>>>>> aca72dcb24d34ecc73e234bf21f078e3d4a42f3e
 import com.android.yangke.R
 import com.android.yangke.base.BaseApplication
 import com.android.yangke.base.BaseLazyFragment
@@ -27,6 +30,7 @@ import java.util.*
 class VipFragment : BaseLazyFragment() {
 
     private var mWebView: WebView? = null
+<<<<<<< HEAD
     private var mProgressBar: ProgressBar? = null
 
 //        private val urls = arrayOf("https://www.cilimao.xyz")
@@ -35,6 +39,14 @@ class VipFragment : BaseLazyFragment() {
 //    private val urls = arrayOf("https://www.ciliwiki.com")
 //    private val urls = arrayOf("https://lemoncili.com")
 //    private val urls = arrayOf("https://www.ciliwiki.com")
+=======
+//        private val urls = arrayOf("https://www.cilimao.xyz") //种子引擎地址
+        private val urls = arrayOf("https://www.askyaya.com") //种子引擎地址
+//    private val urls = arrayOf("https://lemoncili.com") //种子引擎地址
+//    private val urls = arrayOf("https://www.ciliwiki.com") //种子引擎地址
+//    private val urls = arrayOf("https://lemoncili.com") //种子引擎地址
+//    private val urls = arrayOf("https://www.ciliwiki.com") //种子引擎地址
+>>>>>>> aca72dcb24d34ecc73e234bf21f078e3d4a42f3e
 
     override fun setLayoutId(): Int = R.layout.fragment_vip
 
@@ -59,6 +71,7 @@ class VipFragment : BaseLazyFragment() {
         }
     }
 
+<<<<<<< HEAD
     override fun onVisible() {
         super.onVisible()
         if (RxPayTool.isPay(context)) {
@@ -80,6 +93,19 @@ class VipFragment : BaseLazyFragment() {
         }
         RxWebViewTool.initWebView(context, mWebView, mProgressBar)
         mWebView?.loadUrl(urls[Random().nextInt(urls.size)])
+=======
+    private fun iniWebView() {
+        mWebView = view?.findViewById(R.id.main_vip_webView)
+        RxWebViewTool.initWebView(context, main_vip_webView, progressbar_webview)
+
+        if (RxPayTool.isPay(context)) {
+            RxToast.error(getString(R.string.toast_no_free_number))
+
+            home_hint?.visibility = View.VISIBLE
+            return
+        }
+        main_vip_webView?.loadUrl(urls[Random().nextInt(urls.size)])
+>>>>>>> aca72dcb24d34ecc73e234bf21f078e3d4a42f3e
     }
 
     fun getWebView(): WebView? = mWebView
