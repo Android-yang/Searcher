@@ -17,7 +17,6 @@ import com.vondear.rxtools.view.RxToast
 import kotlinx.android.synthetic.main.base_webview.*
 import kotlinx.android.synthetic.main.fragment_vip.*
 import java.util.*
-
 /**
  * author: yangke on 2018/5/19
  * weChat: ACE_5200125
@@ -29,8 +28,8 @@ class VipFragment : BaseLazyFragment() {
     private var mWebView: WebView? = null
     private var mProgressBar: ProgressBar? = null
 
-//        private val urls = arrayOf("https://www.cilimao.xyz")
-        private val urls = arrayOf("https://www.askyaya.com")
+    //        private val urls = arrayOf("https://www.cilimao.xyz")
+    private val urls = arrayOf("https://www.askyaya.com")
 //    private val urls = arrayOf("https://lemoncili.com")
 //    private val urls = arrayOf("https://www.ciliwiki.com")
 //    private val urls = arrayOf("https://lemoncili.com")
