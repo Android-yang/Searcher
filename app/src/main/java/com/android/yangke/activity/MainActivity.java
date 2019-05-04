@@ -179,7 +179,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public static final String DEFAULT_APK_URL = "https://github.com/Android-yang/Searcher/raw/yangkeRelease/app/release/search-release.apk";
+    public static final String DEFAULT_APK_URL = "https://github.com/Android-yang/Searcher/raw/yangkeRelease/app/release/search-1.1.1-2019-05-04-release.apk";
     private void showUpdateAppDialog(AppVersionVo vo) {
         final AppVersionVo.AppDataBean versionData = vo.mData;
         final String url = TextUtils.isEmpty(versionData.mUrl) ? DEFAULT_APK_URL : versionData.mUrl;
